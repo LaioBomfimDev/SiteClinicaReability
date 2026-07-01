@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Rede SARAH",
+    "url": "https://www.sarah.br/",
+    "allowedHosts": ["www.sarah.br", "sarah.br"],
+    "enabled": true
+  },
+  {
+    "name": "AACD",
+    "url": "https://aacd.org.br/",
+    "allowedHosts": ["aacd.org.br", "www.aacd.org.br"],
+    "enabled": true
+  },
+  {
+    "name": "Rede Lucy Montoro",
+    "url": "https://www.redelucymontoro.org.br/site/",
+    "allowedHosts": ["www.redelucymontoro.org.br", "redelucymontoro.org.br"],
+    "enabled": true
+  },
+  {
+    "name": "Shirley Ryan AbilityLab",
+    "url": "https://www.sralab.org/",
+    "allowedHosts": ["www.sralab.org", "sralab.org"],
+    "enabled": true
+  },
+  {
+    "name": "Spaulding Rehabilitation",
+    "url": "https://spauldingrehab.org/",
+    "allowedHosts": ["spauldingrehab.org", "www.spauldingrehab.org"],
+    "enabled": true
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "reability-dados-360",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape:rehab": "node tools/scrape-rehab-sites.mjs",
+    "analyze:rehab": "node tools/analyze-rehab-sites.mjs"
+  },
+  "dependencies": {
+    "three": "^0.134.0",
+    "vanta": "^0.5.24",
+    "website-scraper": "^6.0.0"
+  }
+}

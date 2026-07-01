@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reability | Neuroreabilitação e Reabilitação em Catu-BA</title>
+  <meta name="description" content="Clínica de neuroreabilitação em Catu-BA: avaliação neuropsicológica, reabilitação neurológica, fisioterapia, psicoterapia e cuidado multidisciplinar." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#1A2E4A" />
+
+  <!-- Favicon e logo (cérebro-R) -->
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" href="images/favicon.png" />
+  <link rel="mask-icon" href="images/favicon.png" color="#1A2E4A" />
+
+  <!-- TODO: "clinicareablity.com" é um placeholder. Troque pelo domínio real quando publicar (aqui, no og:url, og:image e no JSON-LD abaixo) -->
+  <link rel="canonical" href="https://clinicareablity.com/" />
+
+  <!-- Open Graph / compartilhamento em redes sociais -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Reability" />
+  <meta property="og:title" content="Reability | Neuroreabilitação em Catu-BA" />
+  <meta property="og:description" content="Avaliação neuropsicológica, reabilitação neurológica e cuidado multidisciplinar em Catu-BA. Transformando limites em possibilidades." />
+  <meta property="og:url" content="https://clinicareablity.com/" />
+  <!-- TODO: hospedar uma imagem de capa 1200x630 (ex.: a fachada) e apontar para a URL absoluta dela -->
+  <meta property="og:image" content="https://clinicareablity.com/images/capa.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="js/vendor/three.r134.min.js"></script>
+  <script defer src="js/vendor/vanta.clouds.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=18" />
+
+  <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "@id": "https://clinicareablity.com/#clinica",
+    "name": "Reability",
+    "alternateName": "Reability Neuroreabilitação",
+    "description": "Clínica em Catu-BA para avaliação neuropsicológica, reabilitação neurológica e acompanhamento terapêutico.",
+    "url": "https://clinicareablity.com/",
+    "telephone": "+5571999703912",
+    "inLanguage": "pt-BR",
+    "image": "https://clinicareablity.com/images/capa.jpg",
+    "logo": "https://clinicareablity.com/images/capa.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "R. Simões Filho, 350 - Boa Vista",
+      "addressLocality": "Catu",
+      "addressRegion": "BA",
+      "postalCode": "48110-000",
+      "addressCountry": "BR"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Catu" },
+      { "@type": "City", "name": "Alagoinhas" },
+      { "@type": "State", "name": "Bahia" }
+    ],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "sameAs": ["https://www.instagram.com/reability.neuro/"],
+    "founder": {
+      "@type": "Person",
+      "name": "Denise Neves",
+      "jobTitle": "Psicóloga e Neuropsicóloga",
+      "identifier": "CRP 03/10696"
+    },
+    "medicalSpecialty": ["Neurologic", "Psychiatric", "Physiotherapy"],
+    "availableService": [
+      { "@type": "MedicalTherapy", "name": "Avaliação neuropsicológica" },
+      { "@type": "MedicalTherapy", "name": "Reabilitação neurológica" },
+      { "@type": "MedicalTherapy", "name": "Psicoterapia" },
+      { "@type": "MedicalTherapy", "name": "Psiquiatria" },
+      { "@type": "MedicalTherapy", "name": "Fisioterapia neurofuncional" },
+      { "@type": "MedicalTherapy", "name": "Terapia ocupacional" },
+      { "@type": "MedicalTherapy", "name": "Nutrição" },
+      { "@type": "MedicalTherapy", "name": "Acupuntura" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <canvas id="neuroCanvas"></canvas>
+  <div class="cursorGlow" id="cursorGlow"></div>
+  <div class="grain"></div>
+
+  <div class="splash" id="splash" aria-label="Tela inicial" data-nosnippet>
+    <div class="splash-inner">
+      <div class="phrase">Quando fala, memória, movimento ou comportamento mudam, a avaliação ajuda a definir o próximo <span class="under">passo</span>.</div>
+      <div class="splash-logo"><img src="images/logo.png" alt="Reability" decoding="async"></div>
+      <div class="hint">role para continuar</div>
+    </div>
+  </div>
+
+  <nav class="topbar" id="topbar">
+    <a class="brand-mini" href="#hero"><span class="brand-mark"><img src="images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
+    <div class="navlinks">
+      <a href="#jornada">Etapas</a>
+      <a href="#sinais">Sinais</a>
+      <a href="#denise">Denise</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <a class="btn btn-primary" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar</a>
+  </nav>
+
+  <main id="site">
+    <section class="hero" id="hero">
+      <div class="hero-clouds" id="heroClouds" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1 class="sr-only">Reability</h1>
+        <div class="hero-logo-shell reveal" style="--d:0">
+          <img class="hero-logo" src="images/logo.png" alt="Reability" decoding="async">
+        </div>
+        <p class="hero-tagline reveal" style="--d:1">Transformando limites em possibilidades</p>
+        <p class="hero-story reveal" style="--d:2">Quando o caminho parece encoberto, o cuidado ajuda a revelar novas possibilidades.</p>
+      </div>
+      <div class="scroll-indicator">role <i></i></div>
+    </section>
+
+    <section class="section story" id="jornada">
+      <div class="wrap">
+        <div class="story-head reveal">
+          <div class="eyebrow">etapas do cuidado</div>
+          <h2>Avaliação antes do plano terapêutico.</h2>
+        </div>
+        <div class="chapters">
+          <article class="chapter">
+            <div class="ch-no" aria-hidden="true">01</div>
+            <span class="ch-tag reveal">etapa 01</span>
+            <h3 class="reveal">O alerta</h3>
+            <p class="reveal" style="--d:1">Fala, marcha, memória, humor, aprendizagem ou rotina podem mudar de forma sutil. Muitas vezes, a família percebe esses sinais antes de existir um diagnóstico.</p>
+          </article>
+          <article class="chapter">
+            <div class="ch-no" aria-hidden="true">02</div>
+            <span class="ch-tag reveal">etapa 02</span>
+            <h3 class="reveal">A dúvida</h3>
+            <p class="reveal" style="--d:1">Pode ser fase, sequela de doença, queda, cirurgia ou internação. Também pode envolver aspectos emocionais, cognitivos ou funcionais. A avaliação organiza essas hipóteses com critério clínico.</p>
+          </article>
+          <article class="chapter">
+            <div class="ch-no" aria-hidden="true">03</div>
+            <span class="ch-tag reveal">etapa 03</span>
+            <h3 class="reveal">A avaliação</h3>
+            <p class="reveal" style="--d:1">A equipe escuta a história, observa a rotina e identifica o que precisa de atenção: movimento, autonomia, cognição, comportamento, dor, alimentação, emoções e participação no dia a dia.</p>
+          </article>
+          <article class="chapter">
+            <div class="ch-no" aria-hidden="true">04</div>
+            <span class="ch-tag reveal">etapa 04</span>
+            <h3 class="reveal">O caminho</h3>
+            <p class="reveal" style="--d:1">Com a avaliação, o plano define metas possíveis, acompanhamento e comunicação entre profissionais. A evolução é acompanhada por função, segurança e participação na rotina.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="zenith">
+      <h2 class="splitText">primeiro o paciente se reconhece; depois o cuidado ganha forma</h2>
+    </section>
+
+    <section class="section signals" id="sinais">
+      <div class="wrap">
+        <div class="eyebrow">sinais e situações</div>
+        <h2 class="reveal">Quando vale procurar uma avaliação?</h2>
+        <div class="accordion reveal" id="accordion">
+          <!-- Items injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <section class="online" id="online">
+      <div class="wrap online-head reveal">
+        <div class="eyebrow">atendimento online</div>
+        <h2>A distância não interrompe o cuidado.</h2>
+        <p>Atendimento online para orientação e acompanhamento por vídeo, com escuta clínica e direção técnica. Para quem mora em outra cidade, viaja ou prefere o conforto de casa.</p>
+      </div>
+      <div class="online-stage" id="onlineStage">
+        <!-- O scroll abre o notebook: fechado -> aberto (recortes sem fundo, desktop e mobile) -->
+        <div class="laptop" id="laptop">
+          <span class="laptop-glow" aria-hidden="true"></span>
+          <img class="lap-closed" src="images/online-fechado-cut.webp" alt="Notebook fechado" decoding="async">
+          <img class="lap-open" src="images/online-aberto-cut.webp" alt="Teleconsulta por vídeo com Denise Neves, da Reability" decoding="async">
+        </div>
+        <a class="btn btn-primary online-cta" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar teleconsulta</a>
+      </div>
+    </section>
+
+    <section class="section metrics">
+      <div class="wrap">
+        <div class="eyebrow">impacto</div>
+        <h2 class="reveal">Acompanhamento com metas funcionais</h2>
+        <p class="metrics-note reveal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-6-3.9-9s1.4-6.4 3.9-9Z"/></svg>
+          Presencial em Catu-BA · Online no Brasil e no mundo
+        </p>
+        <div class="metric-grid reveal">
+          <div class="metric"><div class="num" data-target="13" data-suffix="+">0</div><p>anos de experiência clínica</p></div>
+          <div class="metric"><div class="num" data-target="11" data-suffix="">0</div><p>frentes de cuidado integradas</p></div>
+          <div class="metric"><div class="num" data-target="7" data-suffix="+">0</div><p>especializações da fundadora</p></div>
+          <div class="metric"><div class="num" data-target="1" data-suffix="">0</div><p>unidade na Bahia</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section founder" id="denise">
+      <div class="wrap founder-grid">
+        <div class="founder-photo reveal">
+          <div class="photo-frame"><img src="images/denise.jpg" alt="Denise Neves, neuropsicóloga e fundadora da Reability"></div>
+          <div class="badge">Denise Neves · CRP 03/10696</div>
+        </div>
+        <div class="reveal">
+          <div class="eyebrow">fundadora</div>
+          <h2>Denise Neves</h2>
+          <h3 class="founder-subtitle gold">Psicóloga e neuropsicóloga responsável</h3>
+          <p class="founder-intro">Psicóloga desde 2013, Denise Neves atua em neuropsicologia, saúde mental e reabilitação cognitiva, com foco em avaliação clínica e planos terapêuticos individualizados.</p>
+          <div class="founder-readmore">
+            <div class="founder-more" id="founderMore">
+              <p>Especialista em Neuropsicologia pelo Conselho Federal de Psicologia, com formação em Saúde Mental, Neuropsicologia, ABA, Gestão de Pessoas, Reabilitação Cognitiva pela USP, Fisioterapia e Acupuntura.</p>
+              <p>Sua missão é transformar limites em possibilidades por meio de uma abordagem técnica, especializada e profundamente humanizada.</p>
+              <div class="timeline">
+                <div class="milestone"><b>2013</b><p>Início da trajetória como psicóloga.</p></div>
+                <div class="milestone"><b>2014</b><p>Atuação clínica com pacientes neurológicos e neurodesenvolvimento.</p></div>
+                <div class="milestone"><b>2017</b><p>Consolidação da especialização em Neuropsicologia.</p></div>
+                <div class="milestone"><b>2019</b><p>Formação em Reabilitação Cognitiva pela USP.</p></div>
+                <div class="milestone"><b>2024+</b><p>Estruturação da Reability como núcleo de avaliação e reabilitação neurológica em Catu-BA.</p></div>
+              </div>
+            </div>
+            <button class="founder-toggle" id="founderToggle" type="button" aria-expanded="true" aria-controls="founderMore">
+              <span class="lbl">Ler biografia completa</span><span class="ico" aria-hidden="true">↓</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="clinic-showcase">
+      <div class="clinic-grid">
+        <div class="clinic-photo reveal" aria-label="Fachada da Reability em Catu-BA">
+          <div class="ph"><div class="ph-img"></div></div>
+        </div>
+        <div class="clinic-panel reveal" style="--d:1">
+          <div class="eyebrow">o lugar</div>
+          <h2>Atendimento presencial em Catu-BA.</h2>
+          <p>R. Simões Filho, 350 · Boa Vista, Catu-BA. No mesmo endereço, a equipe realiza avaliação, reabilitação e acompanhamento interdisciplinar.</p>
+          <div class="services" id="services">
+            <button type="button" class="service-pill" data-spec="0"><span>Avaliação Neuropsicológica</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="1"><span>Reabilitação Neurológica</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="2"><span>Psicoterapia</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="3"><span>Psiquiatria</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="4"><span>Fisioterapia Neurofuncional</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="5"><span>Terapia Ocupacional</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="6"><span>Nutrição</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="7"><span>Acupuntura</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="8"><span>Laserterapia</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+            <button type="button" class="service-pill" data-spec="9"><span>Neuromodulação</span><span class="pill-cue" aria-hidden="true">+ detalhes</span></button>
+          </div>
+          <p class="services-hint">Toque em cada especialidade para ver, com exemplos, quando ela faz diferença.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="wrap faq-grid">
+        <div class="faq-intro reveal">
+          <div class="eyebrow">dúvidas frequentes</div>
+          <h2>Antes de agendar, talvez você queira saber.</h2>
+          <p>Respostas diretas sobre avaliação, atendimento online e primeira consulta.</p>
+          <a class="btn btn-dark" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Falar com a equipe</a>
+        </div>
+        <div class="faq-list reveal" style="--d:1">
+          <details class="faq-item" open>
+            <summary>Preciso ter diagnóstico fechado para procurar a Reability?</summary>
+            <p>Não. Muitas famílias chegam justamente porque ainda têm dúvidas. A avaliação ajuda a entender sinais, histórico, rotina e quais caminhos de cuidado fazem sentido.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Como funciona a primeira avaliação?</summary>
+            <p>Começa com escuta clínica: o que mudou, quando começou, como isso afeta a rotina e quais são as prioridades. A partir disso, a equipe orienta os próximos passos.</p>
+          </details>
+          <details class="faq-item">
+            <summary>A clínica atende crianças, adultos e idosos?</summary>
+            <p>Sim. O plano é construído conforme fase da vida, queixa principal, autonomia, contexto familiar e objetivo funcional de cada pessoa.</p>
+          </details>
+          <details class="faq-item">
+            <summary>O atendimento online pode ajudar?</summary>
+            <p>Em muitos casos, sim: orientação, acompanhamento, devolutivas e suporte à família podem acontecer por vídeo. Quando o caso exige avaliação presencial, a equipe direciona com clareza.</p>
+          </details>
+          <details class="faq-item">
+            <summary>O que levar no primeiro atendimento?</summary>
+            <p>Se tiver, leve exames, laudos, receitas, lista de medicamentos e relatórios escolares ou terapêuticos. Se não tiver nada disso, tudo bem: a história já é um começo importante.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contato">
+      <div class="wrap reveal">
+        <div class="eyebrow" style="justify-content:center">próximo passo</div>
+        <h2>Fale com a equipe da Reability.</h2>
+        <p>Informe sua dúvida e receba orientação sobre avaliação, especialidade indicada e disponibilidade de horários.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar avaliação</a>
+          <a class="btn btn-outline" href="https://www.instagram.com/reability.neuro/" target="_blank" rel="noopener">@reability.neuro</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="rodape">
+    <canvas class="footer-neuro-canvas" id="footerNeuroCanvas" aria-hidden="true"></canvas>
+    <span class="footer-mouse-glow" id="footerMouseGlow" aria-hidden="true"></span>
+    <div class="wrap footer-grid">
+      <div>
+        <h3>Reability</h3>
+        <p>Núcleo de desenvolvimento neurológico, reabilitação e saúde mental em Catu-BA.</p>
+        <p class="gold">Transformando limites em possibilidades.</p>
+      </div>
+      <div>
+        <h3>Localização</h3>
+        <p>R. Simões Filho, 350 - Boa Vista, Catu - BA, 48110-000</p>
+        <div class="map">
+          <iframe
+            title="Mapa da Reability, R. Simões Filho, 350, Boa Vista, Catu-BA"
+            src="https://maps.google.com/maps?q=Rua%20Sim%C3%B5es%20Filho%2C%20350%2C%20Boa%20Vista%2C%20Catu%20-%20BA%2C%2048110-000%2C%20Brasil&z=17&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/dir/?api=1&destination=Rua%20Sim%C3%B5es%20Filho%2C%20350%2C%20Boa%20Vista%2C%20Catu%20-%20BA%2C%2048110-000%2C%20Brasil" target="_blank" rel="noopener">
+          <span>Como chegar</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <p><a href="tel:+5571999703912">(71) 9 9970-3912</a></p>
+        <p><a href="https://www.instagram.com/reability.neuro/" target="_blank" rel="noopener">@reability.neuro</a></p>
+        <p>Atendimento especializado com hora marcada.<br>Segunda a sexta, 08:00 às 18:00.</p>
+      </div>
+    </div>
+    <div class="wrap bottom">
+      <span>© Reability. Neuroreabilitação e saúde mental em Catu-BA.</span>
+      <a href="#hero">Voltar ao topo ↑</a>
+    </div>
+  </footer>
+
+  <!-- Botão flutuante de WhatsApp com balão recorrente -->
+  <a class="wa-float" id="waFloat"
+     href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability."
+     target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+    <span class="wa-bubble" id="waBubble" role="status">
+      Oi, está pensando em agendar?
+      <button class="wa-bubble-close" id="waBubbleClose" type="button" aria-label="Fechar mensagem">×</button>
+    </span>
+    <span class="wa-btn" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor">
+        <path d="M16.04 4C9.93 4 4.98 8.95 4.98 15.06c0 1.96.51 3.87 1.49 5.56L4.9 26.5l6.05-1.55a11 11 0 0 0 5.09 1.27h.01c6.1 0 11.06-4.95 11.06-11.06C27.11 8.95 22.15 4 16.04 4Zm0 20.04h-.01a9.2 9.2 0 0 1-4.68-1.28l-.34-.2-3.59.92.96-3.5-.22-.36a9.13 9.13 0 0 1-1.4-4.86c0-5.08 4.13-9.21 9.22-9.21 2.46 0 4.78.96 6.52 2.7a9.16 9.16 0 0 1 2.7 6.52c0 5.08-4.13 9.21-9.21 9.21Zm5.05-6.9c-.28-.14-1.64-.81-1.89-.9-.25-.09-.43-.14-.62.14-.18.28-.71.9-.87 1.08-.16.18-.32.2-.6.07-.28-.14-1.17-.43-2.23-1.38-.82-.73-1.38-1.64-1.54-1.92-.16-.28-.02-.43.12-.57.13-.13.28-.32.42-.49.14-.16.18-.28.28-.46.09-.18.05-.35-.02-.49-.07-.14-.62-1.5-.85-2.05-.22-.54-.45-.46-.62-.47l-.53-.01c-.18 0-.48.07-.73.35-.25.28-.96.94-.96 2.3 0 1.35.98 2.66 1.12 2.84.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.18-.53-.32Z"/>
+      </svg>
+    </span>
+  </a>
+
+  <!-- Modal de especialidades -->
+  <div class="spec-modal" id="specModal" aria-hidden="true">
+    <div class="spec-backdrop" data-close></div>
+    <div class="spec-dialog" role="dialog" aria-modal="true" aria-labelledby="specTitle">
+      <button type="button" class="spec-close" data-close aria-label="Fechar">×</button>
+      <div class="spec-eyebrow" id="specEyebrow">especialidade</div>
+      <h3 class="spec-title" id="specTitle"></h3>
+      <p class="spec-quote" id="specQuote"></p>
+      <p class="spec-desc" id="specDesc"></p>
+      <div class="spec-when">
+        <h4>Quando faz diferença</h4>
+        <ul id="specExamples"></ul>
+      </div>
+      <a class="btn btn-primary spec-cta" id="specCta"
+         href="https://wa.me/5571999703912" target="_blank" rel="noopener">Conversar sobre isso</a>
+    </div>
+  </div>
+
+  <script defer src="js/main.js?v=10"></script>
+</body>
+</html>
