@@ -52,18 +52,68 @@
       });
       const points=new THREE.Points(pointsGeo, pointsMat);
       scene.add(points);
-      const ico=new THREE.LineSegments(
-        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2,1)),
-        new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.15})
-      );
-      scene.add(ico);
-      const icoInner=new THREE.LineSegments(
-        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(2.4,0)),
-        new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.09})
-      );
-      scene.add(icoInner);
+      // Rede sináptica: nós em dois lobos elipsoidais, ligados aos vizinhos mais próximos
+      const net=new THREE.Group();
+      scene.add(net);
+      const nodesMat=new THREE.PointsMaterial({
+        color:0xE4D29A, size:.16, transparent:true, opacity:.9,
+        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
+      });
+      const linksMat=new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.2, depthWrite:false});
+      const pulseMat=new THREE.PointsMaterial({
+        color:0xFFF3D0, size:.3, transparent:true, opacity:.95,
+        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
+      });
+      let nodePos=null, edges=[], pulses=[], pulseGeo=null, builtNodes=0;
 
-      let raf=null, active=false, tx=0, ty=0, mx=0, my=0;
+      function buildNetwork(count){
+        if(count===builtNodes) return;
+        builtNodes=count;
+        while(net.children.length){ net.children.pop().geometry.dispose(); }
+        nodePos=new Float32Array(count*3);
+        for(let i=0;i<count;i++){
+          let x,y,z;
+          do{ x=Math.random()*2-1; y=Math.random()*2-1; z=Math.random()*2-1; }while(x*x+y*y+z*z>1);
+          const lobe=(i%2?1:-1)*1.05;
+          nodePos[i*3]=x*2.5+lobe;
+          nodePos[i*3+1]=y*1.8;
+          nodePos[i*3+2]=z*2.1;
+        }
+        edges=[];
+        const seen=new Set();
+        for(let i=0;i<count;i++){
+          const near=[];
+          for(let j=0;j<count;j++){
+            if(j===i) continue;
+            const dx=nodePos[i*3]-nodePos[j*3], dy=nodePos[i*3+1]-nodePos[j*3+1], dz=nodePos[i*3+2]-nodePos[j*3+2];
+            near.push([dx*dx+dy*dy+dz*dz, j]);
+          }
+          near.sort((a,b)=>a[0]-b[0]);
+          for(let n=0;n<2;n++){
+            const j=near[n][1], key=Math.min(i,j)+'_'+Math.max(i,j);
+            if(!seen.has(key)){ seen.add(key); edges.push([i,j]); }
+          }
+        }
+        const linePos=new Float32Array(edges.length*6);
+        edges.forEach(([a,b],k)=>{
+          linePos.set(nodePos.subarray(a*3,a*3+3), k*6);
+          linePos.set(nodePos.subarray(b*3,b*3+3), k*6+3);
+        });
+        const nodesGeo=new THREE.BufferGeometry();
+        nodesGeo.setAttribute('position', new THREE.BufferAttribute(nodePos,3));
+        const linksGeo=new THREE.BufferGeometry();
+        linksGeo.setAttribute('position', new THREE.BufferAttribute(linePos,3));
+        net.add(new THREE.Points(nodesGeo,nodesMat));
+        net.add(new THREE.LineSegments(linksGeo,linksMat));
+        // pulsos "sinápticos" viajando pelas conexões
+        const pulseCount=count<100?6:10;
+        pulses=Array.from({length:pulseCount},()=>({e:(Math.random()*edges.length)|0, t:Math.random(), v:.35+Math.random()*.5}));
+        pulseGeo=new THREE.BufferGeometry();
+        pulseGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pulseCount*3),3));
+        net.add(new THREE.Points(pulseGeo,pulseMat));
+      }
+
+      let raf=null, active=false, tx=0, ty=0, mx=0, my=0, lastT=0;
       const clock=new THREE.Clock();
 
       function resizeHeroNeuro(){
@@ -78,6 +128,8 @@
         }
         pointsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
         pointsMat.size=isMobile?.07:.055;
+        buildNetwork(isMobile?80:140);
+        net.scale.setScalar(isMobile?.7:1);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile?1.5:1.75));
         renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
         camera.aspect=rect.width/Math.max(1, rect.height);
@@ -87,12 +139,24 @@
       function drawHeroNeuro(){
         if(!active){raf=null; return}
         const t=clock.getElapsedTime();
+        const dt=Math.min(t-lastT,.1); lastT=t;
         mx+=(tx-mx)*.04; my+=(ty-my)*.04;
         points.rotation.y=t*.03+mx*.4;
         points.rotation.x=t*.008+my*.25;
-        ico.rotation.y=-t*.05+mx*.2;
-        ico.rotation.x=t*.02;
-        icoInner.rotation.y=t*.04;
+        net.rotation.y=t*.06+mx*.4;
+        net.rotation.x=Math.sin(t*.12)*.08+my*.25;
+        if(pulseGeo){
+          const arr=pulseGeo.attributes.position.array;
+          pulses.forEach((p,k)=>{
+            p.t+=p.v*dt;
+            if(p.t>1){ p.t=0; p.e=(Math.random()*edges.length)|0; }
+            const a=edges[p.e][0], b=edges[p.e][1];
+            arr[k*3]  =nodePos[a*3]  +(nodePos[b*3]  -nodePos[a*3])*p.t;
+            arr[k*3+1]=nodePos[a*3+1]+(nodePos[b*3+1]-nodePos[a*3+1])*p.t;
+            arr[k*3+2]=nodePos[a*3+2]+(nodePos[b*3+2]-nodePos[a*3+2])*p.t;
+          });
+          pulseGeo.attributes.position.needsUpdate=true;
+        }
         renderer.render(scene,camera);
         raf=requestAnimationFrame(drawHeroNeuro);
       }
