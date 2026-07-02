@@ -1,37 +1,3 @@
-const careSignals = [
-      ["Depois de AVC, queda, cirurgia ou internação","Fraqueza, desequilíbrio, dor, cansaço, dificuldade para andar, usar as mãos ou voltar às atividades de antes.","Porque a recuperação precisa de metas claras, ritmo seguro e acompanhamento do que ainda limita a rotina.","Avalia função, autonomia e riscos para orientar um plano possível de reabilitação."],
-      ["Memória, atenção ou comportamento mudaram","Esquecimentos frequentes, desorganização, irritabilidade, queda no rendimento, confusão ou dificuldade para manter conversas e tarefas.","Porque nem toda mudança é 'normal' ou passageira; entender o perfil ajuda a decidir o próximo passo.","Investiga cognição, emoções e rotina para dar clareza clínica à família e ao paciente."],
-      ["Desenvolvimento infantil que preocupa","Atrasos em fala, marcha, coordenação, aprendizagem, interação, autonomia ou adaptação à escola e às tarefas do dia a dia.","Porque observar cedo permite orientar a família e criar estratégias antes que a dificuldade cresça.","Mapeia sinais do desenvolvimento e organiza as dúvidas em um plano de cuidado acompanhado."],
-      ["Dor, tensão ou movimento limitado","Dor persistente, rigidez, formigamento, perda de força, medo de se movimentar ou dificuldade para executar movimentos simples.","Porque o corpo evita o que dói, e isso pode reduzir independência, sono, humor e participação.","Identifica limites funcionais e combina cuidado terapêutico com metas de retorno à rotina."],
-      ["Ansiedade, humor ou sobrecarga familiar","Choro frequente, isolamento, crises, medo, irritação, exaustão de cuidadores ou sensação de que a família perdeu o eixo.","Porque reabilitação também envolve saúde mental, vínculo, rotina e sustentação emocional.","Inclui escuta clínica, orientação familiar e encaminhamento conforme a necessidade."],
-      ["Autonomia ficou mais difícil","Tomar banho, vestir-se, estudar, trabalhar, comer, sair de casa ou organizar o dia passou a exigir muito mais ajuda.","Porque independência não é tudo ou nada; pequenos ajustes podem devolver participação e segurança.","Define prioridades reais e acompanha ganhos funcionais no cotidiano do paciente."]
-    ];
-    const accordion = document.getElementById('accordion');
-    careSignals.forEach((s,i)=>{
-      const item=document.createElement('div'); item.className='acc-item';
-      item.innerHTML=`<button class="acc-head" aria-expanded="false"><span class="acc-icon">${String(i+1).padStart(2,'0')}</span><strong>${s[0]}</strong><span>+</span></button>
-        <div class="acc-content"><div class="acc-content-inner">
-          <div class="acc-box"><h4>O que pode aparecer</h4><p>${s[1]}</p></div>
-          <div class="acc-box"><h4>Por que avaliar</h4><p>${s[2]}</p></div>
-          <div class="acc-box"><h4>Como a Reability ajuda</h4><p>${s[3]}</p></div>
-        </div></div>`;
-      accordion.appendChild(item);
-    });
-    accordion.addEventListener('click', e=>{
-      const head=e.target.closest('.acc-head'); if(!head) return;
-      const item=head.parentElement, content=item.querySelector('.acc-content');
-      const active=item.classList.contains('active');
-      document.querySelectorAll('.acc-item').forEach(it=>{
-        it.classList.remove('active'); it.querySelector('.acc-head').setAttribute('aria-expanded','false');
-        it.querySelector('.acc-content').style.height='0px'; it.querySelector('.acc-content').style.opacity='0';
-      });
-      if(!active){
-        item.classList.add('active'); head.setAttribute('aria-expanded','true');
-        content.style.height=content.scrollHeight+'px'; content.style.opacity='1';
-      }
-    });
-    document.querySelector('.acc-head')?.click();
-
     // ===== Fundadora: "ler mais" (recolhe via JS; sem JS, fica tudo aberto) =====
     const founderToggle=document.getElementById('founderToggle');
     if(founderToggle){
@@ -69,28 +35,95 @@ const careSignals = [
     const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canHover=matchMedia('(hover:hover)').matches;
 
-    // ===== Hero: Vanta Clouds experimental =====
-    function initHeroClouds(){
-      const el=document.getElementById('heroClouds');
-      if(!el || reduceMotion || !window.VANTA || !window.VANTA.CLOUDS) return;
-      el.__vantaEffect=window.VANTA.CLOUDS({
-        el,
-        mouseControls:true,
-        touchControls:true,
-        gyroControls:false,
-        minHeight:200,
-        minWidth:200,
-        backgroundColor:0xffffff,
-        skyColor:0x68b8d7,
-        cloudColor:0xadc1de,
-        cloudShadowColor:0x183550,
-        sunColor:0xff9919,
-        sunGlareColor:0xff6633,
-        sunlightColor:0xff9933,
-        speed:1
+    // ===== Hero: campo neural dourado =====
+    (function initHeroNeuro(){
+      const hero=document.getElementById('hero');
+      const canvas=document.getElementById('heroNeuro');
+      if(!hero || !canvas || reduceMotion || !window.THREE) return;
+
+      const renderer=new THREE.WebGLRenderer({canvas, alpha:true, antialias:false, powerPreference:'low-power'});
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(60, 1, .1, 100);
+      camera.position.z=8;
+      const pointsGeo=new THREE.BufferGeometry();
+      const pointsMat=new THREE.PointsMaterial({
+        color:0xC9A84C, size:.055, transparent:true, opacity:.85,
+        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
       });
-    }
-    initHeroClouds();
+      const points=new THREE.Points(pointsGeo, pointsMat);
+      scene.add(points);
+      const ico=new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2,1)),
+        new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.15})
+      );
+      scene.add(ico);
+      const icoInner=new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(2.4,0)),
+        new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.09})
+      );
+      scene.add(icoInner);
+
+      let raf=null, active=false, tx=0, ty=0, mx=0, my=0;
+      const clock=new THREE.Clock();
+
+      function resizeHeroNeuro(){
+        const rect=hero.getBoundingClientRect();
+        const isMobile=rect.width<700;
+        const count=isMobile?460:1200;
+        const pos=new Float32Array(count*3);
+        for(let i=0;i<count;i++){
+          pos[i*3]=(Math.random()-.5)*22;
+          pos[i*3+1]=(Math.random()-.5)*16;
+          pos[i*3+2]=(Math.random()-.5)*14;
+        }
+        pointsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+        pointsMat.size=isMobile?.07:.055;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile?1.5:1.75));
+        renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
+        camera.aspect=rect.width/Math.max(1, rect.height);
+        camera.updateProjectionMatrix();
+      }
+
+      function drawHeroNeuro(){
+        if(!active){raf=null; return}
+        const t=clock.getElapsedTime();
+        mx+=(tx-mx)*.04; my+=(ty-my)*.04;
+        points.rotation.y=t*.03+mx*.4;
+        points.rotation.x=t*.008+my*.25;
+        ico.rotation.y=-t*.05+mx*.2;
+        ico.rotation.x=t*.02;
+        icoInner.rotation.y=t*.04;
+        renderer.render(scene,camera);
+        raf=requestAnimationFrame(drawHeroNeuro);
+      }
+
+      function startHeroNeuro(){
+        if(active) return;
+        active=true;
+        if(!raf) raf=requestAnimationFrame(drawHeroNeuro);
+      }
+
+      function stopHeroNeuro(){
+        active=false;
+      }
+
+      resizeHeroNeuro();
+      if(window.ResizeObserver) new ResizeObserver(resizeHeroNeuro).observe(hero);
+      else window.addEventListener('resize', resizeHeroNeuro);
+
+      const heroIO=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>entry.isIntersecting ? startHeroNeuro() : stopHeroNeuro());
+      },{threshold:.05});
+      heroIO.observe(hero);
+
+      if(canHover){
+        window.addEventListener('pointermove',e=>{
+          if(!active) return;
+          tx=e.clientX/innerWidth-.5;
+          ty=e.clientY/innerHeight-.5;
+        },{passive:true});
+      }
+    })();
 
     // ===== Splash: espera o scroll para revelar a hero =====
     const splash=document.getElementById('splash');
@@ -179,7 +212,7 @@ const careSignals = [
         if(en.isIntersecting) navAnchors.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
       });
     },{rootMargin:'-45% 0px -50% 0px'});
-    ['jornada','sinais','denise','faq','contato'].forEach(id=>{
+    ['jornada','direcao','denise','faq','contato'].forEach(id=>{
       const el=document.getElementById(id); if(el) secIO.observe(el);
     });
 
@@ -486,106 +519,66 @@ const careSignals = [
       });
     }
 
-    // ===== Modal de especialidades =====
-    const specs = [
+    // ===== Modal de casos comuns =====
+    const caseScenarios = [
       {
-        name:"Avaliação Neuropsicológica",
-        quote:"“Esqueço nomes, perco o fio da conversa… será cansaço ou tem algo a mais?”",
-        desc:"É um mapeamento detalhado de memória, atenção, linguagem, raciocínio e comportamento. Em vez de adivinhar, a avaliação descreve o que está acontecendo e orienta o próximo passo para crianças, adultos ou idosos.",
+        name:"Depois de AVC ou internação",
+        quote:"“A alta veio, mas a rotina ainda não voltou.”",
+        desc:"Aqui a família quer saber o que é recuperável, o que exige cuidado e por onde começar sem aumentar risco de queda, dor ou frustração. A avaliação observa movimento, cognição, autonomia e segurança.",
         examples:[
-          "Suspeita de TDAH, dislexia ou dificuldade de aprendizagem na escola",
-          "Mudanças de memória e atenção após AVC, TCE ou com o envelhecimento",
-          "Necessidade de um laudo para orientar escola, trabalho ou tratamento"
+          "Pode envolver fisioterapia neurofuncional, terapia ocupacional, neuropsicologia e orientação familiar",
+          "O plano começa por metas pequenas: levantar, caminhar, usar as mãos, organizar rotina e prevenir quedas",
+          "Quando precisa ser presencial, a equipe explica com clareza; quando pode ser online, também orienta"
         ]
       },
       {
-        name:"Reabilitação Neurológica",
-        quote:"“Depois do AVC, atividades simples viraram um desafio. Dá pra recuperar?”",
-        desc:"Um plano de recuperação para quem teve o cérebro ou o sistema nervoso afetados. O foco é reconquistar movimento, autonomia e segurança, com metas realistas e acompanhamento de cada ganho.",
+        name:"Memória e atenção falhando",
+        quote:"“Não sei se é cansaço, idade, ansiedade ou algo neurológico.”",
+        desc:"A ideia é sair da dúvida. A avaliação neuropsicológica mede memória, atenção, linguagem, raciocínio e comportamento para diferenciar sinais esperados de algo que precisa de acompanhamento.",
         examples:[
-          "Recuperação após AVC, traumatismo craniano ou cirurgia neurológica",
-          "Convivência com Parkinson, esclerose múltipla ou sequelas de paralisia",
-          "Reaprender a andar, falar, usar as mãos e voltar à rotina"
+          "Ajuda quando há esquecimentos, confusão, queda no rendimento ou mudança de comportamento",
+          "Pode orientar laudo, escola, trabalho, família e outros profissionais",
+          "O resultado vira direção prática, não apenas uma lista de testes"
         ]
       },
       {
-        name:"Psicoterapia",
-        quote:"“Não está fácil. Eu queria um espaço pra organizar o que estou sentindo.”",
-        desc:"Um espaço de escuta clínica para entender emoções, vínculos e padrões de comportamento. O acompanhamento ajuda a nomear dificuldades e construir estratégias para lidar com a rotina.",
+        name:"Criança com atraso ou dificuldade",
+        quote:"“Algo no desenvolvimento, na escola ou na fala está preocupando.”",
+        desc:"A pergunta central é simples: esperar ou investigar? A equipe olha desenvolvimento, aprendizagem, comportamento, autonomia e rotina escolar para orientar a família cedo, sem alarmismo.",
         examples:[
-          "Ansiedade, tristeza persistente, luto ou momentos de crise",
-          "Sobrecarga de quem cuida de alguém da família",
-          "Vontade de se entender melhor e decidir com mais clareza"
+          "Fala, marcha, coordenação, foco, interação, leitura, escrita ou adaptação escolar podem ser avaliados",
+          "A família entende quais sinais observar e quais estímulos fazem sentido",
+          "Quando necessário, o plano integra neuropsicologia, terapia ocupacional e orientação aos cuidadores"
         ]
       },
       {
-        name:"Psiquiatria",
-        quote:"“Já tentei de tudo, mas sinto que preciso de um acompanhamento mais de perto.”",
-        desc:"O cuidado médico da saúde mental. O psiquiatra avalia, diagnostica e, quando necessário, ajusta a medicação com acompanhamento próximo e conduta individualizada.",
+        name:"Dor, tensão ou movimento limitado",
+        quote:"“A dor prende o corpo e começa a prender a vida.”",
+        desc:"O foco é entender se a dor vem de tensão, limitação funcional, sequela neurológica, inflamação ou sobrecarga. A conduta pode combinar cuidado físico, estratégias de rotina e recursos complementares.",
         examples:[
-          "Depressão, ansiedade, transtorno bipolar ou insônia",
-          "Revisão de uma medicação que não está fazendo efeito",
-          "Quadros que misturam sintomas emocionais e neurológicos"
+          "Laserterapia pode ser indicada para dor e inflamação; é indolor e não invasiva",
+          "Acupuntura pode ajudar em tensão, estresse e dores persistentes quando houver indicação",
+          "A meta é voltar a se mover com mais segurança, não apenas “aguentar a dor”"
         ]
       },
       {
-        name:"Fisioterapia Neurofuncional",
-        quote:"“Meu corpo não responde como antes, falta força, equilíbrio e segurança.”",
-        desc:"Fisioterapia especializada no sistema nervoso. Trabalha movimento, força, equilíbrio e coordenação para devolver autonomia ao corpo, passo a passo e dentro do que é possível para você.",
+        name:"Autonomia ficando difícil",
+        quote:"“Coisas simples passaram a exigir ajuda o tempo todo.”",
+        desc:"Banho, roupa, alimentação, escola, trabalho e deslocamento mostram onde a vida travou. A avaliação transforma essas dificuldades em prioridades funcionais, com adaptações e treino realista.",
         examples:[
-          "Dificuldade para caminhar, se equilibrar ou controlar movimentos",
-          "Recuperação de força após AVC, lesão medular ou neurológica",
-          "Crianças com atraso motor ou alterações no desenvolvimento"
+          "Terapia ocupacional ajuda a recuperar independência nas tarefas que importam",
+          "Fisioterapia neurofuncional trabalha equilíbrio, força, marcha e controle do movimento",
+          "A família recebe orientações para reduzir risco e facilitar a rotina em casa"
         ]
       },
       {
-        name:"Terapia Ocupacional",
-        quote:"“As tarefas do dia a dia ficaram difíceis e eu dependo de ajuda pra quase tudo.”",
-        desc:"Ajuda a reconquistar independência nas atividades que importam, do banho ao trabalho, da escola ao brincar. Também orienta adaptações de tarefas e ambientes.",
+        name:"Tratamento travado",
+        quote:"“Já tentei algumas coisas, mas parece que não sai do lugar.”",
+        desc:"Antes de trocar tudo, vale entender por que a resposta ficou limitada. Quando há indicação, neuromodulação pode complementar o plano; é não invasiva, indolor e não substitui a avaliação clínica.",
         examples:[
-          "Voltar a se vestir, cozinhar, estudar ou trabalhar com autonomia",
-          "Crianças com dificuldade de coordenação, foco ou independência",
-          "Adaptações em casa e estratégias práticas para o cotidiano"
-        ]
-      },
-      {
-        name:"Nutrição",
-        quote:"“Será que o que eu como ajuda ou atrapalha a minha recuperação?”",
-        desc:"Alimentação pensada para apoiar o cérebro, o corpo e o tratamento. Nada de dieta genérica: um plano possível, ajustado à sua rotina, às suas metas e ao seu momento.",
-        examples:[
-          "Nutrição que apoia memória, energia e recuperação neurológica",
-          "Dificuldades de mastigação, deglutição ou seletividade alimentar",
-          "Reeducação alimentar com acompanhamento próximo"
-        ]
-      },
-      {
-        name:"Acupuntura",
-        quote:"“A dor e a tensão não passam, e eu queria um alívio que não seja só remédio.”",
-        desc:"Técnica que estimula pontos do corpo para auxiliar no controle de dor, tensão e estresse. Pode compor o plano terapêutico quando houver indicação.",
-        examples:[
-          "Dores crônicas, tensão muscular e enxaquecas",
-          "Ansiedade, insônia e estresse do dia a dia",
-          "Apoio complementar dentro do plano de reabilitação"
-        ]
-      },
-      {
-        name:"Laserterapia",
-        quote:"“Queria acelerar a recuperação e sentir menos dor no processo.”",
-        desc:"Uso de laser de baixa intensidade para reduzir dor, inflamação e acelerar a recuperação dos tecidos. Indolor e não invasivo, soma-se às outras terapias do seu plano.",
-        examples:[
-          "Dor e inflamação em músculos, articulações ou nervos",
-          "Recuperação mais rápida após lesões ou cirurgias",
-          "Complemento à fisioterapia e à reabilitação"
-        ]
-      },
-      {
-        name:"Neuromodulação",
-        quote:"“Existe algo que ajude meu cérebro a funcionar melhor sem ser só medicação?”",
-        desc:"Técnicas que estimulam o cérebro de forma segura para trabalhar funções como atenção, humor e movimento. Podem complementar terapias e acompanhamento médico quando indicadas.",
-        examples:[
-          "Apoio em quadros de depressão, ansiedade ou dor crônica",
-          "Reabilitação cognitiva e motora após lesões neurológicas",
-          "Complemento atual às terapias e ao acompanhamento clínico"
+          "Pode apoiar dor crônica, humor, atenção ou reabilitação cognitiva e motora",
+          "A indicação depende do histórico, objetivos e segurança do paciente",
+          "O WhatsApp ajuda a equipe a dizer se vale marcar uma avaliação para esse recurso"
         ]
       }
     ];
@@ -600,14 +593,14 @@ const careSignals = [
       const elCta=document.getElementById('specCta');
       let lastFocused=null;
 
-      const openSpec=(i)=>{
-        const s=specs[i]; if(!s) return;
-        elEyebrow.textContent='especialidade';
+      const openCase=(i)=>{
+        const s=caseScenarios[i]; if(!s) return;
+        elEyebrow.textContent='caso comum';
         elTitle.textContent=s.name;
         elQuote.textContent=s.quote;
         elDesc.textContent=s.desc;
         elExamples.innerHTML=s.examples.map(e=>`<li>${e}</li>`).join('');
-        const msg=encodeURIComponent(`Oi! Gostaria de saber mais sobre ${s.name} na Reability.`);
+        const msg=encodeURIComponent(`Oi! Me identifiquei com este caso: ${s.name}. Gostaria de entender qual avaliação faz sentido na Reability.`);
         elCta.href=`https://wa.me/5571999703912?text=${msg}`;
         lastFocused=document.activeElement;
         specModal.classList.add('open');
@@ -622,9 +615,9 @@ const careSignals = [
         if(lastFocused) lastFocused.focus();
       };
 
-      document.getElementById('services')?.addEventListener('click', e=>{
+      document.getElementById('caseList')?.addEventListener('click', e=>{
         const pill=e.target.closest('.service-pill'); if(!pill) return;
-        openSpec(Number(pill.dataset.spec));
+        openCase(Number(pill.dataset.case));
       });
       specModal.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeSpec(); });
       document.addEventListener('keydown', e=>{ if(e.key==='Escape' && specModal.classList.contains('open')) closeSpec(); });

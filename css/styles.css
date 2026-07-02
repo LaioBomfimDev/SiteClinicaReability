@@ -122,20 +122,18 @@
     .hero{
       position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden;
       color:white; padding:140px 6vw 128px;
-      background:linear-gradient(180deg, #68b8d7 0%, #adc1de 58%, #f5f3ee 100%);
+      background:radial-gradient(130% 100% at 50% 12%, #27456f 0%, #1A2E4A 56%, #101f36 100%);
     }
-    .hero-clouds{
-      position:absolute; inset:-2px; z-index:0; overflow:hidden; pointer-events:none;
+    .hero-neuro{
+      position:absolute; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none;
     }
     .hero:before{
       content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-      background:
-        linear-gradient(180deg, rgba(5,18,33,.24) 0%, rgba(5,18,33,.12) 36%, rgba(5,18,33,.36) 100%),
-        linear-gradient(90deg, rgba(5,18,33,.34) 0%, rgba(5,18,33,.04) 46%, rgba(5,18,33,.30) 100%);
+      background:radial-gradient(72% 54% at 50% 46%, rgba(10,22,40,.5), transparent 72%);
     }
     .hero:after{
       content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-      background:linear-gradient(180deg, transparent 0%, rgba(8,27,47,.34) 100%);
+      background:linear-gradient(180deg, transparent 62%, rgba(8,16,30,.45) 100%);
     }
     .hero-content{
       position:relative; z-index:2; text-align:center; width:min(920px,100%); margin:0 auto;
@@ -205,21 +203,27 @@
       font-style:italic; font-size:clamp(2rem, 4.5vw, 3.6rem); line-height:1.08;
       letter-spacing:0; overflow-wrap:normal; word-break:normal; text-wrap:balance;
     }
-    .signals{background:var(--paper)}
-    .accordion{margin-top:46px; border-top:1px solid var(--line)}
-    .acc-item{border-bottom:1px solid var(--line)}
-    .acc-head{
-      display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; width:100%; background:none; border:0; padding:26px 0;
-      cursor:pointer; color:var(--blue); text-align:left;
+    .direction{background:var(--paper)}
+    .direction-head{max-width:900px}
+    .direction-head h2{font-size:clamp(2.2rem, 5vw, 4.2rem)}
+    .direction-head p{max-width:720px; margin:24px 0 0; color:var(--muted)}
+    .direction-grid{
+      display:grid; grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:34px; margin-top:54px;
     }
-    .acc-icon{width:44px;height:44px;border-radius:50%;background:var(--blue);color:var(--gold);display:grid;place-items:center;font-weight:800}
-    .acc-head strong{font-family:var(--heading); font-size:clamp(1.6rem, 3.8vw, 3rem); font-weight:400}
-    .acc-head span:last-child{font-size:1.6rem; color:var(--gold); transition:.3s}
-    .acc-item.active .acc-head span:last-child{transform:rotate(45deg)}
-    .acc-content{height:0; overflow:hidden; opacity:0; transition:.5s ease}
-    .acc-content-inner{padding:0 0 34px 62px; display:grid; grid-template-columns:repeat(3, 1fr); gap:22px}
-    .acc-box{background:white; border-left:3px solid var(--gold); padding:20px; border-radius:0 18px 18px 0}
-    .acc-box h4{color:var(--blue); margin:0 0 8px}
+    .direction-step{border-top:1px solid var(--line); padding-top:24px}
+    .direction-step span{
+      display:block; color:var(--gold); font-weight:800; letter-spacing:.16em;
+      font-size:.74rem; margin-bottom:18px;
+    }
+    .direction-step h3{font-size:clamp(1.9rem, 3.2vw, 2.7rem); margin:0}
+    .direction-step p{margin:16px 0 0; color:var(--muted); line-height:1.7}
+    .direction-note{
+      margin-top:56px; padding-top:28px; border-top:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:28px;
+    }
+    .direction-note p{margin:0; max-width:680px; color:var(--blue); font-size:1.04rem; line-height:1.65}
+    .direction-note .btn{flex:0 0 auto}
     /* ===== Atendimento online (efeito notebook abrindo) ===== */
     .online{
       background:var(--blue); color:#fff; position:relative; z-index:2; overflow:hidden;
@@ -379,11 +383,13 @@
     .clinic-panel h2{color:white; font-size:clamp(2rem, 4.2vw, 3.4rem)}
     .services{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:28px}
     .service-pill{
-      display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+      display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;
       border:1px solid rgba(201,168,76,.32); border-radius:999px; padding:13px 16px;
       color:rgba(255,255,255,.86); background:rgba(255,255,255,.04); font-family:var(--body);
-      font-size:.92rem; text-align:center; cursor:pointer; transition:.3s var(--ease); position:relative;
+      font-size:.92rem; text-align:left; cursor:pointer; transition:.3s var(--ease); position:relative;
+      min-height:54px;
     }
+    .service-pill > span:first-child{min-width:0}
     .service-pill .pill-cue{
       font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
       color:var(--gold-2); opacity:0; transform:translateX(-4px); transition:.3s var(--ease); white-space:nowrap;
@@ -394,7 +400,7 @@
     .service-pill:hover .pill-cue,.service-pill:focus-visible .pill-cue{opacity:1; transform:translateX(0)}
     .services-hint{margin-top:14px; font-size:.86rem; color:rgba(255,255,255,.6); font-style:italic}
 
-    /* ===== Modal de especialidades ===== */
+    /* ===== Modal de casos ===== */
     .spec-modal{position:fixed; inset:0; z-index:11000; display:none; align-items:center; justify-content:center; padding:5vh 20px}
     .spec-modal.open{display:flex}
     .spec-backdrop{position:absolute; inset:0; background:rgba(6,18,31,.66); backdrop-filter:blur(6px); animation:specFade .3s var(--ease)}
@@ -526,7 +532,8 @@
       .faq-grid{grid-template-columns:1fr; gap:36px}
       .faq-intro{position:relative; top:auto}
       .founder-photo{position:relative; top:auto}
-      .acc-content-inner{grid-template-columns:1fr; padding-left:0}
+      .direction-grid{grid-template-columns:1fr; gap:28px}
+      .direction-note{align-items:flex-start; flex-direction:column}
       .metric-grid{grid-template-columns:1fr 1fr}
       .metric{border-bottom:1px solid var(--line)}
       .section{padding:100px 6vw}
