@@ -34,7 +34,7 @@
   <script defer src="js/vendor/three.r134.min.js"></script>
   <script defer src="js/vendor/vanta.clouds.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=18" />
+  <link rel="stylesheet" href="css/styles.css?v=19" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -188,8 +188,8 @@
         <!-- O scroll abre o notebook: fechado -> aberto (recortes sem fundo, desktop e mobile) -->
         <div class="laptop" id="laptop">
           <span class="laptop-glow" aria-hidden="true"></span>
-          <img class="lap-closed" src="images/online-fechado-cut.webp" alt="Notebook fechado" decoding="async">
-          <img class="lap-open" src="images/online-aberto-cut.webp" alt="Teleconsulta por vídeo com Denise Neves, da Reability" decoding="async">
+          <img class="lap-closed" src="images/online-fechado-cut.webp" alt="Notebook fechado" fetchpriority="high" decoding="async">
+          <img class="lap-open" src="images/online-aberto-cut.webp" alt="Teleconsulta por vídeo com Denise Neves, da Reability" fetchpriority="high" decoding="async">
         </div>
         <a class="btn btn-primary online-cta" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar teleconsulta</a>
       </div>
@@ -385,6 +385,6 @@
     </div>
   </div>
 
-  <script defer src="js/main.js?v=10"></script>
+  <script defer src="js/main.js?v=11"></script>
 </body>
 </html>

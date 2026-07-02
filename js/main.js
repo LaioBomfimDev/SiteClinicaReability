@@ -38,14 +38,15 @@ const careSignals = [
       const founderSec=document.getElementById('denise');
       const founderMore=document.getElementById('founderMore');
       const updateFounderClip=()=>{
-        const secondParagraph=founderMore?.querySelector('p:nth-of-type(2)');
+        const secondParagraph=founderMore?.querySelector('p:nth-of-type(1)');
         if(!founderMore || !secondParagraph) return;
         const moreTop=founderMore.getBoundingClientRect().top;
         const secondTop=secondParagraph.getBoundingClientRect().top - moreTop;
         const styles=getComputedStyle(secondParagraph);
         const lineHeight=parseFloat(styles.lineHeight) || parseFloat(styles.fontSize) * 1.75;
-        founderSec.style.setProperty('--founder-fade-start', `${Math.max(0, Math.round(secondTop - 2))}px`);
-        founderSec.style.setProperty('--founder-collapsed-height', `${Math.round(secondTop + lineHeight * 1.08)}px`);
+        const visibleLines=1; // linhas cheias do parágrafo antes do fade começar
+        founderSec.style.setProperty('--founder-fade-start', `${Math.max(0, Math.round(secondTop + lineHeight * visibleLines - 2))}px`);
+        founderSec.style.setProperty('--founder-collapsed-height', `${Math.round(secondTop + lineHeight * (visibleLines + 1.08))}px`);
       };
       founderSec.classList.add('no-anim','collapsed');
       founderToggle.setAttribute('aria-expanded','false');
@@ -353,18 +354,32 @@ const careSignals = [
         const stage=document.getElementById('onlineStage');
         const laptop=document.getElementById('laptop');
         const open=laptop && laptop.querySelector('.lap-open');
-        if(!laptop || !open) return;
+        const closed=laptop && laptop.querySelector('.lap-closed');
+        if(!laptop || !open || !closed) return;
         const canScrub = window.gsap && window.ScrollTrigger && !reduceMotion;
         if(canScrub){
-          // estado inicial: notebook fechado, levemente deslocado (parallax)
+          // estado inicial: só o fechado visível, levemente deslocado (parallax)
           gsap.set(open,{opacity:0});
-          gsap.set(laptop,{yPercent:7});
-          gsap.timeline({
-            scrollTrigger:{trigger:stage, start:'top top', end:'+=140%', pin:true, anticipatePin:1, scrub:1}
-          })
-          .to(laptop,{yPercent:0, ease:'none', duration:1}, 0)   // sobe suave enquanto rola
-          .to(open,{opacity:1, ease:'none', duration:.8}, 0);     // crossfade fechado -> aberto (fim)
-          ScrollTrigger.refresh();
+          gsap.set(closed,{opacity:1});
+          gsap.set(laptop,{yPercent:6});
+          const build=()=>{
+            // Sem pin: o notebook abre enquanto sobe pela viewport (seção fica compacta)
+            gsap.timeline({
+              scrollTrigger:{trigger:laptop, start:'center 76%', end:'center 44%', scrub:1, invalidateOnRefresh:true}
+            })
+            .to(laptop,{yPercent:0, ease:'none', duration:1}, 0)      // sobe suave enquanto rola
+            // cross-dissolve linear simultâneo: soma das opacidades ~1 (sem "dois notebooks", sem sumiço)
+            .to(closed,{opacity:0, ease:'none', duration:1}, 0)
+            .to(open,{opacity:1, ease:'none', duration:1}, 0);
+            // recalcula as posições depois que fontes/imagens acima assentam (senão o trigger fica no lugar errado)
+            ScrollTrigger.refresh();
+            if(document.readyState!=='complete') window.addEventListener('load', ()=>ScrollTrigger.refresh(), {once:true});
+            if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>ScrollTrigger.refresh());
+            setTimeout(()=>ScrollTrigger.refresh(), 1600);
+          };
+          // liga o efeito assim que a imagem aberta estiver pronta (fetchpriority=high garante cedo)
+          if(open.complete && open.naturalWidth){ build(); }
+          else { open.addEventListener('load', build, {once:true}); open.addEventListener('error', build, {once:true}); }
         }else{
           // sem libs / movimento reduzido: mostra a tela aberta direto
           open.style.opacity='1';

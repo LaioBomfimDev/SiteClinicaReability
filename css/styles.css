@@ -223,30 +223,38 @@
     /* ===== Atendimento online (efeito notebook abrindo) ===== */
     .online{
       background:var(--blue); color:#fff; position:relative; z-index:2; overflow:hidden;
-      border-radius:40px 40px 0 0; margin-top:-40px; padding:120px 0 0;
+      border-radius:40px 40px 0 0; margin-top:-40px; padding:74px 0 0;
     }
     .online-head{max-width:760px; margin:0 auto; padding:0 6vw; text-align:center}
     .online-head h2{color:#fff}
     .online-head p{color:rgba(255,255,255,.76); margin:18px auto 0}
     .online-stage{
-      min-height:100svh; display:grid; place-items:center; position:relative;
-      gap:34px; padding:64px 6vw;
+      display:grid; place-items:center; position:relative;
+      gap:16px; padding:28px 6vw 78px;
     }
+    /* Notebook recortado (fechado -> aberto). Proporção = a dos webp (1336x974) */
     .laptop{
-      position:relative; width:min(820px, 92vw); aspect-ratio:3/2;
+      position:relative; width:min(720px, 90vw); aspect-ratio:1336/974;
       margin:0 auto;
     }
     .laptop img{
       position:absolute; inset:0; width:100%; height:100%;
-      object-fit:contain; object-position:center;
-      filter:drop-shadow(0 38px 70px rgba(0,0,0,.45));
+      object-fit:contain; object-position:bottom center;
+      filter:drop-shadow(0 26px 34px rgba(0,0,0,.35));
     }
     .lap-open{opacity:0; will-change:opacity}
-    .laptop-glow{
-      position:absolute; inset:-14% -10%; z-index:-1; pointer-events:none;
-      background:radial-gradient(circle at 50% 50%, rgba(201,168,76,.20), transparent 62%); filter:blur(26px);
+    /* Sombra de contato sob a base, para "assentar" o notebook no azul */
+    .laptop::after{
+      content:""; position:absolute; left:50%; bottom:2%; transform:translateX(-50%);
+      width:70%; height:4%; border-radius:50%; z-index:-1; pointer-events:none;
+      background:radial-gradient(ellipse at center, rgba(0,0,0,.55), rgba(0,0,0,0) 72%);
+      filter:blur(7px);
     }
-    .online-cta{display:block; width:max-content; margin:48px auto 0; z-index:3}
+    .laptop-glow{
+      position:absolute; inset:-12% -8% 0; z-index:-1; pointer-events:none;
+      background:radial-gradient(ellipse at 50% 78%, rgba(201,168,76,.18), transparent 60%); filter:blur(26px);
+    }
+    .online-cta{display:block; width:max-content; margin:8px auto 0; z-index:3}
     .metrics{
       background:linear-gradient(180deg, var(--paper), var(--soft) 180px);
       position:relative; z-index:3; border-radius:40px 40px 0 0; margin-top:-40px;
@@ -312,7 +320,7 @@
     .founder-intro{max-width:760px; margin-bottom:0}
     /* Bloco "ler mais" da fundadora - começa aberto (HTML), JS recolhe */
     .founder-readmore{
-      position:relative; margin-top:24px; padding-bottom:74px; overflow:hidden;
+      position:relative; margin-top:24px; padding-bottom:44px; overflow:hidden;
     }
     .founder-more{
       overflow:hidden; max-height:2400px; position:relative; z-index:1;
@@ -328,26 +336,29 @@
     }
     .founder.no-anim .founder-more{transition:none}
     .founder-toggle{
-      position:absolute; left:0; bottom:0; z-index:3;
-      display:inline-flex; align-items:center; justify-content:center; gap:12px; cursor:pointer;
-      background:linear-gradient(135deg, var(--blue), var(--blue-2)); border:1px solid rgba(201,168,76,.62);
-      border-radius:999px; padding:11px 13px 11px 22px; color:white;
-      font-family:var(--body); font-weight:800; font-size:.92rem; letter-spacing:.01em;
-      box-shadow:0 18px 42px rgba(8,27,47,.22), inset 0 1px 0 rgba(255,255,255,.12);
-      transition:transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+      position:absolute; left:2px; bottom:0; z-index:3;
+      display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+      background:none; border:0; padding:6px 2px; margin:0;
+      color:var(--blue); font-family:var(--body); font-weight:700; font-size:.94rem; letter-spacing:.01em;
+      transition:gap var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+    }
+    .founder-toggle .lbl{
+      white-space:nowrap; position:relative;
+    }
+    .founder-toggle .lbl:after{
+      content:""; position:absolute; left:0; right:0; bottom:-3px; height:1px;
+      background:currentColor; opacity:.32; transition:opacity var(--dur-1) var(--ease);
     }
     .founder-toggle:hover,.founder-toggle:focus-visible{
-      border-color:var(--gold); transform:translateY(-2px);
-      box-shadow:0 24px 54px rgba(8,27,47,.28), inset 0 1px 0 rgba(255,255,255,.16);
-      outline:none;
+      color:var(--gold-2); gap:14px; outline:none;
     }
-    .founder-toggle .lbl{white-space:nowrap}
+    .founder-toggle:hover .lbl:after,.founder-toggle:focus-visible .lbl:after{opacity:.7}
     .founder-toggle .ico{
-      width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
-      background:rgba(201,168,76,.18); color:var(--gold-2); font-size:1.05rem;
+      width:24px; height:24px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto;
+      background:rgba(201,168,76,.16); color:var(--gold-2); font-size:.82rem;
       transition:transform var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
     }
-    .founder-toggle:hover .ico,.founder-toggle:focus-visible .ico{background:rgba(201,168,76,.28)}
+    .founder-toggle:hover .ico,.founder-toggle:focus-visible .ico{background:rgba(201,168,76,.3)}
     .founder:not(.collapsed) .founder-toggle .ico{transform:rotate(180deg)}
     .clinic-showcase{
       background:var(--blue); color:white; padding:110px 6vw; overflow:hidden;
@@ -526,6 +537,36 @@
       .timeline{gap:14px}
       .milestone p{font-size:.86rem}
     }
+    /* Timeline vertical: telas estreitas trocam o layout horizontal (5 colunas)
+       por uma linha do tempo vertical, com o traço acendendo item a item no scroll */
+    @media(max-width:680px){
+      .timeline{
+        grid-template-columns:1fr; gap:0;
+        padding:6px 0 6px 34px;
+      }
+      .timeline:before,.timeline:after{content:none}
+      .milestone{
+        text-align:left; padding:0 0 32px 0;
+      }
+      .milestone:last-child{padding-bottom:0}
+      .milestone:before{
+        content:""; position:absolute; left:-24px; top:16px; bottom:0; width:2px; height:auto;
+        border-radius:999px; transform:none; border:0;
+        background:rgba(201,168,76, calc(.16 + var(--dot-active) * .6));
+        box-shadow:0 0 calc(var(--dot-active) * 10px) rgba(201,168,76,.35);
+        transition:background .3s var(--ease);
+      }
+      .milestone:last-child:before{content:none}
+      .milestone:after{
+        left:-30px; top:2px; width:14px; height:14px; transform:none;
+        background:var(--gold); border:2px solid var(--gold);
+        opacity:calc(.4 + var(--dot-active) * .6);
+        box-shadow:0 0 0 calc(var(--dot-active) * 8px) rgba(201,168,76,.16);
+        transition:opacity .3s var(--ease), box-shadow .3s var(--ease);
+      }
+      .milestone b{font-size:1.35rem}
+      .milestone p{font-size:.9rem; line-height:1.55; max-width:420px}
+    }
     @media(max-width:600px){
       .hero-ctas{flex-direction:column; align-items:stretch}
       .hero{min-height:100svh; padding:104px 7vw 104px}
@@ -539,28 +580,24 @@
         --founder-collapsed-height:208px;
         --founder-fade-start:176px;
       }
-      .founder-readmore{padding-bottom:76px}
-      .founder-toggle{left:0; right:auto; bottom:0; width:auto; max-width:100%; padding-left:18px}
-      .timeline{gap:8px; padding-top:44px}
-      .timeline:before,.timeline:after{top:15px}
-      .milestone:before,.milestone:after{top:-36px; width:12px; height:12px}
-      .milestone b{font-size:1.3rem}
-      .milestone p{font-size:.72rem; line-height:1.35}
+      .founder-readmore{padding-bottom:40px}
       .faq-item summary{padding-right:50px}
       .brand-mini span:last-child{display:none}
       .topbar{padding:10px 12px}
       .zenith{min-height:auto; padding:72px 22px}
       .zenith h2{font-size:clamp(2rem, 10vw, 2.8rem); line-height:1.12}
     }
-    /* Mobile: o vídeo continua com scroll-scrubbing (precisa de altura p/ o pin) */
+    /* Mobile: notebook um pouco menor e seção mais justa */
     @media (max-width:760px){
-      .online-cta{position:static; left:auto; bottom:auto; opacity:1; display:block; width:max-content; margin:34px auto 0}
+      .online{padding-top:52px}
+      .online-stage{padding:14px 6vw 60px; gap:12px}
+      .laptop{width:94vw}
+      .online-cta{margin:16px auto 0}
     }
-    /* Fallback sem pin/scrub apenas quando o usuário pede menos movimento */
+    /* Movimento reduzido: mostra a tela aberta direto (sem depender de scroll) */
     @media (prefers-reduced-motion: reduce){
       .online{padding-bottom:40px}
-      .online-stage{min-height:auto; height:auto; padding:40px 6vw 90px}
-      .online-cta{position:static; left:auto; bottom:auto; opacity:1; display:block; width:max-content; margin:34px auto 0}
+      .online-cta{position:static; left:auto; bottom:auto; opacity:1; display:block; width:max-content; margin:16px auto 0}
     }
     @media (prefers-reduced-motion: reduce){
       html{scroll-behavior:auto}
