@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20" />
+  <link rel="stylesheet" href="css/styles.css?v=22" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -66,25 +66,29 @@
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "opens": "08:00",
-      "closes": "18:00"
+      "closes": "17:00"
     },
     "sameAs": ["https://www.instagram.com/reability.neuro/"],
     "founder": {
       "@type": "Person",
       "name": "Denise Neves",
-      "jobTitle": "Psicóloga e Neuropsicóloga",
+      "jobTitle": "CEO e neuropsicóloga responsável",
       "identifier": "CRP 03/10696"
     },
     "medicalSpecialty": ["Neurologic", "Psychiatric", "Physiotherapy"],
     "availableService": [
       { "@type": "MedicalTherapy", "name": "Avaliação neuropsicológica" },
-      { "@type": "MedicalTherapy", "name": "Reabilitação neurológica" },
+      { "@type": "MedicalTherapy", "name": "Reabilitação cognitiva" },
       { "@type": "MedicalTherapy", "name": "Psicoterapia" },
       { "@type": "MedicalTherapy", "name": "Psiquiatria" },
-      { "@type": "MedicalTherapy", "name": "Fisioterapia neurofuncional" },
+      { "@type": "MedicalTherapy", "name": "Fisioterapia" },
       { "@type": "MedicalTherapy", "name": "Terapia ocupacional" },
-      { "@type": "MedicalTherapy", "name": "Nutrição" },
-      { "@type": "MedicalTherapy", "name": "Acupuntura" }
+      { "@type": "MedicalTherapy", "name": "Nutrição adulto e infantil" },
+      { "@type": "MedicalTherapy", "name": "Terapia alimentar" },
+      { "@type": "MedicalTherapy", "name": "Neuromodulação" },
+      { "@type": "MedicalTherapy", "name": "Acupuntura" },
+      { "@type": "MedicalTherapy", "name": "Laserterapia" },
+      { "@type": "MedicalTherapy", "name": "Fotobiomodulação" }
     ]
   }
   </script>
@@ -96,7 +100,7 @@
 
   <div class="splash" id="splash" aria-label="Tela inicial" data-nosnippet>
     <div class="splash-inner">
-      <div class="phrase">Quando fala, memória, movimento ou comportamento mudam, a avaliação ajuda a definir o próximo <span class="under">passo</span>.</div>
+      <div class="phrase">Aqui, o cuidado começa antes de qualquer diagnóstico: começa na <span class="under">escuta</span>.</div>
       <div class="splash-logo"><img src="images/logo.png" alt="Reability" decoding="async"></div>
       <div class="hint">role para continuar</div>
     </div>
@@ -106,12 +110,12 @@
     <a class="brand-mini" href="#hero"><span class="brand-mark"><img src="images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
     <div class="navlinks">
       <a href="#jornada">Etapas</a>
-      <a href="#direcao">Direção</a>
       <a href="#denise">Denise</a>
+      <a href="#situacoes">Situações</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
     </div>
-    <a class="btn btn-primary" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar</a>
+    <a class="btn btn-primary" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
   </nav>
 
   <main id="site">
@@ -123,7 +127,7 @@
           <img class="hero-logo" src="images/logo.png" alt="Reability" decoding="async">
         </div>
         <p class="hero-tagline reveal" style="--d:1">Transformando limites em possibilidades</p>
-        <p class="hero-story reveal" style="--d:2">Quando o caminho parece encoberto, o cuidado ajuda a revelar novas possibilidades.</p>
+        <p class="hero-story reveal" style="--d:2">Quando o caminho parece encoberto, o cuidado certo revela novas possibilidades — um passo de cada vez.</p>
       </div>
       <div class="scroll-indicator">role <i></i></div>
     </section>
@@ -132,33 +136,37 @@
       <div class="wrap">
         <div class="story-head reveal">
           <div class="eyebrow">etapas do cuidado</div>
-          <h2>Avaliação antes do plano terapêutico.</h2>
+          <h2>Do primeiro contato ao plano terapêutico.</h2>
         </div>
         <div class="chapters">
           <article class="chapter">
             <div class="ch-no" aria-hidden="true">01</div>
             <span class="ch-tag reveal">etapa 01</span>
-            <h3 class="reveal">O alerta</h3>
-            <p class="reveal" style="--d:1">Fala, marcha, memória, humor, aprendizagem ou rotina podem mudar de forma sutil. Muitas vezes, a família percebe esses sinais antes de existir um diagnóstico.</p>
+            <h3 class="reveal">A entrevista</h3>
+            <p class="reveal" style="--d:1">Uma conversa <b class="gold">gratuita</b> com a neuropsicóloga. Ela conhece o caso, você conhece a Denise e a clínica — e sai com uma direção: se o cuidado começa por terapia, se vale consultar mais de um profissional ou qual especialidade entra primeiro.</p>
           </article>
           <article class="chapter">
             <div class="ch-no" aria-hidden="true">02</div>
             <span class="ch-tag reveal">etapa 02</span>
-            <h3 class="reveal">A dúvida</h3>
-            <p class="reveal" style="--d:1">Pode ser fase, sequela de doença, queda, cirurgia ou internação. Também pode envolver aspectos emocionais, cognitivos ou funcionais. A avaliação organiza essas hipóteses com critério clínico.</p>
+            <h3 class="reveal">A anamnese</h3>
+            <p class="reveal" style="--d:1">Um levantamento detalhado da história: sintomas, saúde, medicamentos, rotina, escola ou trabalho e o que a família observa no dia a dia. É essa escuta estruturada que transforma a queixa em hipóteses clínicas.</p>
           </article>
           <article class="chapter">
             <div class="ch-no" aria-hidden="true">03</div>
             <span class="ch-tag reveal">etapa 03</span>
-            <h3 class="reveal">A avaliação</h3>
-            <p class="reveal" style="--d:1">A equipe escuta a história, observa a rotina e identifica o que precisa de atenção: movimento, autonomia, cognição, comportamento, dor, alimentação, emoções e participação no dia a dia.</p>
+            <h3 class="reveal">O cuidado em prática</h3>
+            <p class="reveal" style="--d:1">Com o caminho definido, começam as avaliações, terapias e consultas indicadas para o seu caso — na ordem e no ritmo que fazem sentido, com um ou mais profissionais da equipe trabalhando de forma integrada.</p>
           </article>
           <article class="chapter">
             <div class="ch-no" aria-hidden="true">04</div>
             <span class="ch-tag reveal">etapa 04</span>
-            <h3 class="reveal">O caminho</h3>
-            <p class="reveal" style="--d:1">Com a avaliação, o plano define metas possíveis, acompanhamento e comunicação entre profissionais. A evolução é acompanhada por função, segurança e participação na rotina.</p>
+            <h3 class="reveal">A evolução</h3>
+            <p class="reveal" style="--d:1">O progresso é acompanhado de perto: metas são revisadas, conquistas aparecem na rotina e o plano se ajusta conforme a vida responde. É assim que limites viram possibilidades.</p>
           </article>
+        </div>
+        <div class="direction-note reveal">
+          <p>Você não precisa chegar com a terapia escolhida. Chegue com a história; a equipe ajuda a transformar isso em próximo passo.</p>
+          <a class="btn btn-dark" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20orienta%C3%A7%C3%A3o%20da%20equipe%20para%20entender%20qual%20avalia%C3%A7%C3%A3o%20faz%20sentido%20para%20o%20meu%20caso." target="_blank" rel="noopener">Orientar meu caso</a>
         </div>
       </div>
     </section>
@@ -167,98 +175,68 @@
       <h2 class="splitText">primeiro o paciente se reconhece; depois o cuidado ganha forma</h2>
     </section>
 
-    <section class="section direction" id="direcao">
-      <div class="wrap">
-        <div class="direction-head reveal">
-          <div class="eyebrow">direção clínica</div>
-          <h2>Antes de escolher uma terapia, entenda o que precisa vir primeiro.</h2>
-          <p>Na Reability, a avaliação organiza a dúvida da família em uma rota de cuidado: prioridade, segurança, profissionais envolvidos e metas possíveis para a rotina.</p>
-        </div>
-        <div class="direction-grid">
-          <article class="direction-step reveal" style="--d:1">
-            <span>01</span>
-            <h3>O que mudou?</h3>
-            <p>Memória, movimento, fala, dor, humor, escola, sono ou autonomia entram na conversa sem pressa e sem julgamento.</p>
-          </article>
-          <article class="direction-step reveal" style="--d:2">
-            <span>02</span>
-            <h3>O que mais limita hoje?</h3>
-            <p>A equipe identifica o que pede atenção primeiro: risco de queda, dor, sobrecarga familiar, comportamento, alimentação ou perda funcional.</p>
-          </article>
-          <article class="direction-step reveal" style="--d:3">
-            <span>03</span>
-            <h3>Qual plano faz sentido?</h3>
-            <p>O cuidado pode começar com avaliação, terapia, orientação familiar, acompanhamento online ou encaminhamento integrado.</p>
-          </article>
-        </div>
-        <div class="direction-note reveal" style="--d:4">
-          <p>Você não precisa chegar com a terapia escolhida. Chegue com a história; a equipe ajuda a transformar isso em próximo passo.</p>
-          <a class="btn btn-dark" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20entender%20qual%20avalia%C3%A7%C3%A3o%20faz%20sentido%20para%20o%20meu%20caso." target="_blank" rel="noopener">Orientar meu caso</a>
-        </div>
-      </div>
-    </section>
-
     <section class="online" id="online">
       <div class="wrap online-head reveal">
         <div class="eyebrow">atendimento online</div>
         <h2>A distância não interrompe o cuidado.</h2>
-        <p>Atendimento online para orientação e acompanhamento por vídeo, com escuta clínica e direção técnica. Para quem mora em outra cidade, viaja ou prefere o conforto de casa.</p>
-      </div>
-      <div class="online-stage" id="onlineStage">
-        <!-- O scroll abre o notebook: fechado -> aberto (recortes sem fundo, desktop e mobile) -->
-        <div class="laptop" id="laptop">
-          <span class="laptop-glow" aria-hidden="true"></span>
-          <img class="lap-closed" src="images/online-fechado-cut.webp" alt="Notebook fechado" fetchpriority="high" decoding="async">
-          <img class="lap-open" src="images/online-aberto-cut.webp" alt="Teleconsulta por vídeo com Denise Neves, da Reability" fetchpriority="high" decoding="async">
+        <div class="online-stage" id="onlineStage">
+          <!-- O scroll abre o notebook: fechado -> aberto (recortes sem fundo, desktop e mobile) -->
+          <div class="laptop" id="laptop">
+            <span class="laptop-glow" aria-hidden="true"></span>
+            <img class="lap-closed" src="images/online-fechado-cut.webp" alt="Notebook fechado" fetchpriority="high" decoding="async">
+            <img class="lap-open" src="images/online-aberto-cut.webp" alt="Atendimento online por vídeo com Denise Neves, da Reability" fetchpriority="high" decoding="async">
+          </div>
         </div>
-        <a class="btn btn-primary online-cta" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar teleconsulta</a>
-      </div>
-    </section>
-
-    <section class="section metrics">
-      <div class="wrap">
-        <div class="eyebrow">impacto</div>
-        <h2 class="reveal">Acompanhamento com metas funcionais</h2>
-        <p class="metrics-note reveal">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-6-3.9-9s1.4-6.4 3.9-9Z"/></svg>
-          Presencial em Catu-BA · Online no Brasil e no mundo
-        </p>
-        <div class="metric-grid reveal">
-          <div class="metric"><div class="num" data-target="13" data-suffix="+">0</div><p>anos de experiência clínica</p></div>
-          <div class="metric"><div class="num" data-target="11" data-suffix="">0</div><p>frentes de cuidado integradas</p></div>
-          <div class="metric"><div class="num" data-target="7" data-suffix="+">0</div><p>especializações da fundadora</p></div>
-          <div class="metric"><div class="num" data-target="1" data-suffix="">0</div><p>unidade na Bahia</p></div>
-        </div>
+        <p>Atendimento online com a mesma escuta clínica e direção técnica do presencial. Para quem mora em outra cidade, está viajando ou prefere o conforto de casa.</p>
+        <a class="btn btn-primary online-cta" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20um%20atendimento%20online%20com%20a%20Reability%20e%20saber%20como%20funciona." target="_blank" rel="noopener">Agendar atendimento online</a>
       </div>
     </section>
 
     <section class="section founder" id="denise">
       <div class="wrap founder-grid">
         <div class="founder-photo reveal">
-          <div class="photo-frame"><img src="images/denise.jpg" alt="Denise Neves, neuropsicóloga e fundadora da Reability"></div>
+          <div class="photo-frame"><img src="images/denise.jpg" alt="Denise Neves, CEO e neuropsicóloga responsável da Reability"></div>
           <div class="badge">Denise Neves · CRP 03/10696</div>
         </div>
         <div class="reveal">
-          <div class="eyebrow">fundadora</div>
+          <div class="eyebrow">ceo</div>
           <h2>Denise Neves</h2>
-          <h3 class="founder-subtitle gold">Psicóloga e neuropsicóloga responsável</h3>
-          <p class="founder-intro">Psicóloga desde 2013, Denise Neves atua em neuropsicologia, saúde mental e reabilitação cognitiva, com foco em avaliação clínica e planos terapêuticos individualizados.</p>
+          <h3 class="founder-subtitle gold">Neuropsicóloga responsável</h3>
+          <p class="founder-intro">À frente da Reability, Denise une neuropsicologia, saúde mental e reabilitação cognitiva em avaliações e planos terapêuticos individualizados — construídos para funcionar na vida real, não só no consultório.</p>
           <div class="founder-readmore">
             <div class="founder-more" id="founderMore">
-              <p>Especialista em Neuropsicologia pelo Conselho Federal de Psicologia, com formação em Saúde Mental, Neuropsicologia, ABA, Gestão de Pessoas, Reabilitação Cognitiva pela USP, Fisioterapia e Acupuntura.</p>
-              <p>Sua missão é transformar limites em possibilidades por meio de uma abordagem técnica, especializada e profundamente humanizada.</p>
+              <p>Psicóloga desde 2013 e especialista em Neuropsicologia pelo Conselho Federal de Psicologia, com formações em Saúde Mental, ABA, Gestão de Pessoas e Reabilitação Cognitiva pela USP.</p>
+              <p>Também é formada em Acupuntura e Laserterapia, recursos que aplica no cuidado da dor, da tensão e da inflamação — sempre integrados ao plano terapêutico de cada paciente.</p>
+              <p>Hoje, cursa Fisioterapia: mais uma camada de conhecimento para enxergar, além da cognição e das emoções, o corpo e o movimento de quem ela acompanha.</p>
+              <p>Sua missão ganhou forma ao lado de pacientes idosos e em cuidados paliativos — foi cuidando de quem enfrentava os maiores limites que ela aprendeu a enxergar possibilidades onde parecia não haver. A Reability nasceu para multiplicar esse cuidado.</p>
               <div class="timeline">
                 <div class="milestone"><b>2013</b><p>Início da trajetória como psicóloga.</p></div>
                 <div class="milestone"><b>2014</b><p>Atuação clínica com pacientes neurológicos e neurodesenvolvimento.</p></div>
                 <div class="milestone"><b>2017</b><p>Consolidação da especialização em Neuropsicologia.</p></div>
                 <div class="milestone"><b>2019</b><p>Formação em Reabilitação Cognitiva pela USP.</p></div>
-                <div class="milestone"><b>2024+</b><p>Estruturação da Reability como núcleo de avaliação e reabilitação neurológica em Catu-BA.</p></div>
+                <div class="milestone"><b>2026</b><p>Nascimento da Reability, em Catu-BA.</p></div>
               </div>
             </div>
             <button class="founder-toggle" id="founderToggle" type="button" aria-expanded="true" aria-controls="founderMore">
               <span class="lbl">Ler biografia completa</span><span class="ico" aria-hidden="true">↓</span>
             </button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section metrics">
+      <div class="wrap">
+        <div class="eyebrow">trajetória em números</div>
+        <h2 class="reveal">Experiência que sustenta o cuidado</h2>
+        <p class="metrics-note reveal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-6-3.9-9s1.4-6.4 3.9-9Z"/></svg>
+          Presencial em Catu-BA · Online no Brasil e no mundo
+        </p>
+        <div class="metric-grid reveal">
+          <div class="metric"><div class="num" data-target="13" data-suffix="+">0</div><p>anos de experiência clínica</p></div>
+          <div class="metric"><div class="num" data-target="500" data-suffix="+">0</div><p>pacientes atendidos na carreira</p></div>
+          <div class="metric"><div class="num" data-target="7" data-suffix="+">0</div><p>especializações e formações</p></div>
         </div>
       </div>
     </section>
@@ -271,17 +249,43 @@
         <div class="clinic-panel reveal" style="--d:1">
           <div class="eyebrow">o lugar</div>
           <h2>Atendimento presencial em Catu-BA.</h2>
-          <p>R. Simões Filho, 350 · Boa Vista, Catu-BA. No mesmo endereço, a equipe escuta a história, avalia prioridades e orienta qual cuidado faz sentido começar.</p>
+          <p>R. Simões Filho, 350 · Boa Vista, Catu-BA. Aqui, cada história é ouvida com calma: a equipe entende as prioridades e orienta por onde o cuidado deve começar.</p>
           <div class="services" id="caseList">
-            <button type="button" class="service-pill" data-case="0"><span>Depois de AVC ou internação</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
-            <button type="button" class="service-pill" data-case="1"><span>Memória e atenção falhando</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
-            <button type="button" class="service-pill" data-case="2"><span>Criança com atraso ou dificuldade</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
-            <button type="button" class="service-pill" data-case="3"><span>Dor, tensão ou movimento limitado</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
-            <button type="button" class="service-pill" data-case="4"><span>Autonomia ficando difícil</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
-            <button type="button" class="service-pill" data-case="5"><span>Tratamento travado</span><span class="pill-cue" aria-hidden="true">ver caso</span></button>
+            <button type="button" class="service-pill" data-case="0" aria-label="Ver detalhes sobre neuropsicologia"><span class="pill-copy"><span class="service-name">Neuropsicologia</span><span class="service-context">Avaliação, reabilitação cognitiva, psicoterapia e neuromodulação</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
+            <button type="button" class="service-pill" data-case="1" aria-label="Ver detalhes sobre fisioterapia"><span class="pill-copy"><span class="service-name">Fisioterapia</span><span class="service-context">Neurofuncional, ortopédica, respiratória e RPG</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
+            <button type="button" class="service-pill" data-case="2" aria-label="Ver detalhes sobre terapia ocupacional"><span class="pill-copy"><span class="service-name">Terapia ocupacional</span><span class="service-context">Autonomia e independência no dia a dia</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
+            <button type="button" class="service-pill" data-case="3" aria-label="Ver detalhes sobre nutrição"><span class="pill-copy"><span class="service-name">Nutrição</span><span class="service-context">Adulto, infantil, renal e terapia alimentar</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
+            <button type="button" class="service-pill" data-case="4" aria-label="Ver detalhes sobre psiquiatria"><span class="pill-copy"><span class="service-name">Psiquiatria</span><span class="service-context">Diagnóstico e acompanhamento medicamentoso</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
+            <button type="button" class="service-pill" data-case="5" aria-label="Ver detalhes sobre terapias integrativas"><span class="pill-copy"><span class="service-name">Terapias integrativas</span><span class="service-context">Acupuntura, laserpuntura e fotobiomodulação</span></span><span class="pill-cue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg></span></button>
           </div>
-          <p class="services-hint">Toque na situação mais parecida com a sua e veja como a equipe costuma orientar o próximo passo.</p>
+          <p class="services-hint">Toque em uma especialidade para ver o que ela cuida e quando faz sentido no seu caso.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="section conditions" id="situacoes">
+      <div class="wrap">
+        <div class="conditions-head reveal">
+          <div class="eyebrow">situações e sintomas</div>
+          <h2>Para cada situação, uma direção.</h2>
+          <p class="conditions-lead">Algumas das condições que a equipe acompanha — e as especialidades que costumam entrar no plano de cada uma.</p>
+        </div>
+        <div class="conditions-grid reveal">
+          <div class="condition"><h3>AVC</h3><p>Fisioterapia · Neuropsicologia · Terapia ocupacional</p></div>
+          <div class="condition"><h3>Parkinson</h3><p>Fisioterapia · Neuropsicologia · Nutrição</p></div>
+          <div class="condition"><h3>Paralisia de Bell</h3><p>Fisioterapia · Fotobiomodulação</p></div>
+          <div class="condition"><h3>Paralisia cerebral</h3><p>Fisioterapia · Terapia ocupacional · Nutrição</p></div>
+          <div class="condition"><h3>TEA</h3><p>Neuropsicologia · Terapia ocupacional · Terapia alimentar</p></div>
+          <div class="condition"><h3>TDAH</h3><p>Neuropsicologia · Psiquiatria</p></div>
+          <div class="condition"><h3>Síndromes genéticas</h3><p>Neuropsicologia · Fisioterapia · Terapia ocupacional</p></div>
+          <div class="condition"><h3>Ansiedade</h3><p>Psicoterapia · Psiquiatria · Acupuntura</p></div>
+          <div class="condition"><h3>Depressão</h3><p>Psicoterapia · Psiquiatria · Neuromodulação</p></div>
+          <div class="condition"><h3>Seletividade alimentar</h3><p>Terapia alimentar · Terapia ocupacional</p></div>
+          <div class="condition"><h3>Dificuldade respiratória</h3><p>Fisioterapia respiratória</p></div>
+          <div class="condition"><h3>Demência</h3><p>Neuropsicologia · Fisioterapia · Nutrição</p></div>
+          <div class="condition"><h3>Perda de autonomia</h3><p>Terapia ocupacional · Fisioterapia</p></div>
+        </div>
+        <p class="conditions-note reveal">Não encontrou a sua situação? <a href="https://wa.me/5571999703912?text=Oi!%20N%C3%A3o%20encontrei%20a%20minha%20situa%C3%A7%C3%A3o%20no%20site%20da%20Reability%20e%20gostaria%20de%20saber%20se%20voc%C3%AAs%20atendem%20o%20meu%20caso." target="_blank" rel="noopener">Pergunte no WhatsApp</a> — a entrevista inicial com a neuropsicóloga é gratuita.</p>
       </div>
     </section>
 
@@ -290,8 +294,8 @@
         <div class="faq-intro reveal">
           <div class="eyebrow">dúvidas frequentes</div>
           <h2>Antes de agendar, talvez você queira saber.</h2>
-          <p>Respostas diretas sobre avaliação, atendimento online e primeira consulta.</p>
-          <a class="btn btn-dark" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Falar com a equipe</a>
+          <p>Respostas diretas sobre avaliação, reembolso e como começar o cuidado.</p>
+          <a class="btn btn-dark" href="https://wa.me/5571999703912?text=Oi!%20Li%20as%20d%C3%BAvidas%20frequentes%20no%20site%20e%20gostaria%20de%20falar%20com%20a%20equipe%20sobre%20uma%20pergunta%20antes%20de%20agendar." target="_blank" rel="noopener">Falar com a equipe</a>
         </div>
         <div class="faq-list reveal" style="--d:1">
           <details class="faq-item" open>
@@ -299,20 +303,24 @@
             <p>Não. Muitas famílias chegam justamente porque ainda têm dúvidas. A avaliação ajuda a entender sinais, histórico, rotina e quais caminhos de cuidado fazem sentido.</p>
           </details>
           <details class="faq-item">
-            <summary>Como funciona a primeira avaliação?</summary>
-            <p>Começa com escuta clínica: o que mudou, quando começou, como isso afeta a rotina e quais são as prioridades. A partir disso, a equipe orienta os próximos passos.</p>
+            <summary>Como funciona a avaliação neuropsicológica?</summary>
+            <p>Começa com a entrevista e a anamnese; depois vêm sessões com testes padronizados de memória, atenção, linguagem e raciocínio. Ao final, você recebe a devolutiva e o laudo, com orientações práticas para família, escola, trabalho e outros profissionais.</p>
           </details>
           <details class="faq-item">
-            <summary>A clínica atende crianças, adultos e idosos?</summary>
-            <p>Sim. O plano é construído conforme fase da vida, queixa principal, autonomia, contexto familiar e objetivo funcional de cada pessoa.</p>
+            <summary>Aceita convênio?</summary>
+            <p>Emitimos notas e recibos para você solicitar reembolso no seu convênio — muitos planos devolvem parte ou todo o valor das sessões. A equipe orienta o passo a passo do pedido.</p>
           </details>
           <details class="faq-item">
-            <summary>O atendimento online pode ajudar?</summary>
-            <p>Em muitos casos, sim: orientação, acompanhamento, devolutivas e suporte à família podem acontecer por vídeo. Quando o caso exige avaliação presencial, a equipe direciona com clareza.</p>
+            <summary>Para que serve a neuromodulação?</summary>
+            <p>É um recurso não invasivo e indolor que estimula regiões do cérebro para potencializar o tratamento. Com indicação, pode apoiar dor crônica, humor, atenção e a reabilitação cognitiva e motora — sempre como parte do plano, nunca isolada.</p>
           </details>
           <details class="faq-item">
-            <summary>O que levar no primeiro atendimento?</summary>
-            <p>Se tiver, leve exames, laudos, receitas, lista de medicamentos e relatórios escolares ou terapêuticos. Se não tiver nada disso, tudo bem: a história já é um começo importante.</p>
+            <summary>O que é terapia alimentar?</summary>
+            <p>Um acompanhamento para quem tem dificuldades reais com o ato de comer: seletividade, recusa alimentar e desafios comuns no TEA. Vai além do cardápio — trabalha a relação com a comida, no ritmo de cada pessoa.</p>
+          </details>
+          <details class="faq-item">
+            <summary>O que é reabilitação cognitiva?</summary>
+            <p>Um treino estruturado das funções que o cérebro usa no dia a dia — memória, atenção, linguagem, planejamento — após AVC, traumatismo, demência ou outras condições. O objetivo é recuperar função e autonomia na vida real, não só nos exercícios.</p>
           </details>
         </div>
       </div>
@@ -322,9 +330,9 @@
       <div class="wrap reveal">
         <div class="eyebrow" style="justify-content:center">próximo passo</div>
         <h2>Fale com a equipe da Reability.</h2>
-        <p>Informe sua dúvida e receba orientação sobre avaliação, próximo passo indicado e disponibilidade de horários.</p>
+        <p>Conte o que está acontecendo e receba o próximo passo indicado, valores e horários disponíveis. A primeira entrevista com a neuropsicóloga é <b class="gold">gratuita</b>.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar avaliação</a>
+          <a class="btn btn-primary" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability.%20Podem%20me%20informar%20disponibilidade%20e%20pr%C3%B3ximos%20passos%3F" target="_blank" rel="noopener">Agendar avaliação</a>
           <a class="btn btn-outline" href="https://www.instagram.com/reability.neuro/" target="_blank" rel="noopener">@reability.neuro</a>
         </div>
       </div>
@@ -359,7 +367,7 @@
         <h3>Contato</h3>
         <p><a href="tel:+5571999703912">(71) 9 9970-3912</a></p>
         <p><a href="https://www.instagram.com/reability.neuro/" target="_blank" rel="noopener">@reability.neuro</a></p>
-        <p>Atendimento especializado com hora marcada.<br>Segunda a sexta, 08:00 às 18:00.</p>
+        <p>Atendimento especializado com hora marcada.<br>Segunda a sexta, 08:00 às 17:00.</p>
       </div>
     </div>
     <div class="wrap bottom">
@@ -370,7 +378,7 @@
 
   <!-- Botão flutuante de WhatsApp com balão recorrente -->
   <a class="wa-float" id="waFloat"
-     href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability."
+     href="https://wa.me/5571999703912?text=Oi!%20Vim%20pelo%20bot%C3%A3o%20do%20site%20e%20gostaria%20de%20falar%20com%20a%20equipe%20da%20Reability%20para%20entender%20o%20pr%C3%B3ximo%20passo."
      target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
     <span class="wa-bubble" id="waBubble" role="status">
       Oi, está pensando em agendar?
@@ -388,19 +396,19 @@
     <div class="spec-backdrop" data-close></div>
     <div class="spec-dialog" role="dialog" aria-modal="true" aria-labelledby="specTitle">
       <button type="button" class="spec-close" data-close aria-label="Fechar">×</button>
-      <div class="spec-eyebrow" id="specEyebrow">caso comum</div>
+      <div class="spec-eyebrow" id="specEyebrow">especialidade</div>
       <h3 class="spec-title" id="specTitle"></h3>
       <p class="spec-quote" id="specQuote"></p>
       <p class="spec-desc" id="specDesc"></p>
       <div class="spec-when">
-        <h4>O que importa saber</h4>
+        <h4>O que inclui</h4>
         <ul id="specExamples"></ul>
       </div>
       <a class="btn btn-primary spec-cta" id="specCta"
-         href="https://wa.me/5571999703912" target="_blank" rel="noopener">Falar no WhatsApp sobre este caso</a>
+         href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20falar%20sobre%20uma%20especialidade%2Fcaso%20que%20vi%20no%20site%20da%20Reability%20e%20entender%20o%20atendimento%20indicado." target="_blank" rel="noopener">Falar no WhatsApp sobre este caso</a>
     </div>
   </div>
 
-  <script defer src="js/main.js?v=11"></script>
+  <script defer src="js/main.js?v=15"></script>
 </body>
 </html>

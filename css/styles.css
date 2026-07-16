@@ -127,6 +127,12 @@
     .hero-neuro{
       position:absolute; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none;
     }
+    .hero.hero-fallback .hero-neuro{
+      opacity:.94;
+      background:
+        linear-gradient(120deg, transparent 0 28%, rgba(201,168,76,.08) 48%, transparent 68%),
+        repeating-linear-gradient(118deg, transparent 0 42px, rgba(228,210,154,.035) 43px 44px);
+    }
     .hero:before{
       content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
       background:radial-gradient(72% 54% at 50% 46%, rgba(10,22,40,.5), transparent 72%);
@@ -203,21 +209,6 @@
       font-style:italic; font-size:clamp(2rem, 4.5vw, 3.6rem); line-height:1.08;
       letter-spacing:0; overflow-wrap:normal; word-break:normal; text-wrap:balance;
     }
-    .direction{background:var(--paper)}
-    .direction-head{max-width:900px}
-    .direction-head h2{font-size:clamp(2.2rem, 5vw, 4.2rem)}
-    .direction-head p{max-width:720px; margin:24px 0 0; color:var(--muted)}
-    .direction-grid{
-      display:grid; grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:34px; margin-top:54px;
-    }
-    .direction-step{border-top:1px solid var(--line); padding-top:24px}
-    .direction-step span{
-      display:block; color:var(--gold); font-weight:800; letter-spacing:.16em;
-      font-size:.74rem; margin-bottom:18px;
-    }
-    .direction-step h3{font-size:clamp(1.9rem, 3.2vw, 2.7rem); margin:0}
-    .direction-step p{margin:16px 0 0; color:var(--muted); line-height:1.7}
     .direction-note{
       margin-top:56px; padding-top:28px; border-top:1px solid var(--line);
       display:flex; align-items:center; justify-content:space-between; gap:28px;
@@ -227,14 +218,14 @@
     /* ===== Atendimento online (efeito notebook abrindo) ===== */
     .online{
       background:var(--blue); color:#fff; position:relative; z-index:2; overflow:hidden;
-      border-radius:40px 40px 0 0; margin-top:-40px; padding:74px 0 0;
+      border-radius:40px 40px 0 0; margin-top:-40px; padding:74px 0 78px;
     }
-    .online-head{max-width:760px; margin:0 auto; padding:0 6vw; text-align:center}
+    .online-head{max-width:880px; margin:0 auto; padding:0 6vw; text-align:center}
     .online-head h2{color:#fff}
-    .online-head p{color:rgba(255,255,255,.76); margin:18px auto 0}
+    .online-head p{max-width:760px; color:rgba(255,255,255,.76); margin:10px auto 0}
     .online-stage{
       display:grid; place-items:center; position:relative;
-      gap:16px; padding:28px 6vw 78px;
+      gap:16px; padding:22px 0 4px;
     }
     /* Notebook recortado (fechado -> aberto). Proporção = a dos webp (1336x974) */
     .laptop{
@@ -258,20 +249,21 @@
       position:absolute; inset:-12% -8% 0; z-index:-1; pointer-events:none;
       background:radial-gradient(ellipse at 50% 78%, rgba(201,168,76,.18), transparent 60%); filter:blur(26px);
     }
-    .online-cta{display:block; width:max-content; margin:8px auto 0; z-index:3}
+    .online-cta{display:block; width:max-content; margin:24px auto 0; z-index:3}
     .metrics{
       background:linear-gradient(180deg, var(--paper), var(--soft) 180px);
       position:relative; z-index:3; border-radius:40px 40px 0 0; margin-top:-40px;
     }
     .metrics-note{display:flex; align-items:center; gap:10px; margin:16px 0 0; color:var(--muted); font-size:1.02rem; font-weight:500}
     .metrics-note svg{color:var(--gold); flex:0 0 auto}
-    .metric-grid{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:28px}
+    .metric-grid{display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:28px}
     .metric{padding:38px 24px; border-right:1px solid var(--line)}
     .metric:last-child{border-right:0}
     .metric .num{font-family:var(--heading); color:var(--gold); font-size:clamp(3.5rem,7vw,6rem); line-height:1}
     .metric p{margin:6px 0 0; color:var(--muted)}
     .founder{
       background:linear-gradient(180deg, var(--soft), var(--paper) 180px);
+      border-radius:40px 40px 0 0; margin-top:-40px; position:relative; z-index:3;
       --founder-collapsed-height:136px;
       --founder-fade-start:102px;
     }
@@ -384,20 +376,33 @@
     .services{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:28px}
     .service-pill{
       display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;
-      border:1px solid rgba(201,168,76,.32); border-radius:999px; padding:13px 16px;
+      border:1px solid rgba(201,168,76,.32); border-radius:18px; padding:14px 14px 14px 16px;
       color:rgba(255,255,255,.86); background:rgba(255,255,255,.04); font-family:var(--body);
       font-size:.92rem; text-align:left; cursor:pointer; transition:.3s var(--ease); position:relative;
-      min-height:54px;
+      min-height:76px;
     }
-    .service-pill > span:first-child{min-width:0}
+    .pill-copy{display:grid; gap:5px; min-width:0}
+    .service-name{
+      color:white; font-weight:800; letter-spacing:.01em; line-height:1.16;
+    }
+    .service-context{
+      color:rgba(255,255,255,.62); font-size:.82rem; line-height:1.28;
+    }
     .service-pill .pill-cue{
-      font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-      color:var(--gold-2); opacity:0; transform:translateX(-4px); transition:.3s var(--ease); white-space:nowrap;
+      width:32px; height:32px; border-radius:50%; display:grid; place-items:center; flex:0 0 auto;
+      color:var(--gold-2); background:rgba(201,168,76,.10); opacity:.62;
+      transform:translateX(-2px) scale(.96); transition:.3s var(--ease);
+    }
+    .service-pill .pill-cue svg{
+      width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7;
+      stroke-linecap:round; stroke-linejoin:round;
     }
     .service-pill:hover,.service-pill:focus-visible{
       border-color:var(--gold); background:rgba(201,168,76,.12); color:white; outline:none; transform:translateY(-2px);
     }
-    .service-pill:hover .pill-cue,.service-pill:focus-visible .pill-cue{opacity:1; transform:translateX(0)}
+    .service-pill:hover .pill-cue,.service-pill:focus-visible .pill-cue{
+      opacity:1; background:rgba(201,168,76,.18); transform:translateX(0) scale(1.04);
+    }
     .services-hint{margin-top:14px; font-size:.86rem; color:rgba(255,255,255,.6); font-style:italic}
 
     /* ===== Modal de casos ===== */
@@ -436,6 +441,27 @@
     @media(min-width:920px){
       .clinic-grid{grid-template-columns:1.1fr .9fr; gap:64px}
     }
+    /* ===== Situações e sintomas ===== */
+    .conditions{
+      background:var(--paper);
+      border-radius:40px 40px 0 0; margin-top:-40px; position:relative; z-index:3;
+    }
+    .conditions-head{max-width:860px}
+    .conditions-head h2{font-size:clamp(2.2rem, 5vw, 4.2rem)}
+    .conditions-lead{max-width:680px; margin:22px 0 0; color:var(--muted)}
+    .conditions-grid{
+      display:grid; grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:30px 38px; margin-top:52px;
+    }
+    .condition{border-top:1px solid var(--line); padding-top:18px}
+    .condition h3{font-size:clamp(1.45rem, 2.3vw, 1.95rem); line-height:1.1}
+    .condition p{
+      margin:9px 0 0; color:var(--muted); font-size:.9rem; line-height:1.55;
+      letter-spacing:.01em;
+    }
+    .conditions-note{margin:48px 0 0; color:var(--muted); max-width:720px}
+    .conditions-note a{color:var(--blue); font-weight:700; text-decoration-color:var(--gold)}
+    .conditions-note a:hover{color:var(--gold)}
     .faq{
       background:linear-gradient(180deg, var(--soft), var(--paper) 220px);
       border-radius:40px 40px 0 0; margin-top:-40px; position:relative; z-index:3;
@@ -491,6 +517,14 @@
       position:absolute; inset:0; z-index:0;
       width:100%; height:100%; pointer-events:none; opacity:.92;
     }
+    .no-webgl .footer-neuro-canvas,
+    .no-three .footer-neuro-canvas,
+    footer.footer-fallback .footer-neuro-canvas{
+      opacity:.38;
+      background:
+        linear-gradient(128deg, transparent 0 30%, rgba(201,168,76,.08) 52%, transparent 74%),
+        repeating-linear-gradient(112deg, transparent 0 46px, rgba(228,210,154,.035) 47px 48px);
+    }
     .footer-mouse-glow{
       position:absolute; left:var(--fx,50%); top:var(--fy,42%); z-index:1;
       width:360px; height:360px; border-radius:50%; pointer-events:none;
@@ -532,10 +566,11 @@
       .faq-grid{grid-template-columns:1fr; gap:36px}
       .faq-intro{position:relative; top:auto}
       .founder-photo{position:relative; top:auto}
-      .direction-grid{grid-template-columns:1fr; gap:28px}
       .direction-note{align-items:flex-start; flex-direction:column}
-      .metric-grid{grid-template-columns:1fr 1fr}
-      .metric{border-bottom:1px solid var(--line)}
+      .metric-grid{grid-template-columns:1fr}
+      .metric{border-right:0; border-bottom:1px solid var(--line)}
+      .metric:last-child{border-bottom:0}
+      .conditions-grid{grid-template-columns:1fr 1fr; gap:26px 30px}
       .section{padding:100px 6vw}
       .topbar{border-radius:28px}
       .hero{padding:118px 7vw 112px}
@@ -581,8 +616,8 @@
       .hero-tagline{font-size:2.9rem; margin-top:28px}
       .hero-story{font-size:1rem; line-height:1.58; margin-top:20px}
       .btn{justify-content:center}
-      .metric-grid,.services{grid-template-columns:1fr}
-      .story,.clinic-showcase,.faq{border-radius:26px 26px 0 0; margin-top:-26px}
+      .metric-grid,.services,.conditions-grid{grid-template-columns:1fr}
+      .story,.clinic-showcase,.faq,.conditions,.founder,.metrics{border-radius:26px 26px 0 0; margin-top:-26px}
       .founder{
         --founder-collapsed-height:208px;
         --founder-fade-start:176px;
@@ -597,9 +632,9 @@
     /* Mobile: notebook um pouco menor e seção mais justa */
     @media (max-width:760px){
       .online{padding-top:52px}
-      .online-stage{padding:14px 6vw 60px; gap:12px}
+      .online-stage{padding:16px 0 2px; gap:12px}
       .laptop{width:94vw}
-      .online-cta{margin:16px auto 0}
+      .online-cta{margin:22px auto 0}
     }
     /* Movimento reduzido: mostra a tela aberta direto (sem depender de scroll) */
     @media (prefers-reduced-motion: reduce){

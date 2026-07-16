@@ -34,20 +34,218 @@
     // ===== Estado geral =====
     const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canHover=matchMedia('(hover:hover)').matches;
+    let cachedWebGLSupport=null;
+    const hasThree=()=>Boolean(window.THREE && window.THREE.WebGLRenderer);
+    function supportsWebGL(){
+      if(cachedWebGLSupport!==null) return cachedWebGLSupport;
+      try{
+        const testCanvas=document.createElement('canvas');
+        cachedWebGLSupport=Boolean(window.WebGLRenderingContext && (testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl')));
+      }catch(_){
+        cachedWebGLSupport=false;
+      }
+      document.documentElement.classList.toggle('no-webgl', !cachedWebGLSupport);
+      return cachedWebGLSupport;
+    }
+    function createThreeRenderer(canvas, options){
+      if(!hasThree()){
+        document.documentElement.classList.add('no-three');
+        return null;
+      }
+      if(!supportsWebGL()) return null;
+      try{
+        return new THREE.WebGLRenderer(Object.assign({canvas}, options));
+      }catch(_){
+        document.documentElement.classList.add('no-webgl');
+        return null;
+      }
+    }
+
+    function initHeroFallback(hero, canvas, animate){
+      hero.classList.add('hero-fallback');
+      if(!canvas?.getContext) return;
+      const ctx=canvas.getContext('2d');
+      if(!ctx) return;
+
+      let w=0,h=0,dpr=1,seed=1,raf=null,active=false,tx=0,ty=0,mx=0,my=0;
+      let particles=[],nodes=[],links=[];
+      const rand=()=>{
+        seed=(seed*1664525+1013904223)>>>0;
+        return seed/4294967296;
+      };
+
+      function rebuild(){
+        seed=(Math.round(w)*73856093 ^ Math.round(h)*19349663)>>>0;
+        const mobile=w<700;
+        const fieldCount=mobile?180:420;
+        const nodeCount=mobile?68:118;
+        particles=Array.from({length:fieldCount},()=>({
+          x:rand()*w,
+          y:rand()*h,
+          r:.45+rand()*1.45,
+          a:.08+rand()*.22,
+          p:rand()*Math.PI*2,
+          z:.35+rand()*1.25
+        }));
+        nodes=[];
+        const cx=w*.5, cy=h*.47;
+        const rx=Math.min(w*.26, 280), ry=Math.min(h*.20, 175);
+        for(let i=0;i<nodeCount;i++){
+          let x=0,y=0;
+          do{
+            x=rand()*2-1;
+            y=rand()*2-1;
+          }while(x*x+y*y>1);
+          const lobe=(i%2?1:-1)*Math.min(w*.08, 74);
+          nodes.push({
+            x:cx+lobe+x*rx,
+            y:cy+y*ry,
+            r:1.4+rand()*2.4,
+            p:rand()*Math.PI*2
+          });
+        }
+        links=[];
+        const seen=new Set();
+        nodes.forEach((node,i)=>{
+          const near=nodes.map((other,j)=>({
+            j,
+            d:(node.x-other.x)*(node.x-other.x)+(node.y-other.y)*(node.y-other.y)
+          })).filter(item=>item.j!==i).sort((a,b)=>a.d-b.d);
+          near.slice(0,2).forEach(item=>{
+            const key=Math.min(i,item.j)+'_'+Math.max(i,item.j);
+            if(!seen.has(key) && item.d<Math.pow(Math.min(w,h)*.22,2)){
+              seen.add(key);
+              links.push([i,item.j]);
+            }
+          });
+        });
+      }
+
+      function resizeFallback(){
+        const rect=hero.getBoundingClientRect();
+        w=Math.max(1, rect.width);
+        h=Math.max(1, rect.height);
+        dpr=Math.min(window.devicePixelRatio || 1, 1.75);
+        canvas.width=Math.round(w*dpr);
+        canvas.height=Math.round(h*dpr);
+        canvas.style.width='100%';
+        canvas.style.height='100%';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        rebuild();
+        drawFallback(performance.now());
+      }
+
+      function glow(x,y,r,color){
+        const g=ctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0,color);
+        g.addColorStop(1,'rgba(201,168,76,0)');
+        ctx.fillStyle=g;
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fill();
+      }
+
+      function drawFallback(now){
+        const t=now*.001;
+        mx+=(tx-mx)*.05;
+        my+=(ty-my)*.05;
+        ctx.clearRect(0,0,w,h);
+        ctx.globalCompositeOperation='lighter';
+        const driftX=mx*28, driftY=my*18;
+
+        particles.forEach(p=>{
+          const pulse=animate ? .72+.28*Math.sin(t*.7+p.p) : .86;
+          glow(p.x+driftX*p.z, p.y+driftY*p.z, p.r*7, `rgba(201,168,76,${p.a*pulse})`);
+        });
+
+        ctx.lineWidth=.75;
+        links.forEach(([a,b],i)=>{
+          const na=nodes[a], nb=nodes[b];
+          const pulse=animate ? .5+.5*Math.sin(t*.9+i*.37) : .72;
+          ctx.strokeStyle=`rgba(228,210,154,${.10+.12*pulse})`;
+          ctx.beginPath();
+          ctx.moveTo(na.x+driftX, na.y+driftY);
+          ctx.lineTo(nb.x+driftX, nb.y+driftY);
+          ctx.stroke();
+        });
+
+        nodes.forEach(n=>{
+          const pulse=animate ? .75+.25*Math.sin(t*1.1+n.p) : .9;
+          glow(n.x+driftX, n.y+driftY, n.r*8, `rgba(255,243,208,${.25*pulse})`);
+          ctx.fillStyle=`rgba(255,243,208,${.65*pulse})`;
+          ctx.beginPath();
+          ctx.arc(n.x+driftX, n.y+driftY, n.r, 0, Math.PI*2);
+          ctx.fill();
+        });
+
+        ctx.globalCompositeOperation='source-over';
+        if(active && animate) raf=requestAnimationFrame(drawFallback);
+        else raf=null;
+      }
+
+      function startFallback(){
+        active=true;
+        if(!raf) raf=requestAnimationFrame(drawFallback);
+      }
+
+      function stopFallback(){
+        active=false;
+      }
+
+      resizeFallback();
+      if(window.ResizeObserver) new ResizeObserver(resizeFallback).observe(hero);
+      else window.addEventListener('resize', resizeFallback);
+
+      if(animate && window.IntersectionObserver){
+        const io=new IntersectionObserver(entries=>{
+          entries.forEach(entry=>entry.isIntersecting ? startFallback() : stopFallback());
+        },{threshold:.05});
+        io.observe(hero);
+      }else{
+        drawFallback(performance.now());
+      }
+
+      if(animate && canHover){
+        window.addEventListener('pointermove',e=>{
+          tx=e.clientX/innerWidth-.5;
+          ty=e.clientY/innerHeight-.5;
+        },{passive:true});
+      }
+    }
 
     // ===== Hero: campo neural dourado =====
     (function initHeroNeuro(){
       const hero=document.getElementById('hero');
       const canvas=document.getElementById('heroNeuro');
-      if(!hero || !canvas || reduceMotion || !window.THREE) return;
+      if(!hero || !canvas) return;
+      if(reduceMotion){
+        initHeroFallback(hero, canvas, false);
+        return;
+      }
 
-      const renderer=new THREE.WebGLRenderer({canvas, alpha:true, antialias:false, powerPreference:'low-power'});
+      const renderer=createThreeRenderer(canvas, {alpha:true, antialias:false, powerPreference:'low-power'});
+      if(!renderer){
+        initHeroFallback(hero, canvas, true);
+        return;
+      }
       const scene=new THREE.Scene();
       const camera=new THREE.PerspectiveCamera(60, 1, .1, 100);
       camera.position.z=8;
+
+      // sprite radial: transforma os pontos quadrados do PointsMaterial em brilhos redondos
+      const spriteCanvas=document.createElement('canvas');
+      spriteCanvas.width=spriteCanvas.height=64;
+      const sctx=spriteCanvas.getContext('2d');
+      const grad=sctx.createRadialGradient(32,32,0,32,32,32);
+      grad.addColorStop(0,'rgba(255,255,255,1)');
+      grad.addColorStop(.4,'rgba(255,255,255,.5)');
+      grad.addColorStop(1,'rgba(255,255,255,0)');
+      sctx.fillStyle=grad; sctx.fillRect(0,0,64,64);
+      const glowTex=new THREE.CanvasTexture(spriteCanvas);
+
       const pointsGeo=new THREE.BufferGeometry();
       const pointsMat=new THREE.PointsMaterial({
-        color:0xC9A84C, size:.055, transparent:true, opacity:.85,
+        color:0xC9A84C, size:.06, map:glowTex, transparent:true, opacity:.75,
         depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
       });
       const points=new THREE.Points(pointsGeo, pointsMat);
@@ -56,12 +254,12 @@
       const net=new THREE.Group();
       scene.add(net);
       const nodesMat=new THREE.PointsMaterial({
-        color:0xE4D29A, size:.16, transparent:true, opacity:.9,
+        color:0xE4D29A, size:.2, map:glowTex, transparent:true, opacity:.95,
         depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
       });
-      const linksMat=new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.2, depthWrite:false});
+      const linksMat=new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.25, depthWrite:false});
       const pulseMat=new THREE.PointsMaterial({
-        color:0xFFF3D0, size:.3, transparent:true, opacity:.95,
+        color:0xFFF3D0, size:.34, map:glowTex, transparent:true, opacity:.95,
         depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
       });
       let nodePos=null, edges=[], pulses=[], pulseGeo=null, builtNodes=0;
@@ -276,7 +474,7 @@
         if(en.isIntersecting) navAnchors.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
       });
     },{rootMargin:'-45% 0px -50% 0px'});
-    ['jornada','direcao','denise','faq','contato'].forEach(id=>{
+    ['jornada','denise','situacoes','faq','contato'].forEach(id=>{
       const el=document.getElementById(id); if(el) secIO.observe(el);
     });
 
@@ -318,12 +516,17 @@
       const footer=document.getElementById('rodape');
       const canvas=document.getElementById('footerNeuroCanvas');
       const footerGlow=document.getElementById('footerMouseGlow');
-      if(!footer || !canvas || reduceMotion || !window.THREE){
+      if(!footer || !canvas || reduceMotion){
         if(footerGlow) footerGlow.style.display='none';
         return;
       }
 
-      const renderer=new THREE.WebGLRenderer({canvas, alpha:true, antialias:false, powerPreference:'low-power'});
+      const renderer=createThreeRenderer(canvas, {alpha:true, antialias:false, powerPreference:'low-power'});
+      if(!renderer){
+        footer.classList.add('footer-fallback');
+        if(footerGlow) footerGlow.style.display='none';
+        return;
+      }
       const scene=new THREE.Scene();
       const camera=new THREE.PerspectiveCamera(60, 1, .1, 100);
       camera.position.z=8;
@@ -453,26 +656,38 @@
         const open=laptop && laptop.querySelector('.lap-open');
         const closed=laptop && laptop.querySelector('.lap-closed');
         if(!laptop || !open || !closed) return;
-        const canScrub = window.gsap && window.ScrollTrigger && !reduceMotion;
-        if(canScrub){
+        const canAnimate = window.gsap && !reduceMotion;
+        if(canAnimate){
           // estado inicial: só o fechado visível, levemente deslocado (parallax)
           gsap.set(open,{opacity:0});
           gsap.set(closed,{opacity:1});
           gsap.set(laptop,{yPercent:6});
           const build=()=>{
-            // Sem pin: o notebook abre enquanto sobe pela viewport (seção fica compacta)
-            gsap.timeline({
-              scrollTrigger:{trigger:laptop, start:'center 76%', end:'center 44%', scrub:1, invalidateOnRefresh:true}
-            })
-            .to(laptop,{yPercent:0, ease:'none', duration:1}, 0)      // sobe suave enquanto rola
-            // cross-dissolve linear simultâneo: soma das opacidades ~1 (sem "dois notebooks", sem sumiço)
-            .to(closed,{opacity:0, ease:'none', duration:1}, 0)
-            .to(open,{opacity:1, ease:'none', duration:1}, 0);
-            // recalcula as posições depois que fontes/imagens acima assentam (senão o trigger fica no lugar errado)
-            ScrollTrigger.refresh();
-            if(document.readyState!=='complete') window.addEventListener('load', ()=>ScrollTrigger.refresh(), {once:true});
-            if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>ScrollTrigger.refresh());
-            setTimeout(()=>ScrollTrigger.refresh(), 1600);
+            // O usuário entra na seção vendo o notebook FECHADO; a abertura só dispara
+            // quando o CENTRO do notebook chega perto do centro da viewport, e roda uma
+            // única vez com duração própria — visível mesmo em scroll rápido.
+            const tl=gsap.timeline({paused:true})
+              .to(laptop,{yPercent:0, ease:'power2.out', duration:1.4}, 0)
+              // cross-dissolve simultâneo: soma das opacidades ~1 (sem "dois notebooks", sem sumiço)
+              .to(closed,{opacity:0, ease:'power1.inOut', duration:1.15}, .12)
+              .to(open,{opacity:1, ease:'power1.inOut', duration:1.15}, .12);
+            // Mede a posição real a cada scroll (imune ao cálculo de posição do
+            // ScrollTrigger, que ficava errado com o splash e disparava cedo demais)
+            const check=()=>{
+              const r=laptop.getBoundingClientRect();
+              if(r.width===0) return;                      // layout ainda não assentou
+              const center=r.top + r.height/2;
+              if(r.bottom < 0){                            // já passou direto (ex.: reload no meio da página)
+                tl.progress(1);
+              }else if(center > innerHeight*0.68){         // ainda está na parte de baixo da tela
+                return;
+              }else{
+                tl.play();                                 // chegou à zona central: abre
+              }
+              window.removeEventListener('scroll', check);
+            };
+            window.addEventListener('scroll', check, {passive:true});
+            check();
           };
           // liga o efeito assim que a imagem aberta estiver pronta (fetchpriority=high garante cedo)
           if(open.complete && open.naturalWidth){ build(); }
@@ -483,7 +698,7 @@
         }
       })();
 
-      if(window.THREE && !reduceMotion) initThree();
+      if(!reduceMotion) initThree();
     });
 
     // ===== WhatsApp flutuante: balão recorrente a cada 20s =====
@@ -529,7 +744,9 @@
     // ===== Three.js: campo neural dourado reativo a mouse e scroll =====
     function initThree(){
       const canvas=document.getElementById('neuroCanvas');
-      const renderer=new THREE.WebGLRenderer({canvas, alpha:true, antialias:false, powerPreference:'low-power'});
+      if(!canvas) return;
+      const renderer=createThreeRenderer(canvas, {alpha:true, antialias:false, powerPreference:'low-power'});
+      if(!renderer) return;
       const scene=new THREE.Scene();
       const camera=new THREE.PerspectiveCamera(60, innerWidth/innerHeight, .1, 100);
       camera.position.z=8;
@@ -583,66 +800,68 @@
       });
     }
 
-    // ===== Modal de casos comuns =====
+    // ===== Modal de especialidades =====
     const caseScenarios = [
       {
-        name:"Depois de AVC ou internação",
-        quote:"“A alta veio, mas a rotina ainda não voltou.”",
-        desc:"Aqui a família quer saber o que é recuperável, o que exige cuidado e por onde começar sem aumentar risco de queda, dor ou frustração. A avaliação observa movimento, cognição, autonomia e segurança.",
+        name:"Neuropsicologia",
+        quote:"“Preciso entender o que está acontecendo com a memória, a atenção ou o comportamento.”",
+        desc:"Especialidade de Denise Neves, neuropsicóloga responsável pela clínica. Investiga como o cérebro está funcionando — memória, atenção, linguagem, raciocínio, comportamento — e transforma o resultado em direção prática de tratamento.",
         examples:[
-          "Pode envolver fisioterapia neurofuncional, terapia ocupacional, neuropsicologia e orientação familiar",
-          "O plano começa por metas pequenas: levantar, caminhar, usar as mãos, organizar rotina e prevenir quedas",
-          "Quando precisa ser presencial, a equipe explica com clareza; quando pode ser online, também orienta"
+          "Avaliação neuropsicológica com devolutiva e laudo completo",
+          "Reabilitação cognitiva para recuperar funções no dia a dia",
+          "Psicoterapia individual",
+          "Neuromodulação não invasiva, quando há indicação clínica"
         ]
       },
       {
-        name:"Memória e atenção falhando",
-        quote:"“Não sei se é cansaço, idade, ansiedade ou algo neurológico.”",
-        desc:"A ideia é sair da dúvida. A avaliação neuropsicológica mede memória, atenção, linguagem, raciocínio e comportamento para diferenciar sinais esperados de algo que precisa de acompanhamento.",
+        name:"Fisioterapia",
+        quote:"“O corpo não responde como antes: dor, fraqueza ou falta de ar limitam a rotina.”",
+        desc:"Cuida do movimento, da força e da respiração — de sequelas neurológicas a dores ortopédicas e posturais. O plano parte da avaliação e trabalha com metas funcionais claras.",
         examples:[
-          "Ajuda quando há esquecimentos, confusão, queda no rendimento ou mudança de comportamento",
-          "Pode orientar laudo, escola, trabalho, família e outros profissionais",
-          "O resultado vira direção prática, não apenas uma lista de testes"
+          "Fisioterapia neurofuncional após AVC, Parkinson e outras condições",
+          "Fisioterapia ortopédica para dores, lesões e pós-operatório",
+          "Fisioterapia respiratória para quem tem dificuldade para respirar",
+          "RPG para postura e dores crônicas"
         ]
       },
       {
-        name:"Criança com atraso ou dificuldade",
-        quote:"“Algo no desenvolvimento, na escola ou na fala está preocupando.”",
-        desc:"A pergunta central é simples: esperar ou investigar? A equipe olha desenvolvimento, aprendizagem, comportamento, autonomia e rotina escolar para orientar a família cedo, sem alarmismo.",
+        name:"Terapia ocupacional",
+        quote:"“Coisas simples do dia a dia passaram a exigir ajuda o tempo todo.”",
+        desc:"Devolve independência nas atividades que importam: comer, vestir-se, estudar, trabalhar, brincar. Trabalha com adaptações e treino realista, sempre junto com a família.",
         examples:[
-          "Fala, marcha, coordenação, foco, interação, leitura, escrita ou adaptação escolar podem ser avaliados",
-          "A família entende quais sinais observar e quais estímulos fazem sentido",
-          "Quando necessário, o plano integra neuropsicologia, terapia ocupacional e orientação aos cuidadores"
+          "Treino de atividades de vida diária e autonomia",
+          "Estimulação no desenvolvimento infantil: TEA, atrasos e síndromes",
+          "Adaptações de rotina e orientação a cuidadores"
         ]
       },
       {
-        name:"Dor, tensão ou movimento limitado",
-        quote:"“A dor prende o corpo e começa a prender a vida.”",
-        desc:"O foco é entender se a dor vem de tensão, limitação funcional, sequela neurológica, inflamação ou sobrecarga. A conduta pode combinar cuidado físico, estratégias de rotina e recursos complementares.",
+        name:"Nutrição",
+        quote:"“A alimentação virou motivo de preocupação — ou de briga à mesa.”",
+        desc:"Do acompanhamento nutricional clássico à terapia alimentar para quem tem dificuldades reais com o comer. Atende adultos, crianças e pacientes com necessidades específicas.",
         examples:[
-          "Laserterapia pode ser indicada para dor e inflamação; é indolor e não invasiva",
-          "Acupuntura pode ajudar em tensão, estresse e dores persistentes quando houver indicação",
-          "A meta é voltar a se mover com mais segurança, não apenas “aguentar a dor”"
+          "Nutrição adulto e infantil",
+          "Terapia alimentar para seletividade e recusa alimentar",
+          "Nutrição renal e de condições crônicas"
         ]
       },
       {
-        name:"Autonomia ficando difícil",
-        quote:"“Coisas simples passaram a exigir ajuda o tempo todo.”",
-        desc:"Banho, roupa, alimentação, escola, trabalho e deslocamento mostram onde a vida travou. A avaliação transforma essas dificuldades em prioridades funcionais, com adaptações e treino realista.",
+        name:"Psiquiatria",
+        quote:"“Talvez seja hora de uma avaliação médica — ou de revisar a medicação.”",
+        desc:"O psiquiatra avalia, diagnostica e conduz o tratamento medicamentoso quando necessário, em diálogo constante com o restante da equipe.",
         examples:[
-          "Terapia ocupacional ajuda a recuperar independência nas tarefas que importam",
-          "Fisioterapia neurofuncional trabalha equilíbrio, força, marcha e controle do movimento",
-          "A família recebe orientações para reduzir risco e facilitar a rotina em casa"
+          "Avaliação e diagnóstico psiquiátrico",
+          "Acompanhamento medicamentoso de ansiedade, depressão, TDAH e outros",
+          "Trabalho integrado com neuropsicologia e terapias"
         ]
       },
       {
-        name:"Tratamento travado",
-        quote:"“Já tentei algumas coisas, mas parece que não sai do lugar.”",
-        desc:"Antes de trocar tudo, vale entender por que a resposta ficou limitada. Quando há indicação, neuromodulação pode complementar o plano; é não invasiva, indolor e não substitui a avaliação clínica.",
+        name:"Terapias integrativas",
+        quote:"“A dor, a tensão ou o estresse não dão trégua.”",
+        desc:"Recursos complementares aplicados por Denise, com formação específica: estimulam o corpo a responder melhor à dor, à inflamação e ao estresse — sempre dentro do plano terapêutico.",
         examples:[
-          "Pode apoiar dor crônica, humor, atenção ou reabilitação cognitiva e motora",
-          "A indicação depende do histórico, objetivos e segurança do paciente",
-          "O WhatsApp ajuda a equipe a dizer se vale marcar uma avaliação para esse recurso"
+          "Acupuntura para dor, tensão e ansiedade",
+          "Laserpuntura: estímulo dos pontos com laser, sem agulhas",
+          "Fotobiomodulação para dor, inflamação e recuperação — incluindo aplicação vascular"
         ]
       }
     ];
@@ -659,12 +878,12 @@
 
       const openCase=(i)=>{
         const s=caseScenarios[i]; if(!s) return;
-        elEyebrow.textContent='caso comum';
+        elEyebrow.textContent='especialidade';
         elTitle.textContent=s.name;
         elQuote.textContent=s.quote;
         elDesc.textContent=s.desc;
         elExamples.innerHTML=s.examples.map(e=>`<li>${e}</li>`).join('');
-        const msg=encodeURIComponent(`Oi! Me identifiquei com este caso: ${s.name}. Gostaria de entender qual avaliação faz sentido na Reability.`);
+        const msg=encodeURIComponent(`Oi! Vi a especialidade "${s.name}" no site da Reability e gostaria de entender qual atendimento faz sentido para o meu caso.`);
         elCta.href=`https://wa.me/5571999703912?text=${msg}`;
         lastFocused=document.activeElement;
         specModal.classList.add('open');
