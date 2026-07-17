@@ -70,17 +70,18 @@
       position:fixed; top:22px; left:50%; transform:translateX(-50%) translateY(-120px);
       z-index:4000; width:min(1050px, calc(100% - 28px)); padding:12px 14px 12px 18px;
       display:flex; justify-content:space-between; align-items:center; border-radius:999px;
-      border:1px solid rgba(201,168,76,.35); background:rgba(245,243,238,.13);
-      backdrop-filter:blur(22px) saturate(160%); box-shadow:0 18px 70px rgba(8,27,47,.16);
+      border:1px solid rgba(201,168,76,.44); background:rgba(245,243,238,.88);
+      -webkit-backdrop-filter:blur(22px) saturate(145%); backdrop-filter:blur(22px) saturate(145%);
+      box-shadow:0 18px 70px rgba(8,27,47,.18), inset 0 1px 0 rgba(255,255,255,.78);
       transition:transform .65s cubic-bezier(.2,.8,.2,1), background .4s ease;
     }
     .topbar.visible{transform:translateX(-50%) translateY(0)}
-    .brand-mini{display:flex; align-items:center; gap:10px; color:white; text-decoration:none; font-weight:800}
+    .brand-mini{display:flex; align-items:center; gap:10px; color:var(--blue); text-decoration:none; font-weight:800}
     .brand-mark{width:40px; height:40px; border-radius:50%; display:grid; place-items:center; color:var(--gold); border:1px solid var(--gold); font-family:var(--heading); font-size:1.7rem; overflow:hidden}
     .brand-mark img{width:100%; height:100%; object-fit:cover; display:block}
     .navlinks{display:flex; align-items:center; gap:4px}
-    .navlinks a{color:white; text-decoration:none; padding:11px 15px; border-radius:999px; font-size:.88rem; transition:.25s ease}
-    .navlinks a:hover{background:rgba(201,168,76,.16); color:var(--gold-2)}
+    .navlinks a{color:var(--blue); text-decoration:none; padding:11px 15px; border-radius:999px; font-size:.88rem; font-weight:600; transition:.25s ease}
+    .navlinks a:hover{background:rgba(201,168,76,.18); color:var(--blue-2)}
     .menuBtn{display:none}
     .splash{
       position:fixed; inset:0; z-index:8000; display:grid; place-items:center;
@@ -250,12 +251,16 @@
       background:radial-gradient(ellipse at 50% 78%, rgba(201,168,76,.18), transparent 60%); filter:blur(26px);
     }
     .online-cta{display:block; width:max-content; margin:24px auto 0; z-index:3}
+    /* Continuação visual da bio da Denise: mesmo fundo marfim da seção da CEO,
+       sem raio próprio, e com a margem negativa "comendo" o respiro entre as duas */
     .metrics{
-      background:linear-gradient(180deg, var(--paper), var(--soft) 180px);
-      position:relative; z-index:3; border-radius:40px 40px 0 0; margin-top:-40px;
+      background:var(--paper);
+      position:relative; z-index:3;
+      padding-top:0; margin-top:-108px;
     }
-    .metrics-note{display:flex; align-items:center; gap:10px; margin:16px 0 0; color:var(--muted); font-size:1.02rem; font-weight:500}
-    .metrics-note svg{color:var(--gold); flex:0 0 auto}
+    .metrics-note{display:flex; align-items:flex-start; gap:12px; margin:30px 0 0; color:var(--muted); font-size:1.02rem; font-weight:500; max-width:780px; line-height:1.7}
+    .metrics-note svg{color:var(--gold); flex:0 0 auto; margin-top:4px}
+    .metrics-note b{color:var(--blue)}
     .metric-grid{display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:28px}
     .metric{padding:38px 24px; border-right:1px solid var(--line)}
     .metric:last-child{border-right:0}
@@ -410,11 +415,15 @@
     .spec-modal.open{display:flex}
     .spec-backdrop{position:absolute; inset:0; background:rgba(6,18,31,.66); backdrop-filter:blur(6px); animation:specFade .3s var(--ease)}
     .spec-dialog{
-      position:relative; width:min(560px,100%); max-height:90vh; overflow-y:auto;
+      position:relative; width:min(680px,100%); max-height:90vh; overflow-y:auto;
       background:linear-gradient(165deg, var(--blue) 0%, var(--blue-2) 100%);
       border:1px solid var(--gold); border-radius:28px; padding:40px 36px 34px;
       box-shadow:var(--shadow); color:rgba(255,255,255,.9); animation:specRise .42s var(--ease);
+      overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:rgba(201,168,76,.72) transparent;
     }
+    .spec-dialog::-webkit-scrollbar{width:9px}
+    .spec-dialog::-webkit-scrollbar-track{background:transparent}
+    .spec-dialog::-webkit-scrollbar-thumb{background:rgba(201,168,76,.72); border:2px solid var(--blue); border-radius:999px}
     .spec-close{
       position:absolute; top:16px; right:18px; width:38px; height:38px; border-radius:50%;
       border:1px solid rgba(201,168,76,.4); background:rgba(255,255,255,.05); color:white;
@@ -428,12 +437,23 @@
       background:rgba(201,168,76,.08); border-radius:0 14px 14px 0; font-style:italic;
       color:rgba(255,255,255,.92); font-size:1.02rem; line-height:1.5;
     }
-    .spec-desc{margin:18px 0 0; color:rgba(255,255,255,.82); line-height:1.65; font-size:.98rem}
+    .spec-overview{margin-top:22px}
+    .spec-overview h4,.spec-when h4{margin:0 0 10px; font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-2)}
+    .spec-desc{margin:0; color:rgba(255,255,255,.82); line-height:1.65; font-size:.98rem}
     .spec-when{margin-top:24px}
-    .spec-when h4{margin:0 0 12px; font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-2)}
+    .spec-when h4{margin-bottom:12px}
     .spec-when ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
     .spec-when li{position:relative; padding-left:26px; line-height:1.5; color:rgba(255,255,255,.85); font-size:.95rem}
     .spec-when li:before{content:"✦"; position:absolute; left:0; top:0; color:var(--gold); font-size:.85rem}
+    .spec-when ul.professional-list{gap:12px}
+    .spec-when .professional-item{
+      padding:14px 16px 14px 46px; border:1px solid rgba(201,168,76,.22); border-radius:16px;
+      background:rgba(255,255,255,.045);
+    }
+    .spec-when .professional-item:before{left:17px; top:15px}
+    .professional-item strong{display:block; color:white; font-size:.96rem; margin-bottom:4px}
+    .professional-item span{display:block; color:rgba(255,255,255,.72); font-size:.9rem; line-height:1.52}
+    .spec-note{margin:20px 0 0; color:rgba(255,255,255,.56); font-size:.78rem; line-height:1.5}
     .spec-cta{margin-top:28px; width:100%; justify-content:center}
     @keyframes specFade{from{opacity:0}to{opacity:1}}
     @keyframes specRise{from{opacity:0; transform:translateY(24px) scale(.98)}to{opacity:1; transform:none}}
@@ -453,12 +473,29 @@
       display:grid; grid-template-columns:repeat(3, minmax(0, 1fr));
       gap:30px 38px; margin-top:52px;
     }
-    .condition{border-top:1px solid var(--line); padding-top:18px}
-    .condition h3{font-size:clamp(1.45rem, 2.3vw, 1.95rem); line-height:1.1}
-    .condition p{
-      margin:9px 0 0; color:var(--muted); font-size:.9rem; line-height:1.55;
+    .condition{
+      appearance:none; width:100%; min-width:0; border:0; border-top:1px solid var(--line);
+      padding:18px 14px 16px 0; background:transparent; color:inherit; font:inherit; text-align:left;
+      cursor:pointer; border-radius:0 0 18px 18px; transition:background var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), padding var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+    }
+    .condition-title{
+      display:block; font-family:var(--heading); color:var(--blue); font-weight:400;
+      letter-spacing:-.03em; font-size:clamp(1.45rem, 2.3vw, 1.95rem); line-height:1.1;
+    }
+    .condition-specs{
+      display:block; margin:9px 0 0; color:var(--muted); font-size:.9rem; line-height:1.55;
       letter-spacing:.01em;
     }
+    .condition-action{
+      display:inline-flex; align-items:center; gap:8px; margin-top:14px; color:var(--blue);
+      font-size:.77rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    }
+    .condition-action span{color:var(--gold); font-size:1rem; transition:transform var(--dur-1) var(--ease)}
+    .condition:hover,.condition:focus-visible{
+      background:rgba(201,168,76,.09); border-top-color:var(--gold); padding-left:14px; transform:translateY(-2px);
+    }
+    .condition:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+    .condition:hover .condition-action span,.condition:focus-visible .condition-action span{transform:translate(3px,-3px)}
     .conditions-note{margin:48px 0 0; color:var(--muted); max-width:720px}
     .conditions-note a{color:var(--blue); font-weight:700; text-decoration-color:var(--gold)}
     .conditions-note a:hover{color:var(--gold)}
@@ -550,7 +587,7 @@
     .splitText .split-word{display:inline-block; white-space:nowrap}
     .splitText .split-char{display:inline-block; opacity:0; transform:translateY(16px); filter:blur(4px); transition:.6s var(--ease)}
     .splitText.in .split-char{opacity:1; transform:translateY(0); filter:blur(0)}
-    .navlinks a.active{background:rgba(201,168,76,.16); color:var(--gold-2)}
+    .navlinks a.active{background:rgba(201,168,76,.2); color:var(--blue-2)}
     .cursorGlow{
       position:fixed; left:0; top:0; width:360px; height:360px; border-radius:50%; pointer-events:none; z-index:3;
       background:radial-gradient(circle, rgba(201,168,76,.16), transparent 62%);
@@ -617,7 +654,8 @@
       .hero-story{font-size:1rem; line-height:1.58; margin-top:20px}
       .btn{justify-content:center}
       .metric-grid,.services,.conditions-grid{grid-template-columns:1fr}
-      .story,.clinic-showcase,.faq,.conditions,.founder,.metrics{border-radius:26px 26px 0 0; margin-top:-26px}
+      .story,.clinic-showcase,.faq,.conditions,.founder{border-radius:26px 26px 0 0; margin-top:-26px}
+      .metrics{margin-top:-72px}
       .founder{
         --founder-collapsed-height:208px;
         --founder-fade-start:176px;
@@ -626,6 +664,8 @@
       .faq-item summary{padding-right:50px}
       .brand-mini span:last-child{display:none}
       .topbar{padding:10px 12px}
+      .spec-modal{padding:18px 12px}
+      .spec-dialog{padding:34px 22px 28px; border-radius:24px; max-height:94vh}
       .zenith{min-height:auto; padding:72px 22px}
       .zenith h2{font-size:clamp(2rem, 10vw, 2.8rem); line-height:1.12}
     }

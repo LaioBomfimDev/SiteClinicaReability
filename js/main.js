@@ -68,7 +68,7 @@
       if(!ctx) return;
 
       let w=0,h=0,dpr=1,seed=1,raf=null,active=false,tx=0,ty=0,mx=0,my=0;
-      let particles=[],nodes=[],links=[];
+      let particles=[];
       const rand=()=>{
         seed=(seed*1664525+1013904223)>>>0;
         return seed/4294967296;
@@ -78,7 +78,6 @@
         seed=(Math.round(w)*73856093 ^ Math.round(h)*19349663)>>>0;
         const mobile=w<700;
         const fieldCount=mobile?180:420;
-        const nodeCount=mobile?68:118;
         particles=Array.from({length:fieldCount},()=>({
           x:rand()*w,
           y:rand()*h,
@@ -87,38 +86,6 @@
           p:rand()*Math.PI*2,
           z:.35+rand()*1.25
         }));
-        nodes=[];
-        const cx=w*.5, cy=h*.47;
-        const rx=Math.min(w*.26, 280), ry=Math.min(h*.20, 175);
-        for(let i=0;i<nodeCount;i++){
-          let x=0,y=0;
-          do{
-            x=rand()*2-1;
-            y=rand()*2-1;
-          }while(x*x+y*y>1);
-          const lobe=(i%2?1:-1)*Math.min(w*.08, 74);
-          nodes.push({
-            x:cx+lobe+x*rx,
-            y:cy+y*ry,
-            r:1.4+rand()*2.4,
-            p:rand()*Math.PI*2
-          });
-        }
-        links=[];
-        const seen=new Set();
-        nodes.forEach((node,i)=>{
-          const near=nodes.map((other,j)=>({
-            j,
-            d:(node.x-other.x)*(node.x-other.x)+(node.y-other.y)*(node.y-other.y)
-          })).filter(item=>item.j!==i).sort((a,b)=>a.d-b.d);
-          near.slice(0,2).forEach(item=>{
-            const key=Math.min(i,item.j)+'_'+Math.max(i,item.j);
-            if(!seen.has(key) && item.d<Math.pow(Math.min(w,h)*.22,2)){
-              seen.add(key);
-              links.push([i,item.j]);
-            }
-          });
-        });
       }
 
       function resizeFallback(){
@@ -158,26 +125,6 @@
           glow(p.x+driftX*p.z, p.y+driftY*p.z, p.r*7, `rgba(201,168,76,${p.a*pulse})`);
         });
 
-        ctx.lineWidth=.75;
-        links.forEach(([a,b],i)=>{
-          const na=nodes[a], nb=nodes[b];
-          const pulse=animate ? .5+.5*Math.sin(t*.9+i*.37) : .72;
-          ctx.strokeStyle=`rgba(228,210,154,${.10+.12*pulse})`;
-          ctx.beginPath();
-          ctx.moveTo(na.x+driftX, na.y+driftY);
-          ctx.lineTo(nb.x+driftX, nb.y+driftY);
-          ctx.stroke();
-        });
-
-        nodes.forEach(n=>{
-          const pulse=animate ? .75+.25*Math.sin(t*1.1+n.p) : .9;
-          glow(n.x+driftX, n.y+driftY, n.r*8, `rgba(255,243,208,${.25*pulse})`);
-          ctx.fillStyle=`rgba(255,243,208,${.65*pulse})`;
-          ctx.beginPath();
-          ctx.arc(n.x+driftX, n.y+driftY, n.r, 0, Math.PI*2);
-          ctx.fill();
-        });
-
         ctx.globalCompositeOperation='source-over';
         if(active && animate) raf=requestAnimationFrame(drawFallback);
         else raf=null;
@@ -213,7 +160,7 @@
       }
     }
 
-    // ===== Hero: campo neural dourado =====
+    // ===== Hero: campo neural dourado (mesma composição do rodapé) =====
     (function initHeroNeuro(){
       const hero=document.getElementById('hero');
       const canvas=document.getElementById('heroNeuro');
@@ -232,102 +179,35 @@
       const camera=new THREE.PerspectiveCamera(60, 1, .1, 100);
       camera.position.z=8;
 
-      // sprite radial: transforma os pontos quadrados do PointsMaterial em brilhos redondos
-      const spriteCanvas=document.createElement('canvas');
-      spriteCanvas.width=spriteCanvas.height=64;
-      const sctx=spriteCanvas.getContext('2d');
-      const grad=sctx.createRadialGradient(32,32,0,32,32,32);
-      grad.addColorStop(0,'rgba(255,255,255,1)');
-      grad.addColorStop(.4,'rgba(255,255,255,.5)');
-      grad.addColorStop(1,'rgba(255,255,255,0)');
-      sctx.fillStyle=grad; sctx.fillRect(0,0,64,64);
-      const glowTex=new THREE.CanvasTexture(spriteCanvas);
-
+      // Mesma linguagem visual do rodapé: partículas douradas + poliedro de linhas finas
       const pointsGeo=new THREE.BufferGeometry();
       const pointsMat=new THREE.PointsMaterial({
-        color:0xC9A84C, size:.06, map:glowTex, transparent:true, opacity:.75,
+        color:0xC9A84C, size:.045, transparent:true, opacity:.65,
         depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
       });
       const points=new THREE.Points(pointsGeo, pointsMat);
       scene.add(points);
-      // Rede sináptica: nós em dois lobos elipsoidais, ligados aos vizinhos mais próximos
-      const net=new THREE.Group();
-      scene.add(net);
-      const nodesMat=new THREE.PointsMaterial({
-        color:0xE4D29A, size:.2, map:glowTex, transparent:true, opacity:.95,
-        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
-      });
-      const linksMat=new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.25, depthWrite:false});
-      const pulseMat=new THREE.PointsMaterial({
-        color:0xFFF3D0, size:.34, map:glowTex, transparent:true, opacity:.95,
-        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
-      });
-      let nodePos=null, edges=[], pulses=[], pulseGeo=null, builtNodes=0;
+      const ico=new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(3.2,1)),
+        new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.07})
+      );
+      scene.add(ico);
 
-      function buildNetwork(count){
-        if(count===builtNodes) return;
-        builtNodes=count;
-        while(net.children.length){ net.children.pop().geometry.dispose(); }
-        nodePos=new Float32Array(count*3);
-        for(let i=0;i<count;i++){
-          let x,y,z;
-          do{ x=Math.random()*2-1; y=Math.random()*2-1; z=Math.random()*2-1; }while(x*x+y*y+z*z>1);
-          const lobe=(i%2?1:-1)*1.05;
-          nodePos[i*3]=x*2.5+lobe;
-          nodePos[i*3+1]=y*1.8;
-          nodePos[i*3+2]=z*2.1;
-        }
-        edges=[];
-        const seen=new Set();
-        for(let i=0;i<count;i++){
-          const near=[];
-          for(let j=0;j<count;j++){
-            if(j===i) continue;
-            const dx=nodePos[i*3]-nodePos[j*3], dy=nodePos[i*3+1]-nodePos[j*3+1], dz=nodePos[i*3+2]-nodePos[j*3+2];
-            near.push([dx*dx+dy*dy+dz*dz, j]);
-          }
-          near.sort((a,b)=>a[0]-b[0]);
-          for(let n=0;n<2;n++){
-            const j=near[n][1], key=Math.min(i,j)+'_'+Math.max(i,j);
-            if(!seen.has(key)){ seen.add(key); edges.push([i,j]); }
-          }
-        }
-        const linePos=new Float32Array(edges.length*6);
-        edges.forEach(([a,b],k)=>{
-          linePos.set(nodePos.subarray(a*3,a*3+3), k*6);
-          linePos.set(nodePos.subarray(b*3,b*3+3), k*6+3);
-        });
-        const nodesGeo=new THREE.BufferGeometry();
-        nodesGeo.setAttribute('position', new THREE.BufferAttribute(nodePos,3));
-        const linksGeo=new THREE.BufferGeometry();
-        linksGeo.setAttribute('position', new THREE.BufferAttribute(linePos,3));
-        net.add(new THREE.Points(nodesGeo,nodesMat));
-        net.add(new THREE.LineSegments(linksGeo,linksMat));
-        // pulsos "sinápticos" viajando pelas conexões
-        const pulseCount=count<100?6:10;
-        pulses=Array.from({length:pulseCount},()=>({e:(Math.random()*edges.length)|0, t:Math.random(), v:.35+Math.random()*.5}));
-        pulseGeo=new THREE.BufferGeometry();
-        pulseGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pulseCount*3),3));
-        net.add(new THREE.Points(pulseGeo,pulseMat));
-      }
-
-      let raf=null, active=false, tx=0, ty=0, mx=0, my=0, lastT=0;
+      let raf=null, active=false, tx=0, ty=0, mx=0, my=0;
       const clock=new THREE.Clock();
 
       function resizeHeroNeuro(){
         const rect=hero.getBoundingClientRect();
         const isMobile=rect.width<700;
-        const count=isMobile?460:1200;
+        const count=isMobile?320:850;
         const pos=new Float32Array(count*3);
         for(let i=0;i<count;i++){
           pos[i*3]=(Math.random()-.5)*22;
-          pos[i*3+1]=(Math.random()-.5)*16;
+          pos[i*3+1]=(Math.random()-.5)*14;
           pos[i*3+2]=(Math.random()-.5)*14;
         }
         pointsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-        pointsMat.size=isMobile?.07:.055;
-        buildNetwork(isMobile?80:140);
-        net.scale.setScalar(isMobile?.7:1);
+        pointsMat.size=isMobile?.055:.045;
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile?1.5:1.75));
         renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
         camera.aspect=rect.width/Math.max(1, rect.height);
@@ -337,24 +217,14 @@
       function drawHeroNeuro(){
         if(!active){raf=null; return}
         const t=clock.getElapsedTime();
-        const dt=Math.min(t-lastT,.1); lastT=t;
+        // parallax de saída: o campo gira e aproxima conforme a hero sai da tela
+        const sp=Math.min(1, window.scrollY/Math.max(1, innerHeight));
         mx+=(tx-mx)*.04; my+=(ty-my)*.04;
-        points.rotation.y=t*.03+mx*.4;
-        points.rotation.x=t*.008+my*.25;
-        net.rotation.y=t*.06+mx*.4;
-        net.rotation.x=Math.sin(t*.12)*.08+my*.25;
-        if(pulseGeo){
-          const arr=pulseGeo.attributes.position.array;
-          pulses.forEach((p,k)=>{
-            p.t+=p.v*dt;
-            if(p.t>1){ p.t=0; p.e=(Math.random()*edges.length)|0; }
-            const a=edges[p.e][0], b=edges[p.e][1];
-            arr[k*3]  =nodePos[a*3]  +(nodePos[b*3]  -nodePos[a*3])*p.t;
-            arr[k*3+1]=nodePos[a*3+1]+(nodePos[b*3+1]-nodePos[a*3+1])*p.t;
-            arr[k*3+2]=nodePos[a*3+2]+(nodePos[b*3+2]-nodePos[a*3+2])*p.t;
-          });
-          pulseGeo.attributes.position.needsUpdate=true;
-        }
+        points.rotation.y=t*.03+mx*.5+sp*1.2;
+        points.rotation.x=my*.3+sp*.4;
+        ico.rotation.y=-t*.05+sp*2;
+        ico.rotation.x=t*.02;
+        camera.position.z=8-sp*1.2;
         renderer.render(scene,camera);
         raf=requestAnimationFrame(drawHeroNeuro);
       }
@@ -429,8 +299,9 @@
     },{threshold:.15});
     document.querySelectorAll('.reveal').forEach(el=>{ if(!heroReveals.includes(el)) io.observe(el); });
 
+    // O texto "se escrevendo" rearma ao sair da tela: sobe e desce de novo, anima de novo
     const splitObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('in')})
+      entries.forEach(entry=>entry.target.classList.toggle('in', entry.isIntersecting))
     },{threshold:.3});
     document.querySelectorAll('.splitText').forEach(el=>{
       const text=el.textContent.trim().replace(/\s+/g,' ');
@@ -663,28 +534,31 @@
           gsap.set(closed,{opacity:1});
           gsap.set(laptop,{yPercent:6});
           const build=()=>{
-            // O usuário entra na seção vendo o notebook FECHADO; a abertura só dispara
-            // quando o CENTRO do notebook chega perto do centro da viewport, e roda uma
-            // única vez com duração própria — visível mesmo em scroll rápido.
+            // O usuário entra na seção vendo o notebook FECHADO; a abertura dispara
+            // quando o CENTRO do notebook chega perto do centro da viewport, com duração
+            // própria (visível mesmo em scroll rápido) e rearma sempre que ele sai da tela.
             const tl=gsap.timeline({paused:true})
               .to(laptop,{yPercent:0, ease:'power2.out', duration:1.4}, 0)
               // cross-dissolve simultâneo: soma das opacidades ~1 (sem "dois notebooks", sem sumiço)
               .to(closed,{opacity:0, ease:'power1.inOut', duration:1.15}, .12)
               .to(open,{opacity:1, ease:'power1.inOut', duration:1.15}, .12);
             // Mede a posição real a cada scroll (imune ao cálculo de posição do
-            // ScrollTrigger, que ficava errado com o splash e disparava cedo demais)
+            // ScrollTrigger, que ficava errado com o splash e disparava cedo demais).
+            // Rearma quando o notebook sai da tela: a cada retorno, abre de novo.
+            let played=false;
             const check=()=>{
               const r=laptop.getBoundingClientRect();
               if(r.width===0) return;                      // layout ainda não assentou
-              const center=r.top + r.height/2;
-              if(r.bottom < 0){                            // já passou direto (ex.: reload no meio da página)
-                tl.progress(1);
-              }else if(center > innerHeight*0.68){         // ainda está na parte de baixo da tela
+              const outOfView = r.bottom < -40 || r.top > innerHeight + 40;
+              if(outOfView){
+                if(played){ tl.pause(0); played=false; }   // volta ao estado fechado, pronto pra repetir
                 return;
-              }else{
-                tl.play();                                 // chegou à zona central: abre
               }
-              window.removeEventListener('scroll', check);
+              const center=r.top + r.height/2;
+              if(!played && center <= innerHeight*0.68){   // chegou à zona central: abre
+                played=true;
+                tl.play(0);
+              }
             };
             window.addEventListener('scroll', check, {passive:true});
             check();
@@ -866,6 +740,121 @@
       }
     ];
 
+    // Conteúdo educativo e resumido. A conduta real é sempre definida após avaliação individual.
+    const conditionScenarios = [
+      {
+        name:"AVC",
+        about:"O acidente vascular cerebral acontece quando o fluxo de sangue para uma área do cérebro é interrompido ou quando há sangramento. Pode alterar movimento, fala, memória, atenção e independência, de formas diferentes em cada pessoa.",
+        professionals:[
+          ["Fisioterapia","Trabalha mobilidade, força, equilíbrio, marcha e uso funcional do corpo, com metas ligadas à rotina."],
+          ["Neuropsicologia","Avalia atenção, memória, linguagem e comportamento e organiza estratégias de reabilitação cognitiva."],
+          ["Terapia ocupacional","Treina atividades como vestir-se, alimentar-se e voltar às tarefas de casa ou trabalho, com adaptações quando necessárias."]
+        ]
+      },
+      {
+        name:"Parkinson",
+        about:"É uma condição neurológica progressiva que pode afetar movimentos, equilíbrio, sono, humor e cognição. O acompanhamento busca preservar função, segurança e qualidade de vida.",
+        professionals:[
+          ["Fisioterapia","Treina amplitude de movimento, força, postura, equilíbrio e marcha para manter mobilidade e reduzir o risco de quedas."],
+          ["Neuropsicologia","Acompanha mudanças de atenção, memória, planejamento e humor, propondo estratégias para o cotidiano."],
+          ["Nutrição","Cuida de peso, hidratação, funcionamento intestinal e adequação das refeições às dificuldades e à rotina de medicamentos."]
+        ]
+      },
+      {
+        name:"Paralisia de Bell",
+        about:"É uma fraqueza ou paralisia súbita de um lado do rosto, relacionada ao nervo facial. Precisa de avaliação médica rápida, especialmente nas primeiras horas, para confirmar a causa e proteger o olho.",
+        professionals:[
+          ["Fisioterapia","Avalia a função facial e orienta movimentos suaves, massagem e estratégias para simetria, tensão e movimentos involuntários."],
+          ["Fotobiomodulação","Pode ser considerada como recurso complementar para dor e recuperação tecidual, quando houver indicação e acompanhamento profissional."]
+        ]
+      },
+      {
+        name:"Paralisia cerebral",
+        about:"É um grupo de alterações permanentes do movimento e da postura causadas por uma lesão ou diferença no desenvolvimento do cérebro ainda imaturo. As necessidades variam muito de pessoa para pessoa.",
+        professionals:[
+          ["Fisioterapia","Estimula mobilidade, controle postural, força e prevenção de encurtamentos, além de orientar posicionamento e recursos de apoio."],
+          ["Terapia ocupacional","Desenvolve autonomia para brincar, estudar, comer, vestir-se e participar da rotina, com adaptações de ambiente e tarefas."],
+          ["Nutrição","Acompanha crescimento, ingestão, hidratação e necessidades nutricionais, articulando avaliação da deglutição quando preciso."]
+        ]
+      },
+      {
+        name:"TEA",
+        about:"O transtorno do espectro autista é uma condição do neurodesenvolvimento que influencia comunicação, interação social, comportamento e processamento sensorial. Cada pessoa apresenta uma combinação própria de habilidades e necessidades.",
+        professionals:[
+          ["Neuropsicologia","Mapeia o perfil cognitivo, comportamental e adaptativo, identifica potencialidades e dificuldades e orienta família e escola."],
+          ["Terapia ocupacional","Trabalha autonomia, participação nas rotinas e respostas sensoriais que interferem em brincar, estudar, dormir ou cuidar de si."],
+          ["Terapia alimentar","Investiga fatores sensoriais, motores e comportamentais ligados à alimentação e amplia experiências com segurança e sem coerção."]
+        ]
+      },
+      {
+        name:"TDAH",
+        about:"É uma condição do neurodesenvolvimento marcada por desatenção e/ou hiperatividade e impulsividade persistentes, com impacto em mais de um contexto da vida.",
+        professionals:[
+          ["Neuropsicologia","Investiga atenção, funções executivas, aprendizagem e condições associadas para esclarecer o perfil e orientar estratégias práticas."],
+          ["Psiquiatria","Realiza avaliação médica, considera diagnósticos associados e acompanha medicação quando ela faz parte do plano terapêutico."]
+        ]
+      },
+      {
+        name:"Síndromes genéticas",
+        about:"São condições relacionadas a alterações em genes ou cromossomos. Podem afetar desenvolvimento, cognição, movimento e autonomia de maneiras muito diversas.",
+        professionals:[
+          ["Neuropsicologia","Identifica o perfil de aprendizagem, comunicação e adaptação para definir apoios adequados em cada fase da vida."],
+          ["Fisioterapia","Trabalha marcos motores, postura, força, equilíbrio e mobilidade conforme as características individuais."],
+          ["Terapia ocupacional","Favorece participação e independência em casa, na escola e na comunidade, com treino e adaptações funcionais."]
+        ]
+      },
+      {
+        name:"Ansiedade",
+        about:"Ansiedade clínica envolve medo, preocupação ou tensão intensos e persistentes que passam a limitar sono, relacionamentos, estudo, trabalho ou outras atividades.",
+        professionals:[
+          ["Psicoterapia","Ajuda a reconhecer gatilhos, pensamentos e respostas do corpo e a desenvolver formas mais seguras de enfrentar as situações."],
+          ["Psiquiatria","Avalia gravidade e condições associadas e pode indicar e acompanhar medicação quando necessário."],
+          ["Acupuntura","Pode entrar como recurso complementar para tensão e bem-estar, sem substituir psicoterapia ou tratamento médico indicado."]
+        ]
+      },
+      {
+        name:"Depressão",
+        about:"É um transtorno que pode causar tristeza ou vazio persistentes, perda de interesse, alterações de sono e energia e dificuldade para funcionar no dia a dia.",
+        professionals:[
+          ["Psicoterapia","Trabalha emoções, pensamentos, comportamentos e retomada gradual de vínculos e atividades significativas."],
+          ["Psiquiatria","Avalia o quadro, riscos e condições associadas e acompanha o tratamento medicamentoso quando indicado."],
+          ["Neuromodulação","Pode ser considerada em situações específicas, após avaliação clínica, como parte de um plano integrado e não como recurso isolado."]
+        ]
+      },
+      {
+        name:"Seletividade alimentar",
+        about:"É uma restrição importante da variedade de alimentos, que pode envolver sensibilidade a textura, cheiro ou sabor, medo, dificuldade motora ou experiências negativas com a alimentação.",
+        professionals:[
+          ["Terapia alimentar","Avalia o que mantém a recusa e constrói aproximações graduais com os alimentos, respeitando segurança, ritmo e sinais da pessoa."],
+          ["Terapia ocupacional","Trabalha processamento sensorial, postura, utensílios e organização da rotina quando esses fatores dificultam as refeições."]
+        ]
+      },
+      {
+        name:"Dificuldade respiratória",
+        about:"Falta de ar é um sintoma, não um diagnóstico, e pode ter diferentes causas. Quando aparece de forma súbita, intensa ou com dor no peito, confusão ou lábios arroxeados, exige atendimento de urgência.",
+        professionals:[
+          ["Fisioterapia respiratória","Após avaliação e liberação adequadas, trabalha padrão respiratório, expansão pulmonar, manejo de secreções e tolerância ao esforço conforme a causa."]
+        ]
+      },
+      {
+        name:"Demência",
+        about:"É uma síndrome causada por diferentes doenças que comprometem memória, pensamento, comportamento e capacidade de realizar atividades diárias além do esperado no envelhecimento habitual.",
+        professionals:[
+          ["Neuropsicologia","Caracteriza funções preservadas e comprometidas e propõe estimulação e estratégias para rotina, comunicação e cuidadores."],
+          ["Fisioterapia","Mantém mobilidade, força e equilíbrio e atua na prevenção de quedas e complicações da inatividade."],
+          ["Nutrição","Monitora peso, hidratação e ingestão e adapta a rotina alimentar às mudanças de apetite, atenção e funcionalidade."]
+        ]
+      },
+      {
+        name:"Perda de autonomia",
+        about:"Acontece quando tarefas antes simples — banho, alimentação, deslocamento, organização da casa ou trabalho — passam a exigir ajuda por alterações físicas, cognitivas ou emocionais.",
+        professionals:[
+          ["Terapia ocupacional","Identifica barreiras, treina atividades reais e adapta tarefas, utensílios e ambiente para ampliar independência e segurança."],
+          ["Fisioterapia","Trabalha força, equilíbrio, transferências e marcha para tornar deslocamentos e cuidados pessoais mais seguros."]
+        ]
+      }
+    ];
+
     const specModal = document.getElementById('specModal');
     if(specModal){
       const elTitle=document.getElementById('specTitle');
@@ -873,23 +862,41 @@
       const elQuote=document.getElementById('specQuote');
       const elDesc=document.getElementById('specDesc');
       const elExamples=document.getElementById('specExamples');
+      const elIntroLabel=document.getElementById('specIntroLabel');
+      const elListLabel=document.getElementById('specListLabel');
       const elCta=document.getElementById('specCta');
       let lastFocused=null;
 
-      const openCase=(i)=>{
-        const s=caseScenarios[i]; if(!s) return;
-        elEyebrow.textContent='especialidade';
+      const showModal=(s, type)=>{
+        const isCondition=type==='condition';
+        elEyebrow.textContent=isCondition ? 'situação e sintomas' : 'especialidade';
         elTitle.textContent=s.name;
-        elQuote.textContent=s.quote;
-        elDesc.textContent=s.desc;
-        elExamples.innerHTML=s.examples.map(e=>`<li>${e}</li>`).join('');
-        const msg=encodeURIComponent(`Oi! Vi a especialidade "${s.name}" no site da Reability e gostaria de entender qual atendimento faz sentido para o meu caso.`);
+        elQuote.hidden=isCondition;
+        elQuote.textContent=isCondition ? '' : s.quote;
+        elIntroLabel.textContent=isCondition ? 'O que é' : 'Como ajuda';
+        elDesc.textContent=isCondition ? s.about : s.desc;
+        elListLabel.textContent=isCondition ? 'Como cada especialista atua' : 'O que inclui';
+        elExamples.classList.toggle('professional-list', isCondition);
+        elExamples.innerHTML=isCondition
+          ? s.professionals.map(([name, role])=>`<li class="professional-item"><strong>${name}</strong><span>${role}</span></li>`).join('')
+          : s.examples.map(e=>`<li>${e}</li>`).join('');
+        const subject=isCondition ? `a situação "${s.name}"` : `a especialidade "${s.name}"`;
+        const msg=encodeURIComponent(`Oi! Vi ${subject} no site da Reability e gostaria de entender qual atendimento faz sentido para o meu caso.`);
         elCta.href=`https://wa.me/5571999703912?text=${msg}`;
         lastFocused=document.activeElement;
         specModal.classList.add('open');
         specModal.setAttribute('aria-hidden','false');
         document.body.style.overflow='hidden';
+        specModal.querySelector('.spec-dialog').scrollTop=0;
         specModal.querySelector('.spec-close').focus();
+      };
+      const openCase=(i)=>{
+        const s=caseScenarios[i]; if(!s) return;
+        showModal(s, 'specialty');
+      };
+      const openCondition=(i)=>{
+        const s=conditionScenarios[i]; if(!s) return;
+        showModal(s, 'condition');
       };
       const closeSpec=()=>{
         specModal.classList.remove('open');
@@ -902,6 +909,19 @@
         const pill=e.target.closest('.service-pill'); if(!pill) return;
         openCase(Number(pill.dataset.case));
       });
+      document.getElementById('conditionsGrid')?.addEventListener('click', e=>{
+        const condition=e.target.closest('.condition'); if(!condition) return;
+        openCondition(Number(condition.dataset.condition));
+      });
       specModal.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeSpec(); });
-      document.addEventListener('keydown', e=>{ if(e.key==='Escape' && specModal.classList.contains('open')) closeSpec(); });
+      document.addEventListener('keydown', e=>{
+        if(!specModal.classList.contains('open')) return;
+        if(e.key==='Escape') closeSpec();
+        if(e.key==='Tab'){
+          const focusable=[...specModal.querySelectorAll('button:not([disabled]), a[href]')];
+          const first=focusable[0], last=focusable[focusable.length-1];
+          if(e.shiftKey && document.activeElement===first){e.preventDefault(); last.focus();}
+          else if(!e.shiftKey && document.activeElement===last){e.preventDefault(); first.focus();}
+        }
+      });
     }
