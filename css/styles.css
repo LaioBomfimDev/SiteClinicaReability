@@ -499,6 +499,73 @@
     .conditions-note{margin:48px 0 0; color:var(--muted); max-width:720px}
     .conditions-note a{color:var(--blue); font-weight:700; text-decoration-color:var(--gold)}
     .conditions-note a:hover{color:var(--gold)}
+    /* ===== Jogos cognitivos ===== */
+    .games{
+      background:var(--blue); color:#fff; overflow:hidden;
+      border-radius:40px 40px 0 0; margin-top:-40px; position:relative; z-index:3;
+      padding:120px 6vw;
+    }
+    .games:before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background:radial-gradient(60% 60% at 82% 18%, rgba(201,168,76,.16), transparent 60%);
+    }
+    .games-grid{
+      display:grid; grid-template-columns:1.05fr .95fr; gap:60px; align-items:center;
+      width:min(1180px,100%); margin:0 auto; position:relative; z-index:1;
+    }
+    .games-copy h2{color:#fff; font-size:clamp(2.2rem, 5vw, 4rem)}
+    .games-copy p{color:rgba(255,255,255,.8); max-width:560px; margin:22px 0 0}
+    .games-chips{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 6px}
+    .games-chips span{
+      font-size:.82rem; font-weight:600; letter-spacing:.01em; color:var(--gold-2);
+      border:1px solid rgba(201,168,76,.4); background:rgba(201,168,76,.08);
+      padding:7px 14px; border-radius:999px;
+    }
+    .games-cta{margin-top:26px}
+    .games-note{margin:20px 0 0; color:rgba(255,255,255,.5); font-size:.8rem; line-height:1.5; max-width:520px}
+    /* Mockup de cartas dos jogos */
+    .games-visual{position:relative; min-height:340px}
+    .game-card{
+      position:absolute; border:1px solid rgba(201,168,76,.34); border-radius:22px;
+      background:linear-gradient(160deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+      box-shadow:0 30px 70px rgba(6,18,31,.4); backdrop-filter:blur(6px);
+      padding:20px; width:250px; transition:transform var(--dur-2) var(--ease);
+    }
+    .game-card .gc-tag{
+      display:block; color:var(--gold-2); font-size:.72rem; letter-spacing:.16em;
+      text-transform:uppercase; font-weight:700; margin-bottom:16px;
+    }
+    .gc-1{top:8px; left:0; transform:rotate(-6deg)}
+    .gc-2{top:118px; right:6px; transform:rotate(4deg)}
+    .gc-3{bottom:0; left:52px; transform:rotate(-2deg)}
+    .games-visual.in .gc-1{animation:gcFloat 6s var(--ease) infinite}
+    .games-visual.in .gc-2{animation:gcFloat 6s var(--ease) .8s infinite}
+    .games-visual.in .gc-3{animation:gcFloat 6s var(--ease) 1.6s infinite}
+    @keyframes gcFloat{50%{transform:translateY(-10px) rotate(var(--r,0))}}
+    .gc-1{--r:-6deg}.gc-2{--r:4deg}.gc-3{--r:-2deg}
+    .gc-dots{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    .gc-dots i{aspect-ratio:1; border-radius:9px; background:rgba(201,168,76,.22); border:1px solid rgba(201,168,76,.4)}
+    .gc-dots i:nth-child(1),.gc-dots i:nth-child(4),.gc-dots i:nth-child(6){background:rgba(201,168,76,.6)}
+    .gc-nums{display:flex; gap:12px; align-items:center}
+    .gc-nums b{
+      font-family:var(--heading); font-size:1.9rem; color:#fff; width:46px; height:46px;
+      display:grid; place-items:center; border-radius:12px; background:rgba(255,255,255,.06);
+      border:1px solid rgba(201,168,76,.3);
+    }
+    .gc-nums b:last-child{color:var(--gold-2); border-color:var(--gold)}
+    .gc-focus{height:70px; display:grid; place-items:center}
+    .gc-focus i{
+      width:44px; height:44px; border-radius:50%; border:2px solid var(--gold);
+      box-shadow:0 0 0 8px rgba(201,168,76,.14), 0 0 30px rgba(201,168,76,.4);
+    }
+    @media(max-width:920px){
+      .games{padding:90px 6vw}
+      .games-grid{grid-template-columns:1fr; gap:48px}
+      .games-visual{min-height:300px; width:min(340px,100%); margin:0 auto}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .games-visual .game-card{animation:none!important}
+    }
     .faq{
       background:linear-gradient(180deg, var(--soft), var(--paper) 220px);
       border-radius:40px 40px 0 0; margin-top:-40px; position:relative; z-index:3;
@@ -654,7 +721,7 @@
       .hero-story{font-size:1rem; line-height:1.58; margin-top:20px}
       .btn{justify-content:center}
       .metric-grid,.services,.conditions-grid{grid-template-columns:1fr}
-      .story,.clinic-showcase,.faq,.conditions,.founder{border-radius:26px 26px 0 0; margin-top:-26px}
+      .story,.clinic-showcase,.faq,.conditions,.founder,.games{border-radius:26px 26px 0 0; margin-top:-26px}
       .metrics{margin-top:-72px}
       .founder{
         --founder-collapsed-height:208px;

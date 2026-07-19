@@ -345,7 +345,7 @@
         if(en.isIntersecting) navAnchors.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
       });
     },{rootMargin:'-45% 0px -50% 0px'});
-    ['jornada','denise','situacoes','faq','contato'].forEach(id=>{
+    ['jornada','denise','situacoes','jogos','faq','contato'].forEach(id=>{
       const el=document.getElementById(id); if(el) secIO.observe(el);
     });
 

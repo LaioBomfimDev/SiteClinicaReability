@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=26" />
+  <link rel="stylesheet" href="css/styles.css?v=28" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -112,6 +112,7 @@
       <a href="#jornada">Etapas</a>
       <a href="#denise">CEO</a>
       <a href="#situacoes">Situações</a>
+      <a href="#jogos">Jogos</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
     </div>
@@ -289,6 +290,29 @@
       </div>
     </section>
 
+    <section class="games" id="jogos">
+      <div class="wrap games-grid">
+        <div class="games-copy reveal">
+          <div class="eyebrow">experimente</div>
+          <h2>Sinta como a mente trabalha.</h2>
+          <p>Criamos jogos rápidos que colocam memória, atenção, lógica e raciocínio em movimento. É uma forma leve de entender, na prática, as funções que a neuropsicologia acompanha no dia a dia.</p>
+          <div class="games-chips" aria-hidden="true">
+            <span>Memória</span><span>Atenção</span><span>Lógica</span><span>Raciocínio</span><span>Percepção visual</span>
+          </div>
+          <a class="btn btn-primary games-cta" href="https://jogos-reability.vercel.app/" target="_blank" rel="noopener">
+            Jogar agora
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+          <p class="games-note">São desafios educativos, para informação e entretenimento — não substituem nem representam uma avaliação clínica.</p>
+        </div>
+        <div class="games-visual reveal" style="--d:1" aria-hidden="true">
+          <div class="game-card gc-1"><span class="gc-tag">memória visual</span><div class="gc-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="game-card gc-2"><span class="gc-tag">lógica numérica</span><div class="gc-nums"><b>2</b><b>7</b><b>16</b><b>?</b></div></div>
+          <div class="game-card gc-3"><span class="gc-tag">atenção plena</span><div class="gc-focus"><i></i></div></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section faq" id="faq">
       <div class="wrap faq-grid">
         <div class="faq-intro reveal">
@@ -415,6 +439,6 @@
     </div>
   </div>
 
-  <script defer src="js/main.js?v=18"></script>
+  <script defer src="js/main.js?v=19"></script>
 </body>
 </html>
