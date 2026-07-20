@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=28" />
+  <link rel="stylesheet" href="css/styles.css?v=30" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -111,10 +111,11 @@
     <div class="navlinks">
       <a href="#jornada">Etapas</a>
       <a href="#denise">CEO</a>
+      <a href="#equipe">Equipe</a>
       <a href="#situacoes">Situações</a>
-      <a href="#jogos">Jogos</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
+      <a class="nav-area" href="/areapacientes">Área do paciente</a>
     </div>
     <a class="btn btn-primary" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
   </nav>
@@ -123,12 +124,13 @@
     <section class="hero" id="hero">
       <canvas class="hero-neuro" id="heroNeuro" aria-hidden="true"></canvas>
       <div class="hero-content">
-        <h1 class="sr-only">Reability</h1>
+        <h1 class="sr-only">Reability — clínica de neuroreabilitação e saúde mental em Catu-BA</h1>
         <div class="hero-logo-shell reveal" style="--d:0">
           <img class="hero-logo" src="images/logo.png" alt="Reability" decoding="async">
         </div>
         <p class="hero-tagline reveal" style="--d:1">Transformando limites em possibilidades</p>
-        <p class="hero-story reveal" style="--d:2">Quando o caminho parece encoberto, o cuidado certo revela novas possibilidades — um passo de cada vez.</p>
+        <p class="hero-place reveal" style="--d:2">Neuroreabilitação e saúde mental em <b>Catu-BA</b> <span aria-hidden="true">·</span> presencial e online</p>
+        <p class="hero-story reveal" style="--d:3">Quando o caminho parece encoberto, o cuidado certo revela novas possibilidades — um passo de cada vez.</p>
       </div>
       <div class="scroll-indicator">role <i></i></div>
     </section>
@@ -226,7 +228,7 @@
       </div>
     </section>
 
-    <section class="section metrics">
+    <section class="section metrics" id="equipe">
       <div class="wrap">
         <div class="eyebrow">trajetória em números</div>
         <h2 class="reveal">Uma carreira que virou clínica.</h2>
@@ -239,6 +241,57 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-6-3.9-9s1.4-6.4 3.9-9Z"/></svg>
           <span>Foi com essa bagagem que Denise decidiu criar a <b>Reability</b>: um lugar que reúne as especialidades que se complementam no cuidado de cada paciente — presencial em Catu-BA e online no Brasil e no mundo.</span>
         </p>
+
+        <div class="team-block">
+          <div class="team-head reveal">
+            <div class="eyebrow">quem cuida</div>
+            <h2>A equipe que caminha junto.</h2>
+            <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer a formação e as áreas de atuação.</p>
+          </div>
+          <div class="team-grid reveal" id="teamGrid">
+            <button type="button" class="team-card" data-member="0">
+              <span class="team-photo" data-initial="F"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+              <span class="team-info">
+                <span class="team-name">Nome do profissional</span>
+                <span class="team-role">Fisioterapeuta neurofuncional</span>
+              </span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="team-card" data-member="1">
+              <span class="team-photo" data-initial="F"><img src="images/equipe/fisio-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+              <span class="team-info">
+                <span class="team-name">Nome do profissional</span>
+                <span class="team-role">Fisioterapeuta respiratória e RPG</span>
+              </span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="team-card" data-member="2">
+              <span class="team-photo" data-initial="N"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+              <span class="team-info">
+                <span class="team-name">Nome do profissional</span>
+                <span class="team-role">Nutricionista infantil e terapia alimentar</span>
+              </span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="team-card" data-member="3">
+              <span class="team-photo" data-initial="N"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+              <span class="team-info">
+                <span class="team-name">Nome do profissional</span>
+                <span class="team-role">Nutricionista adulto e renal</span>
+              </span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="team-card" data-member="4">
+              <span class="team-photo" data-initial="P"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+              <span class="team-info">
+                <span class="team-name">Nome do profissional</span>
+                <span class="team-role">Médico psiquiatra</span>
+              </span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="team-note reveal">Cada profissional atua dentro das atribuições do seu conselho de classe. As condutas dependem de avaliação individual.</p>
+        </div>
       </div>
     </section>
 
@@ -290,26 +343,17 @@
       </div>
     </section>
 
-    <section class="games" id="jogos">
-      <div class="wrap games-grid">
-        <div class="games-copy reveal">
-          <div class="eyebrow">experimente</div>
-          <h2>Sinta como a mente trabalha.</h2>
-          <p>Criamos jogos rápidos que colocam memória, atenção, lógica e raciocínio em movimento. É uma forma leve de entender, na prática, as funções que a neuropsicologia acompanha no dia a dia.</p>
-          <div class="games-chips" aria-hidden="true">
-            <span>Memória</span><span>Atenção</span><span>Lógica</span><span>Raciocínio</span><span>Percepção visual</span>
-          </div>
-          <a class="btn btn-primary games-cta" href="https://jogos-reability.vercel.app/" target="_blank" rel="noopener">
-            Jogar agora
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
-          </a>
-          <p class="games-note">São desafios educativos, para informação e entretenimento — não substituem nem representam uma avaliação clínica.</p>
+    <section class="patient-invite" id="areapaciente">
+      <div class="wrap patient-invite-grid reveal">
+        <div>
+          <div class="eyebrow">área do paciente</div>
+          <h2>Material gratuito, dicas e jogos cognitivos.</h2>
+          <p>Um espaço aberto com orientações práticas para o dia a dia, PDFs gratuitos preparados pela equipe e os jogos que colocam memória, atenção e raciocínio em movimento.</p>
         </div>
-        <div class="games-visual reveal" style="--d:1" aria-hidden="true">
-          <div class="game-card gc-1"><span class="gc-tag">memória visual</span><div class="gc-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="game-card gc-2"><span class="gc-tag">lógica numérica</span><div class="gc-nums"><b>2</b><b>7</b><b>16</b><b>?</b></div></div>
-          <div class="game-card gc-3"><span class="gc-tag">atenção plena</span><div class="gc-focus"><i></i></div></div>
-        </div>
+        <a class="btn btn-primary" href="/areapacientes">
+          Entrar na área do paciente
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
     </section>
 
@@ -397,7 +441,7 @@
       </div>
     </div>
     <div class="wrap bottom">
-      <span>© Reability. Neuroreabilitação e saúde mental em Catu-BA.</span>
+      <span>© 2026 Reability. Neuroreabilitação e saúde mental em Catu-BA.</span>
       <a href="#hero">Voltar ao topo ↑</a>
     </div>
   </footer>
@@ -439,6 +483,37 @@
     </div>
   </div>
 
-  <script defer src="js/main.js?v=19"></script>
+  <!-- Modal da equipe -->
+  <div class="spec-modal team-modal" id="teamModal" aria-hidden="true">
+    <div class="spec-backdrop" data-close></div>
+    <div class="spec-dialog" role="dialog" aria-modal="true" aria-labelledby="teamName">
+      <button type="button" class="spec-close" data-close aria-label="Fechar">×</button>
+      <div class="team-modal-head">
+        <span class="team-modal-photo" id="teamPhoto"></span>
+        <div>
+          <div class="spec-eyebrow" id="teamRole">especialidade</div>
+          <h3 class="spec-title" id="teamName"></h3>
+          <p class="team-council" id="teamCouncil"></p>
+        </div>
+      </div>
+      <p class="spec-quote" id="teamBio"></p>
+      <div class="spec-when">
+        <h4>Formação</h4>
+        <ul id="teamEducation"></ul>
+      </div>
+      <div class="spec-when">
+        <h4>Especialidades e abordagens</h4>
+        <ul id="teamSkills"></ul>
+      </div>
+      <div class="spec-when">
+        <h4>Situações que acompanha</h4>
+        <ul id="teamConditions"></ul>
+      </div>
+      <p class="team-serves" id="teamServes"></p>
+      <a class="btn btn-primary spec-cta" id="teamCta" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar com este profissional</a>
+    </div>
+  </div>
+
+  <script defer src="js/main.js?v=20"></script>
 </body>
 </html>

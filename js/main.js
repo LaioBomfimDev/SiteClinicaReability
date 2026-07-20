@@ -855,6 +855,129 @@
       }
     ];
 
+    /* ===== Equipe =====
+       PREENCHER: troque os dados abaixo pelos reais de cada profissional.
+       A ordem aqui precisa bater com o data-member dos botões no index.html.
+       As fotos ficam em images/equipe/ com os nomes usados no HTML. */
+    const teamMembers = [
+      {
+        name:'PREENCHER — Nome completo',
+        role:'Fisioterapeuta neurofuncional',
+        council:'CREFITO-7 / PREENCHER',
+        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especialização'],
+        skills:['Reabilitação neurofuncional','Conceito Bobath','Treino de marcha e equilíbrio'],
+        conditions:['AVC','Parkinson','Paralisia cerebral'],
+        serves:'Atende presencial em Catu-BA · adultos e idosos'
+      },
+      {
+        name:'PREENCHER — Nome completo',
+        role:'Fisioterapeuta respiratória e RPG',
+        council:'CREFITO-7 / PREENCHER',
+        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especialização'],
+        skills:['Fisioterapia respiratória','Reeducação Postural Global','Fisioterapia ortopédica'],
+        conditions:['Dificuldade respiratória','Dor crônica','Perda de autonomia'],
+        serves:'Atende presencial em Catu-BA · todas as idades'
+      },
+      {
+        name:'PREENCHER — Nome completo',
+        role:'Nutricionista infantil e terapia alimentar',
+        council:'CRN-5 / PREENCHER',
+        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especialização'],
+        skills:['Terapia alimentar','Seletividade alimentar','Nutrição infantil'],
+        conditions:['TEA','Seletividade alimentar'],
+        serves:'Atende presencial e online · crianças e adolescentes'
+      },
+      {
+        name:'PREENCHER — Nome completo',
+        role:'Nutricionista adulto e renal',
+        council:'CRN-5 / PREENCHER',
+        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especialização'],
+        skills:['Nutrição clínica','Nutrição renal','Nutrição no envelhecimento'],
+        conditions:['Demência','Perda de autonomia'],
+        serves:'Atende presencial e online · adultos e idosos'
+      },
+      {
+        name:'PREENCHER — Nome completo',
+        role:'Médico psiquiatra',
+        council:'CRM-BA / PREENCHER · RQE PREENCHER',
+        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        education:['PREENCHER — Graduação em Medicina, instituição e ano','PREENCHER — Residência em Psiquiatria'],
+        skills:['Diagnóstico psiquiátrico','Acompanhamento medicamentoso','Trabalho conjunto com a psicoterapia'],
+        conditions:['Ansiedade','Depressão','TDAH'],
+        serves:'Atende presencial e online · adolescentes e adultos'
+      }
+    ];
+
+    const teamModal = document.getElementById('teamModal');
+    if(teamModal){
+      const tName=document.getElementById('teamName');
+      const tRole=document.getElementById('teamRole');
+      const tCouncil=document.getElementById('teamCouncil');
+      const tBio=document.getElementById('teamBio');
+      const tEducation=document.getElementById('teamEducation');
+      const tSkills=document.getElementById('teamSkills');
+      const tConditions=document.getElementById('teamConditions');
+      const tServes=document.getElementById('teamServes');
+      const tPhoto=document.getElementById('teamPhoto');
+      const tCta=document.getElementById('teamCta');
+      let teamLastFocused=null;
+
+      const li=arr=>arr.map(v=>`<li>${v}</li>`).join('');
+
+      const openMember=(i, card)=>{
+        const m=teamMembers[i]; if(!m) return;
+        tName.textContent=m.name;
+        tRole.textContent=m.role;
+        tCouncil.textContent=m.council;
+        tBio.textContent=m.bio;
+        tEducation.innerHTML=li(m.education);
+        tSkills.innerHTML=li(m.skills);
+        tConditions.innerHTML=li(m.conditions);
+        tServes.textContent=m.serves;
+
+        const cardPhoto=card?.querySelector('.team-photo');
+        const img=cardPhoto?.querySelector('img');
+        tPhoto.innerHTML = img ? `<img src="${img.getAttribute('src')}" alt="">` : '';
+        tPhoto.dataset.initial = cardPhoto?.dataset.initial || m.name.charAt(0);
+
+        const msg=encodeURIComponent(`Oi! Vi o perfil de ${m.name} (${m.role}) no site da Reability e gostaria de agendar um atendimento.`);
+        tCta.href=`https://wa.me/5571999703912?text=${msg}`;
+
+        teamLastFocused=document.activeElement;
+        teamModal.classList.add('open');
+        teamModal.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        teamModal.querySelector('.spec-dialog').scrollTop=0;
+        teamModal.querySelector('.spec-close').focus();
+      };
+      const closeTeam=()=>{
+        teamModal.classList.remove('open');
+        teamModal.setAttribute('aria-hidden','true');
+        document.body.style.overflow='';
+        if(teamLastFocused) teamLastFocused.focus();
+      };
+
+      document.getElementById('teamGrid')?.addEventListener('click', e=>{
+        const card=e.target.closest('.team-card'); if(!card) return;
+        openMember(Number(card.dataset.member), card);
+      });
+      teamModal.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeTeam(); });
+      document.addEventListener('keydown', e=>{
+        if(!teamModal.classList.contains('open')) return;
+        if(e.key==='Escape') closeTeam();
+        if(e.key==='Tab'){
+          const focusable=[...teamModal.querySelectorAll('button:not([disabled]), a[href]')];
+          const first=focusable[0], last=focusable[focusable.length-1];
+          if(e.shiftKey && document.activeElement===first){e.preventDefault(); last.focus();}
+          else if(!e.shiftKey && document.activeElement===last){e.preventDefault(); first.focus();}
+        }
+      });
+    }
+
     const specModal = document.getElementById('specModal');
     if(specModal){
       const elTitle=document.getElementById('specTitle');
