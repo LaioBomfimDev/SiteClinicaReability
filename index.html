@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=36" />
+  <link rel="stylesheet" href="css/styles.css?v=37" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -267,7 +267,10 @@
             <h2>A equipe que caminha junto.</h2>
             <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer a formação e as áreas de atuação.</p>
           </div>
-          <div class="team-grid" id="teamGrid">
+          <div class="team-groups" id="teamGrid">
+            <section class="team-group reveal">
+              <h3 class="team-group-title"><span>Fisioterapia</span></h3>
+              <div class="team-group-grid">
             <button type="button" class="team-card reveal" data-member="0">
               <span class="team-photo" data-initial="R"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
@@ -284,7 +287,12 @@
                 <span class="team-role">Fisioterapeuta · Respiratória e Traumato-Ortopedia</span>
               </span>
             </button>
-            <button type="button" class="team-card reveal" style="--d:2" data-member="2">
+              </div>
+            </section>
+            <section class="team-group reveal">
+              <h3 class="team-group-title"><span>Nutrição</span></h3>
+              <div class="team-group-grid">
+            <button type="button" class="team-card reveal" data-member="2">
               <span class="team-photo" data-initial="L"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
@@ -292,7 +300,7 @@
                 <span class="team-role">Nutricionista infantil</span>
               </span>
             </button>
-            <button type="button" class="team-card reveal" style="--d:3" data-member="3">
+            <button type="button" class="team-card reveal" style="--d:1" data-member="3">
               <span class="team-photo" data-initial="R"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
@@ -300,7 +308,12 @@
                 <span class="team-role">Nutricionista clínica</span>
               </span>
             </button>
-            <button type="button" class="team-card reveal" style="--d:4" data-member="4">
+              </div>
+            </section>
+            <section class="team-group reveal">
+              <h3 class="team-group-title"><span>Psiquiatria</span></h3>
+              <div class="team-group-grid">
+            <button type="button" class="team-card reveal" data-member="4">
               <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
@@ -308,6 +321,8 @@
                 <span class="team-role">Médica Psiquiatra</span>
               </span>
             </button>
+              </div>
+            </section>
           </div>
           <p class="team-note reveal">Cada profissional atua dentro das atribuições do seu conselho de classe. As condutas dependem de avaliação individual.</p>
         </div>

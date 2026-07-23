@@ -281,6 +281,24 @@
       display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
       gap:22px; margin-top:44px;
     }
+    /* Equipe agrupada por especialidade */
+    .team-groups{display:flex; flex-direction:column; gap:44px; margin-top:44px}
+    .team-group-title{
+      display:flex; align-items:center; gap:16px; margin:0 0 20px;
+      font-family:var(--body); font-size:.72rem; font-weight:700;
+      letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+    }
+    /* linha que preenche o resto da largura */
+    .team-group-title:after{
+      content:""; flex:1 1 auto; height:1px;
+      background:linear-gradient(90deg, rgba(201,168,76,.45), transparent);
+    }
+    /* auto-fill mantém a mesma largura de card em todos os grupos,
+       inclusive no que tem um profissional só */
+    .team-group-grid{
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+      gap:22px;
+    }
     .team-card{
       position:relative; display:block; text-align:left; cursor:pointer;
       aspect-ratio:3/4; padding:0; border-radius:26px; overflow:hidden; font:inherit;
