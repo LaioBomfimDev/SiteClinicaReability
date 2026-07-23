@@ -303,8 +303,10 @@
       position:relative; display:block; text-align:left; cursor:pointer;
       aspect-ratio:3/4; padding:0; border-radius:26px; overflow:hidden; font:inherit;
       border:1px solid rgba(201,168,76,.4);
+      /* Sem foto: superfície clara em marfim/champanhe (o azul chapado pesava demais) */
       background:
-        linear-gradient(150deg, rgba(26,46,74,.96), rgba(8,27,47,.99));
+        radial-gradient(120% 85% at 50% -8%, rgba(201,168,76,.22), transparent 62%),
+        linear-gradient(158deg, #FCFAF6 0%, #EFEADF 52%, #E2DACA 100%);
       box-shadow:0 16px 44px rgba(8,27,47,.14);
       transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease);
     }
@@ -313,9 +315,25 @@
       box-shadow:0 32px 74px rgba(8,27,47,.26), 0 0 0 1px rgba(201,168,76,.35);
     }
     .team-card:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+    /* Com foto: fundo escuro por trás (sem flash claro no carregamento) e véu para o texto */
+    .team-card.has-photo{background:linear-gradient(150deg, rgba(26,46,74,.96), rgba(8,27,47,.99))}
     .team-card:before{
       content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
       background:linear-gradient(180deg, transparent 42%, rgba(6,16,30,.9) 100%);
+    }
+    /* Sem foto: véu claro e tipografia escura */
+    .team-card:not(.has-photo):before{
+      background:linear-gradient(180deg, transparent 44%, rgba(252,250,246,.94) 100%);
+    }
+    .team-card:not(.has-photo) .team-name{color:var(--blue); text-shadow:none}
+    .team-card:not(.has-photo) .team-role{color:var(--muted)}
+    .team-card:not(.has-photo) .team-cue{
+      background:rgba(26,46,74,.05); border-color:rgba(26,46,74,.16); color:var(--blue);
+      -webkit-backdrop-filter:none; backdrop-filter:none;
+    }
+    .team-card:not(.has-photo):hover .team-cue{background:var(--gold); color:var(--blue); border-color:var(--gold)}
+    .team-card:not(.has-photo):after{
+      background:linear-gradient(105deg, transparent 38%, rgba(255,255,255,.72) 50%, transparent 62%);
     }
     /* Varredura de luz ao passar o mouse (leitura "tecnológica") */
     .team-card:after{
@@ -326,10 +344,10 @@
     .team-card:hover:after,.team-card:focus-visible:after{transform:translateX(120%)}
     .team-photo{position:absolute; inset:0; width:100%; height:100%}
     /* Sem foto: malha de pontos + halo dourado e a inicial em destaque */
-    .team-photo:not(:has(img)){
+    .team-card:not(.has-photo) .team-photo{
       background-image:
-        radial-gradient(circle at 50% 38%, rgba(201,168,76,.26), transparent 62%),
-        radial-gradient(rgba(201,168,76,.22) 1px, transparent 1px);
+        radial-gradient(circle at 50% 38%, rgba(201,168,76,.20), transparent 64%),
+        radial-gradient(rgba(26,46,74,.13) 1px, transparent 1px);
       background-size:auto, 15px 15px;
       background-position:center, center;
     }
@@ -338,6 +356,10 @@
       padding-bottom:14%;
       font-family:var(--heading); font-size:3.9rem; color:var(--gold-2);
       text-shadow:0 0 34px rgba(201,168,76,.5);
+    }
+    /* na superfície clara a inicial precisa de mais peso */
+    .team-card:not(.has-photo) .team-photo:before{
+      color:var(--gold); text-shadow:0 2px 18px rgba(201,168,76,.35);
     }
     /* Cantos em "colchete", estilo HUD */
     .team-photo:after{
