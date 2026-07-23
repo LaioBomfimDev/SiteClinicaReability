@@ -5,11 +5,13 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover:hover)').matches;
 
-  // ===== Rodapé: mesmo campo neural dourado do site principal =====
-  function initFooterNeuro(){
-    const footer=document.getElementById('rodape');
-    const canvas=document.getElementById('footerNeuroCanvas');
-    const footerGlow=document.getElementById('footerMouseGlow');
+  // ===== Campo neural dourado do site principal (usado no rodapé e no hero) =====
+  function initNeuroField(sectionId, canvasId, glowId, options){
+    const opts=options || {};
+    const footer=document.getElementById(sectionId);
+    const canvas=document.getElementById(canvasId);
+    const footerGlow=glowId ? document.getElementById(glowId) : null;
+    const bleed=opts.bleed===undefined ? 118 : opts.bleed;   // rodapé "sangra" para fora; o hero não
     if(!footer || !canvas || reduceMotion || !window.THREE){
       if(footerGlow) footerGlow.style.display='none';
       return;
@@ -57,8 +59,8 @@
       pointsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
       pointsMat.size=isMobile?.055:.045;
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1,1.75));
-      renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height+118), false);
-      camera.aspect=rect.width/Math.max(1, rect.height+118);
+      renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height+bleed), false);
+      camera.aspect=rect.width/Math.max(1, rect.height+bleed);
       camera.updateProjectionMatrix();
     }
 
@@ -163,7 +165,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', function(){
-    initFooterNeuro();
+    initNeuroField('rodape', 'footerNeuroCanvas', 'footerMouseGlow');
+    // hero das páginas internas: mesmo campo, sem sangrar altura extra
+    document.querySelectorAll('.inner-hero').forEach(hero=>{
+      if(!hero.id) hero.id='innerHero';
+      initNeuroField(hero.id, 'innerHeroNeuro', 'innerHeroGlow', {bleed:0});
+    });
     document.body.classList.add('wa-ready');
 
     // Reveals ao entrar na tela

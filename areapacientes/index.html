@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <script defer src="/js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css?v=33" />
+  <link rel="stylesheet" href="/css/styles.css?v=34" />
 </head>
 <body class="inner-page">
   <div class="grain"></div>
@@ -66,6 +66,8 @@
 
   <main id="site">
     <header class="inner-hero">
+      <canvas class="inner-hero-neuro" id="innerHeroNeuro" aria-hidden="true"></canvas>
+      <span class="inner-hero-glow" id="innerHeroGlow" aria-hidden="true"></span>
       <div class="wrap">
         <a class="back-home" href="/">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
@@ -140,7 +142,7 @@
           <a class="material-card reveal" href="/materiais/seletividade-alimentar.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">alimentação</span>
             </span>
@@ -153,7 +155,7 @@
           <a class="material-card reveal" style="--d:1" href="/materiais/tea-mulheres-adultas.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">TEA</span>
             </span>
@@ -166,7 +168,7 @@
           <a class="material-card reveal" style="--d:2" href="/materiais/fisioterapia-respiratoria.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">respiração</span>
             </span>
@@ -179,7 +181,7 @@
           <a class="material-card reveal" style="--d:3" href="/materiais/neuromodulacao-neuroplasticidade.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">neuromodulação</span>
             </span>
@@ -192,7 +194,7 @@
           <a class="material-card reveal" style="--d:4" href="/materiais/fibromialgia-familia-cuidadores.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">fibromialgia</span>
             </span>
@@ -205,7 +207,7 @@
           <a class="material-card reveal" style="--d:5" href="/materiais/fibromialgia-cuidado-funcional.pdf" download>
             <span class="material-top">
               <span class="material-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></svg>
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h13l7 7v21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" fill="#fff" stroke="rgba(8,27,47,.18)" stroke-width="1"/><path d="M20 2l7 7h-6a1 1 0 0 1-1-1V2Z" fill="#E7E2D8"/><rect x="3" y="15" width="21" height="11" rx="2.2" fill="#D22B27"/><text x="13.5" y="23.1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="7.4" font-weight="700" fill="#fff" letter-spacing=".4">PDF</text></svg>
               </span>
               <span class="material-tag">fibromialgia</span>
             </span>
@@ -340,6 +342,6 @@
     </span>
   </a>
 
-  <script defer src="/js/page.js?v=3"></script>
+  <script defer src="/js/page.js?v=4"></script>
 </body>
 </html>

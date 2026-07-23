@@ -285,24 +285,53 @@
       position:relative; display:block; text-align:left; cursor:pointer;
       aspect-ratio:3/4; padding:0; border-radius:26px; overflow:hidden; font:inherit;
       border:1px solid rgba(201,168,76,.4);
-      background:linear-gradient(150deg, rgba(201,168,76,.3), rgba(8,27,47,.22));
+      background:
+        linear-gradient(150deg, rgba(26,46,74,.96), rgba(8,27,47,.99));
       box-shadow:0 16px 44px rgba(8,27,47,.14);
       transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease);
     }
     .team-card:hover{
       transform:translateY(-8px); border-color:var(--gold);
-      box-shadow:0 32px 74px rgba(8,27,47,.26);
+      box-shadow:0 32px 74px rgba(8,27,47,.26), 0 0 0 1px rgba(201,168,76,.35);
     }
     .team-card:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
     .team-card:before{
       content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
       background:linear-gradient(180deg, transparent 42%, rgba(6,16,30,.9) 100%);
     }
+    /* Varredura de luz ao passar o mouse (leitura "tecnológica") */
+    .team-card:after{
+      content:""; position:absolute; inset:0; z-index:3; pointer-events:none;
+      background:linear-gradient(105deg, transparent 38%, rgba(228,210,154,.22) 50%, transparent 62%);
+      transform:translateX(-120%); transition:transform .85s var(--ease);
+    }
+    .team-card:hover:after,.team-card:focus-visible:after{transform:translateX(120%)}
     .team-photo{position:absolute; inset:0; width:100%; height:100%}
+    /* Sem foto: malha de pontos + halo dourado e a inicial em destaque */
+    .team-photo:not(:has(img)){
+      background-image:
+        radial-gradient(circle at 50% 38%, rgba(201,168,76,.26), transparent 62%),
+        radial-gradient(rgba(201,168,76,.22) 1px, transparent 1px);
+      background-size:auto, 15px 15px;
+      background-position:center, center;
+    }
     .team-photo:before{
       content:attr(data-initial); position:absolute; inset:0; display:grid; place-items:center;
-      font-family:var(--heading); font-size:3.2rem; color:rgba(255,255,255,.5);
+      padding-bottom:14%;
+      font-family:var(--heading); font-size:3.9rem; color:var(--gold-2);
+      text-shadow:0 0 34px rgba(201,168,76,.5);
     }
+    /* Cantos em "colchete", estilo HUD */
+    .team-photo:after{
+      content:""; position:absolute; inset:14px; z-index:2; pointer-events:none; border-radius:14px;
+      background:
+        linear-gradient(var(--gold),var(--gold)) left top/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) left top/1px 14px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right bottom/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right bottom/1px 14px no-repeat;
+      opacity:.5; transition:opacity .4s var(--ease), inset .4s var(--ease);
+    }
+    .team-card:hover .team-photo:after{opacity:1; inset:10px}
     .team-photo img{
       position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
       transition:transform .6s var(--ease);
@@ -747,10 +776,25 @@
     /* ===== Páginas internas (área do paciente etc.) ===== */
     .inner-hero{
       position:relative; padding:170px 6vw 90px; color:white;
+      overflow:hidden; isolation:isolate;
       background:
         radial-gradient(circle at 18% 12%, rgba(201,168,76,.18), transparent 38%),
         linear-gradient(135deg, #081B2F 0%, #1A2E4A 55%, #071828 100%);
     }
+    /* Campo neural dourado, igual ao do rodapé */
+    .inner-hero-neuro{
+      position:absolute; inset:0; z-index:0;
+      width:100%; height:100%; pointer-events:none; opacity:.92;
+    }
+    .inner-hero-glow{
+      position:absolute; left:var(--fx,50%); top:var(--fy,42%); z-index:1;
+      width:360px; height:360px; border-radius:50%; pointer-events:none;
+      background:radial-gradient(circle, rgba(201,168,76,.16), transparent 62%);
+      transform:translate(-50%,-50%); mix-blend-mode:screen; opacity:.2;
+      transition:opacity .35s var(--ease);
+    }
+    .inner-hero.fx-active .inner-hero-glow{opacity:.48}
+    .inner-hero > .wrap{position:relative; z-index:2}
     .inner-hero h1{
       font-family:var(--heading); font-weight:300; color:white;
       font-size:clamp(2.2rem, 5vw, 4rem); line-height:1.06; margin:0; max-width:900px;
@@ -806,13 +850,15 @@
     }
     .material-card:hover:after{opacity:1}
     .material-top{position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    /* Selo de PDF: ícone colorido, então o container fica neutro para não competir */
     .material-icon{
       flex:0 0 auto; width:48px; height:48px; border-radius:14px; display:grid; place-items:center;
-      color:var(--gold); background:rgba(201,168,76,.14); border:1px solid rgba(201,168,76,.34);
-      transition:background .4s var(--ease), color .4s var(--ease), transform .4s var(--ease);
+      background:rgba(255,255,255,.9); border:1px solid rgba(8,27,47,.10);
+      box-shadow:0 6px 16px rgba(8,27,47,.10);
+      transition:transform .4s var(--ease), box-shadow .4s var(--ease);
     }
-    .material-card:hover .material-icon{background:var(--gold); color:var(--blue); transform:rotate(-6deg) scale(1.06)}
-    .material-icon svg{width:22px; height:22px}
+    .material-card:hover .material-icon{transform:rotate(-6deg) scale(1.07); box-shadow:0 10px 24px rgba(8,27,47,.18)}
+    .material-icon svg{width:28px; height:28px; display:block}
     .material-tag{
       font-size:.62rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
       color:var(--gold); background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.32);
