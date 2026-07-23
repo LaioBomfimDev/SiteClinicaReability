@@ -105,6 +105,32 @@
     }
   }
 
+  // ===== Dicas em sanfona (sem JS os painéis ficam abertos) =====
+  function initTipsAccordion(){
+    const accordion=document.getElementById('tipsAccordion');
+    if(!accordion) return;
+    const items=[...accordion.querySelectorAll('.tip-item')];
+    if(!items.length) return;
+
+    // recolhe tudo sem animar, para não "piscar" aberto no carregamento
+    accordion.classList.add('js','no-anim');
+    items.forEach(item=>{
+      item.classList.remove('open');
+      item.querySelector('.tip-head')?.setAttribute('aria-expanded','false');
+    });
+    requestAnimationFrame(()=>requestAnimationFrame(()=>accordion.classList.remove('no-anim')));
+    setTimeout(()=>accordion.classList.remove('no-anim'), 150);
+
+    accordion.addEventListener('click', e=>{
+      const head=e.target.closest('.tip-head');
+      if(!head) return;
+      const item=head.closest('.tip-item');
+      const open=!item.classList.contains('open');
+      item.classList.toggle('open', open);
+      head.setAttribute('aria-expanded', String(open));
+    });
+  }
+
   function lockScroll(){
     document.body.style.position='fixed';
     document.body.style.top='0';
@@ -166,6 +192,7 @@
 
   document.addEventListener('DOMContentLoaded', function(){
     initNeuroField('rodape', 'footerNeuroCanvas', 'footerMouseGlow');
+    initTipsAccordion();
     // hero das páginas internas: mesmo campo, sem sangrar altura extra
     document.querySelectorAll('.inner-hero').forEach(hero=>{
       if(!hero.id) hero.id='innerHero';

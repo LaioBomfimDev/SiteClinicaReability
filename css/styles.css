@@ -819,18 +819,79 @@
     .tips-head{max-width:760px}
     .tips-lead{color:var(--muted); font-size:1.05rem; line-height:1.7; margin:14px 0 0}
     .tips-note{margin:34px 0 0; color:var(--muted); font-size:.88rem; line-height:1.6; max-width:680px}
-    .tips-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; margin-top:44px}
-    .tip-card{
-      padding:30px 28px; border-radius:24px; background:var(--soft);
-      border:1px solid var(--line); transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+    /* ===== Dicas em sanfona (visual próprio, diferente da lista do FAQ) =====
+       Sem JS os painéis ficam abertos; o page.js recolhe e liga o toggle. */
+    .tips-accordion{display:flex; flex-direction:column; gap:14px; margin-top:44px}
+    .tip-item{
+      position:relative; border-radius:20px; overflow:hidden;
+      background:var(--soft); border:1px solid var(--line);
+      transition:border-color .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
     }
-    .tip-card:hover{transform:translateY(-4px); box-shadow:0 22px 56px rgba(8,27,47,.1)}
+    /* Barra dourada lateral que cresce ao abrir */
+    .tip-item:before{
+      content:""; position:absolute; left:0; top:0; bottom:0; width:3px; z-index:2;
+      background:linear-gradient(180deg, var(--gold), var(--gold-2));
+      transform:scaleY(0); transform-origin:top center;
+      transition:transform .45s var(--ease);
+    }
+    .tip-item.open{
+      background:#fff; border-color:rgba(201,168,76,.55);
+      box-shadow:0 18px 46px rgba(8,27,47,.09);
+    }
+    .tip-item.open:before{transform:scaleY(1)}
+    .tip-head{
+      width:100%; display:flex; align-items:center; gap:18px; cursor:pointer;
+      padding:22px 22px 22px 26px; margin:0; border:0; background:none; font:inherit; text-align:left;
+      transition:background .3s var(--ease);
+    }
+    .tip-head:hover{background:rgba(201,168,76,.07)}
+    .tip-head:focus-visible{outline:2px solid var(--gold); outline-offset:-3px}
+    .tip-index{
+      flex:0 0 auto; font-family:var(--heading); font-size:1.6rem; line-height:1;
+      color:var(--gold); opacity:.55; transition:opacity .35s var(--ease);
+    }
+    .tip-item.open .tip-index{opacity:1}
+    .tip-heading{display:flex; flex-direction:column; gap:7px; min-width:0; flex:1 1 auto}
     .tip-tag{
-      display:inline-flex; color:var(--gold); font-weight:700; letter-spacing:.22em;
-      text-transform:uppercase; font-size:.66rem; margin-bottom:14px;
+      display:inline-flex; align-self:flex-start; color:var(--gold);
+      font-weight:700; letter-spacing:.18em; text-transform:uppercase; font-size:.62rem;
+      background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3);
+      padding:4px 10px; border-radius:999px;
     }
-    .tip-card h3{margin:0; font-family:var(--heading); font-weight:400; font-size:1.5rem; line-height:1.2; color:var(--blue)}
-    .tip-card p{margin:12px 0 0; color:var(--muted); line-height:1.68; font-size:.98rem}
+    /* Sem serifa, ao contrário do FAQ */
+    .tip-title{
+      font-family:var(--body); font-weight:700; font-size:1.06rem; line-height:1.3; color:var(--blue);
+    }
+    /* Chevron em quadrado arredondado (o FAQ usa "+" em círculo) */
+    .tip-chevron{
+      flex:0 0 auto; width:36px; height:36px; border-radius:11px; display:grid; place-items:center;
+      color:var(--blue); background:rgba(255,255,255,.7); border:1px solid var(--line);
+      transition:transform .4s var(--ease), background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+    }
+    .tip-chevron svg{width:17px; height:17px; display:block}
+    .tip-item.open .tip-chevron{
+      transform:rotate(180deg); background:var(--blue); color:var(--gold-2); border-color:var(--blue);
+    }
+    /* Animação de altura sem medir em JS */
+    .tip-panel{
+      display:grid; grid-template-rows:1fr;
+      transition:grid-template-rows .45s var(--ease);
+    }
+    .tips-accordion.js .tip-item:not(.open) .tip-panel{grid-template-rows:0fr}
+    .tips-accordion.no-anim .tip-panel{transition:none}
+    /* sem min-height:0 aqui: ele zeraria o mínimo automático da linha e o 1fr não abriria */
+    .tip-panel-inner{overflow:hidden}
+    .tip-panel p{
+      margin:0; padding:0 26px 24px 66px; color:var(--muted); line-height:1.7; font-size:.98rem;
+    }
+    @media(max-width:600px){
+      .tip-head{gap:14px; padding:18px 16px 18px 20px}
+      .tip-index{font-size:1.3rem}
+      .tip-panel p{padding:0 18px 20px 20px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .tip-panel,.tip-chevron,.tip-item:before{transition:none}
+    }
 
     .materials{background:var(--soft)}
     .materials-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; margin-top:44px}
@@ -991,7 +1052,7 @@
       .team-block{margin-top:64px; padding-top:44px}
       .team-modal-head{flex-direction:column; align-items:flex-start; gap:14px}
       .patient-invite{padding:64px 6vw}
-      .tips-grid,.materials-grid{grid-template-columns:1fr}
+      .materials-grid{grid-template-columns:1fr}
       .inner-hero{padding:130px 6vw 70px}
       .story,.clinic-showcase,.faq,.conditions,.founder,.games{border-radius:26px 26px 0 0; margin-top:-26px}
       .metrics{margin-top:-72px}

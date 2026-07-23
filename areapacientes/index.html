@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <script defer src="/js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css?v=34" />
+  <link rel="stylesheet" href="/css/styles.css?v=36" />
 </head>
 <body class="inner-page">
   <div class="grain"></div>
@@ -94,36 +94,84 @@
           <h2>Pequenas mudanças que sustentam o tratamento.</h2>
           <p class="tips-lead">Orientações gerais que a equipe costuma repetir no consultório. Elas apoiam o dia a dia, mas não substituem a conduta individual do seu profissional.</p>
         </div>
-        <div class="tips-grid">
-          <article class="tip-card reveal">
-            <span class="tip-tag">rotina</span>
-            <h3>Constância vale mais que intensidade</h3>
-            <p>Quinze minutos de exercício todos os dias rendem mais que uma hora só no fim de semana. O cérebro e o corpo aprendem por repetição espaçada, não por esforço concentrado.</p>
+        <div class="tips-accordion" id="tipsAccordion">
+          <article class="tip-item reveal">
+            <button class="tip-head" type="button" id="tipBtn1" aria-expanded="true" aria-controls="tipPanel1">
+              <span class="tip-index" aria-hidden="true">01</span>
+              <span class="tip-heading">
+                <span class="tip-tag">rotina</span>
+                <span class="tip-title">Constância vale mais que intensidade</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel1" role="region" aria-labelledby="tipBtn1">
+              <div class="tip-panel-inner"><p>Quinze minutos de exercício todos os dias rendem mais que uma hora só no fim de semana. O cérebro e o corpo aprendem por repetição espaçada, não por esforço concentrado.</p></div>
+            </div>
           </article>
-          <article class="tip-card reveal" style="--d:1">
-            <span class="tip-tag">memória</span>
-            <h3>Deixe o ambiente lembrar por você</h3>
-            <p>Agenda visível, alarme para os remédios, chaves sempre no mesmo gancho. Apoiar-se no ambiente não é desistir da memória — é liberar energia mental para o que importa.</p>
+          <article class="tip-item reveal" style="--d:1">
+            <button class="tip-head" type="button" id="tipBtn2" aria-expanded="true" aria-controls="tipPanel2">
+              <span class="tip-index" aria-hidden="true">02</span>
+              <span class="tip-heading">
+                <span class="tip-tag">memória</span>
+                <span class="tip-title">Deixe o ambiente lembrar por você</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel2" role="region" aria-labelledby="tipBtn2">
+              <div class="tip-panel-inner"><p>Agenda visível, alarme para os remédios, chaves sempre no mesmo gancho. Apoiar-se no ambiente não é desistir da memória — é liberar energia mental para o que importa.</p></div>
+            </div>
           </article>
-          <article class="tip-card reveal" style="--d:2">
-            <span class="tip-tag">sono</span>
-            <h3>O sono é parte do tratamento</h3>
-            <p>É dormindo que o cérebro consolida o que foi treinado durante o dia. Horário regular para deitar e levantar, quarto escuro e telas longe da cama na última hora.</p>
+          <article class="tip-item reveal" style="--d:2">
+            <button class="tip-head" type="button" id="tipBtn3" aria-expanded="true" aria-controls="tipPanel3">
+              <span class="tip-index" aria-hidden="true">03</span>
+              <span class="tip-heading">
+                <span class="tip-tag">sono</span>
+                <span class="tip-title">O sono é parte do tratamento</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel3" role="region" aria-labelledby="tipBtn3">
+              <div class="tip-panel-inner"><p>É dormindo que o cérebro consolida o que foi treinado durante o dia. Horário regular para deitar e levantar, quarto escuro e telas longe da cama na última hora.</p></div>
+            </div>
           </article>
-          <article class="tip-card reveal" style="--d:3">
-            <span class="tip-tag">família</span>
-            <h3>Ajude na medida certa</h3>
-            <p>Fazer pela pessoa o que ela ainda consegue fazer sozinha acelera a perda de autonomia. Ofereça tempo e presença antes de oferecer a mão.</p>
+          <article class="tip-item reveal" style="--d:3">
+            <button class="tip-head" type="button" id="tipBtn4" aria-expanded="true" aria-controls="tipPanel4">
+              <span class="tip-index" aria-hidden="true">04</span>
+              <span class="tip-heading">
+                <span class="tip-tag">família</span>
+                <span class="tip-title">Ajude na medida certa</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel4" role="region" aria-labelledby="tipBtn4">
+              <div class="tip-panel-inner"><p>Fazer pela pessoa o que ela ainda consegue fazer sozinha acelera a perda de autonomia. Ofereça tempo e presença antes de oferecer a mão.</p></div>
+            </div>
           </article>
-          <article class="tip-card reveal" style="--d:4">
-            <span class="tip-tag">alimentação</span>
-            <h3>Refeições com previsibilidade</h3>
-            <p>Horários estáveis e um ambiente calmo à mesa reduzem a recusa alimentar, principalmente em crianças com seletividade. Menos negociação, mais previsibilidade.</p>
+          <article class="tip-item reveal" style="--d:4">
+            <button class="tip-head" type="button" id="tipBtn5" aria-expanded="true" aria-controls="tipPanel5">
+              <span class="tip-index" aria-hidden="true">05</span>
+              <span class="tip-heading">
+                <span class="tip-tag">alimentação</span>
+                <span class="tip-title">Refeições com previsibilidade</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel5" role="region" aria-labelledby="tipBtn5">
+              <div class="tip-panel-inner"><p>Horários estáveis e um ambiente calmo à mesa reduzem a recusa alimentar, principalmente em crianças com seletividade. Menos negociação, mais previsibilidade.</p></div>
+            </div>
           </article>
-          <article class="tip-card reveal" style="--d:5">
-            <span class="tip-tag">movimento</span>
-            <h3>Caminhar também é reabilitação</h3>
-            <p>Movimento regular melhora circulação, humor, equilíbrio e cognição ao mesmo tempo. Comece pelo que é possível hoje e aumente aos poucos.</p>
+          <article class="tip-item reveal" style="--d:5">
+            <button class="tip-head" type="button" id="tipBtn6" aria-expanded="true" aria-controls="tipPanel6">
+              <span class="tip-index" aria-hidden="true">06</span>
+              <span class="tip-heading">
+                <span class="tip-tag">movimento</span>
+                <span class="tip-title">Caminhar também é reabilitação</span>
+              </span>
+              <span class="tip-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+            </button>
+            <div class="tip-panel" id="tipPanel6" role="region" aria-labelledby="tipBtn6">
+              <div class="tip-panel-inner"><p>Movimento regular melhora circulação, humor, equilíbrio e cognição ao mesmo tempo. Comece pelo que é possível hoje e aumente aos poucos.</p></div>
+            </div>
           </article>
         </div>
         <p class="tips-note reveal">Estas dicas têm caráter informativo e educativo. Elas não constituem diagnóstico, prescrição ou plano terapêutico — cada caso exige avaliação individual.</p>
@@ -342,6 +390,6 @@
     </span>
   </a>
 
-  <script defer src="/js/page.js?v=4"></script>
+  <script defer src="/js/page.js?v=5"></script>
 </body>
 </html>
