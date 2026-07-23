@@ -1,18 +1,21 @@
 # Materiais gratuitos (PDFs)
 
-Coloque aqui os PDFs que aparecem na Área do Paciente (`/areapacientes`).
+PDFs exibidos na Área do Paciente (`/areapacientes#materiais`).
 
-Nomes esperados pelos cards já criados:
+## Publicados
 
-- `guia-primeira-consulta.pdf`
-- `exercicios-memoria-casa.pdf`
-- `rotina-seletividade-alimentar.pdf`
-- `adaptando-a-casa.pdf`
+- `seletividade-alimentar.pdf` — Da recusa à confiança: seletividade alimentar
+- `tea-mulheres-adultas.pdf` — TEA em mulheres adultas
+- `fisioterapia-respiratoria.pdf` — Fisioterapia respiratória para adultos
+- `neuromodulacao-neuroplasticidade.pdf` — Neuroplasticidade em cuidado
+- `fibromialgia-familia-cuidadores.pdf` — Cuidar sem invalidar: fibromialgia e família
+- `fibromialgia-cuidado-funcional.pdf` — Corpo em alerta: fibromialgia e sistema nervoso
 
-Depois de subir o arquivo, edite `areapacientes/index.html` e no card correspondente:
+## Para adicionar um novo material
 
-1. remova a classe `soon` do `<a class="material-card soon reveal" …>`;
-2. troque o texto `Em breve` por `Baixar PDF`.
-
-Enquanto a classe `soon` estiver lá, o card aparece na página mas não é clicável —
-é o que evita link quebrado antes do PDF existir.
+1. Coloque o PDF aqui, com um nome de arquivo em kebab-case (sem espaços/acentos).
+2. Em `areapacientes/index.html`, copie um `<a class="material-card reveal">` existente
+   dentro de `.materials-grid`, ajuste `href`, título (`<b>`) e descrição (`<span>`).
+3. Se quiser anunciar o card antes do PDF estar pronto, adicione a classe `soon` ao `<a>`
+   e troque o texto `Baixar PDF` por `Em breve` — isso deixa o card visível mas não
+   clicável, evitando link quebrado.

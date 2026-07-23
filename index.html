@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=30" />
+  <link rel="stylesheet" href="css/styles.css?v=33" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -119,6 +119,25 @@
     </div>
     <a class="btn btn-primary" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
   </nav>
+
+  <!-- Menu mobile: aberto ao tocar na logo do topbar em telas estreitas -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" data-close-nav></div>
+  <aside class="mobile-nav-panel" id="mobileNavPanel" aria-hidden="true">
+    <div class="mobile-nav-head">
+      <a class="brand-mini" href="#hero" data-close-nav><span class="brand-mark"><img src="images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
+      <button type="button" class="mobile-nav-close" data-close-nav aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="mobile-nav-links" aria-label="Menu principal">
+      <a href="#jornada">Etapas</a>
+      <a href="#denise">CEO</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#situacoes">Situações</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contato">Contato</a>
+      <a class="nav-area" href="/areapacientes">Área do paciente</a>
+    </nav>
+    <a class="btn btn-primary mobile-nav-cta" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
+  </aside>
 
   <main id="site">
     <section class="hero" id="hero">
@@ -248,46 +267,46 @@
             <h2>A equipe que caminha junto.</h2>
             <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer a formação e as áreas de atuação.</p>
           </div>
-          <div class="team-grid reveal" id="teamGrid">
-            <button type="button" class="team-card" data-member="0">
-              <span class="team-photo" data-initial="F"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
-              <span class="team-info">
-                <span class="team-name">Nome do profissional</span>
-                <span class="team-role">Fisioterapeuta neurofuncional</span>
-              </span>
+          <div class="team-grid" id="teamGrid">
+            <button type="button" class="team-card reveal" data-member="0">
+              <span class="team-photo" data-initial="R"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Roseane Silva</span>
+                <span class="team-role">Fisioterapeuta · RPG e Traumato-Ortopedia</span>
+              </span>
             </button>
-            <button type="button" class="team-card" data-member="1">
-              <span class="team-photo" data-initial="F"><img src="images/equipe/fisio-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
-              <span class="team-info">
-                <span class="team-name">Nome do profissional</span>
-                <span class="team-role">Fisioterapeuta respiratória e RPG</span>
-              </span>
+            <button type="button" class="team-card reveal" style="--d:1" data-member="1">
+              <span class="team-photo" data-initial="P"><img src="images/equipe/fisio-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Paulo Ricardo</span>
+                <span class="team-role">Fisioterapeuta · Respiratória e Traumato-Ortopedia</span>
+              </span>
             </button>
-            <button type="button" class="team-card" data-member="2">
-              <span class="team-photo" data-initial="N"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
-              <span class="team-info">
-                <span class="team-name">Nome do profissional</span>
-                <span class="team-role">Nutricionista infantil e terapia alimentar</span>
-              </span>
+            <button type="button" class="team-card reveal" style="--d:2" data-member="2">
+              <span class="team-photo" data-initial="L"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Laize Lago</span>
+                <span class="team-role">Nutricionista infantil</span>
+              </span>
             </button>
-            <button type="button" class="team-card" data-member="3">
-              <span class="team-photo" data-initial="N"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
-              <span class="team-info">
-                <span class="team-name">Nome do profissional</span>
-                <span class="team-role">Nutricionista adulto e renal</span>
-              </span>
+            <button type="button" class="team-card reveal" style="--d:3" data-member="3">
+              <span class="team-photo" data-initial="R"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Raissa Santos</span>
+                <span class="team-role">Nutricionista clínica</span>
+              </span>
             </button>
-            <button type="button" class="team-card" data-member="4">
-              <span class="team-photo" data-initial="P"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
-              <span class="team-info">
-                <span class="team-name">Nome do profissional</span>
-                <span class="team-role">Médico psiquiatra</span>
-              </span>
+            <button type="button" class="team-card reveal" style="--d:4" data-member="4">
+              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Maria Luiza</span>
+                <span class="team-role">Médica Psiquiatra</span>
+              </span>
             </button>
           </div>
           <p class="team-note reveal">Cada profissional atua dentro das atribuições do seu conselho de classe. As condutas dependem de avaliação individual.</p>
@@ -344,6 +363,7 @@
     </section>
 
     <section class="patient-invite" id="areapaciente">
+      <canvas class="patient-neuro" id="patientNeuro" aria-hidden="true"></canvas>
       <div class="wrap patient-invite-grid reveal">
         <div>
           <div class="eyebrow">área do paciente</div>
@@ -514,6 +534,6 @@
     </div>
   </div>
 
-  <script defer src="js/main.js?v=20"></script>
+  <script defer src="js/main.js?v=22"></script>
 </body>
 </html>

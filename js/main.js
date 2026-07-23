@@ -265,9 +265,26 @@
       document.body.classList.add('wa-ready');
       if(window.__waStart) window.__waStart();
     }
+    // Trava o scroll com position:fixed (não só overflow:hidden): no iOS, um
+    // touchmove sobre o splash ainda rola a página por baixo mesmo com overflow
+    // hidden, e o site "pulava" direto pra segunda seção antes da hero aparecer.
+    function lockScroll(){
+      document.body.style.position='fixed';
+      document.body.style.top='0';
+      document.body.style.left='0';
+      document.body.style.right='0';
+      document.body.style.width='100%';
+    }
+    function unlockScroll(){
+      document.body.style.position='';
+      document.body.style.top='';
+      document.body.style.left='';
+      document.body.style.right='';
+      document.body.style.width='';
+    }
     function finishSplash(){
       if(splashDone) return; splashDone=true;
-      document.body.style.overflow='';
+      unlockScroll();
       window.scrollTo({top:0,left:0,behavior:'auto'});
       const showHero=()=>heroReveals.forEach(el=>el.classList.add('in'));
       if(window.gsap){
@@ -286,7 +303,7 @@
       heroReveals.forEach(el=>el.classList.add('in'));
       revealWa();
     }else{
-      document.body.style.overflow='hidden';
+      lockScroll();
       ['wheel','touchmove','keydown'].forEach(ev=>window.addEventListener(ev, finishSplash, {once:true, passive:true}));
       splash.addEventListener('click', finishSplash, {once:true});
     }
@@ -348,6 +365,50 @@
     ['jornada','denise','situacoes','jogos','faq','contato'].forEach(id=>{
       const el=document.getElementById(id); if(el) secIO.observe(el);
     });
+
+    // ===== Menu mobile: toque na logo do topbar abre o painel lateral =====
+    (function initMobileNav(){
+      const backdrop=document.getElementById('mobileNavBackdrop');
+      const panel=document.getElementById('mobileNavPanel');
+      const trigger=topbar?.querySelector('.brand-mini');
+      if(!backdrop || !panel || !trigger) return;
+      let navOpen=false, lastFocused=null;
+
+      function openNav(){
+        navOpen=true;
+        panel.classList.add('open'); backdrop.classList.add('open');
+        panel.setAttribute('aria-hidden','false');
+        trigger.setAttribute('aria-expanded','true');
+        lastFocused=document.activeElement;
+        lockScroll();
+        panel.querySelector('.mobile-nav-close')?.focus();
+      }
+      function closeNav(){
+        if(!navOpen) return;
+        navOpen=false;
+        panel.classList.remove('open'); backdrop.classList.remove('open');
+        panel.setAttribute('aria-hidden','true');
+        trigger.setAttribute('aria-expanded','false');
+        unlockScroll();
+        if(lastFocused) lastFocused.focus();
+      }
+
+      trigger.setAttribute('aria-haspopup','true');
+      trigger.setAttribute('aria-expanded','false');
+      trigger.setAttribute('aria-controls','mobileNavPanel');
+
+      trigger.addEventListener('click', e=>{
+        if(window.innerWidth>920) return; // desktop: já tem o menu completo visível, link normal
+        e.preventDefault();
+        navOpen ? closeNav() : openNav();
+      });
+      panel.querySelectorAll('[data-close-nav], .mobile-nav-links a, .mobile-nav-cta').forEach(el=>{
+        el.addEventListener('click', closeNav);
+      });
+      backdrop.addEventListener('click', closeNav);
+      document.addEventListener('keydown', e=>{ if(navOpen && e.key==='Escape') closeNav(); });
+      window.addEventListener('resize', ()=>{ if(navOpen && window.innerWidth>920) closeNav(); }, {passive:true});
+    })();
 
     // ===== Métricas =====
     const nums=document.querySelectorAll('.num'); const seen=new WeakSet();
@@ -479,6 +540,89 @@
           ty=e.clientY/innerHeight-.5;
           footer.style.setProperty('--fx', (e.clientX-r.left)+'px');
           footer.style.setProperty('--fy', (e.clientY-r.top)+'px');
+        },{passive:true});
+      }
+    })();
+
+    // ===== Convite Área do Paciente: mesmo campo neural do hero/rodapé =====
+    (function initPatientNeuro(){
+      const section=document.getElementById('areapaciente');
+      const canvas=document.getElementById('patientNeuro');
+      if(!section || !canvas) return;
+      if(reduceMotion){ initHeroFallback(section, canvas, false); return; }
+
+      const renderer=createThreeRenderer(canvas, {alpha:true, antialias:false, powerPreference:'low-power'});
+      if(!renderer){ initHeroFallback(section, canvas, true); return; }
+
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(60, 1, .1, 100);
+      camera.position.z=8;
+      const pointsGeo=new THREE.BufferGeometry();
+      const pointsMat=new THREE.PointsMaterial({
+        color:0xC9A84C, size:.045, transparent:true, opacity:.65,
+        depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true
+      });
+      const points=new THREE.Points(pointsGeo, pointsMat);
+      scene.add(points);
+      const ico=new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(3.2,1)),
+        new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:.07})
+      );
+      scene.add(ico);
+
+      let raf=null, active=false, tx=0, ty=0, mx=0, my=0;
+      const clock=new THREE.Clock();
+
+      function resizePatientNeuro(){
+        const rect=section.getBoundingClientRect();
+        const isMobile=rect.width<700;
+        const count=isMobile?320:850;
+        const pos=new Float32Array(count*3);
+        for(let i=0;i<count;i++){
+          pos[i*3]=(Math.random()-.5)*22;
+          pos[i*3+1]=(Math.random()-.5)*14;
+          pos[i*3+2]=(Math.random()-.5)*14;
+        }
+        pointsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+        pointsMat.size=isMobile?.055:.045;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile?1.5:1.75));
+        renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
+        camera.aspect=rect.width/Math.max(1, rect.height);
+        camera.updateProjectionMatrix();
+      }
+
+      function drawPatientNeuro(){
+        if(!active){raf=null; return}
+        const t=clock.getElapsedTime();
+        const rect=section.getBoundingClientRect();
+        const progress=Math.max(0, Math.min(1, (innerHeight-rect.top)/(innerHeight+rect.height)));
+        mx+=(tx-mx)*.04; my+=(ty-my)*.04;
+        points.rotation.y=t*.03+mx*.5+progress*1.2;
+        points.rotation.x=my*.3+progress*.4;
+        ico.rotation.y=-t*.05+progress*2;
+        ico.rotation.x=t*.02;
+        camera.position.z=8-progress*1.2;
+        renderer.render(scene,camera);
+        raf=requestAnimationFrame(drawPatientNeuro);
+      }
+
+      function startPatientNeuro(){ if(active) return; active=true; if(!raf) raf=requestAnimationFrame(drawPatientNeuro); }
+      function stopPatientNeuro(){ active=false; }
+
+      resizePatientNeuro();
+      if(window.ResizeObserver) new ResizeObserver(resizePatientNeuro).observe(section);
+      else window.addEventListener('resize', resizePatientNeuro);
+
+      const patientIO=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>entry.isIntersecting ? startPatientNeuro() : stopPatientNeuro());
+      },{threshold:.08});
+      patientIO.observe(section);
+
+      if(canHover){
+        window.addEventListener('pointermove',e=>{
+          if(!active) return;
+          tx=e.clientX/innerWidth-.5;
+          ty=e.clientY/innerHeight-.5;
         },{passive:true});
       }
     })();
@@ -856,59 +1000,60 @@
     ];
 
     /* ===== Equipe =====
-       PREENCHER: troque os dados abaixo pelos reais de cada profissional.
+       "education" ainda está como PREENCHER para todo mundo — a Denise não passou
+       formação/graduação dessa turma ainda. Preencher assim que ela mandar.
        A ordem aqui precisa bater com o data-member dos botões no index.html.
        As fotos ficam em images/equipe/ com os nomes usados no HTML. */
     const teamMembers = [
       {
-        name:'PREENCHER — Nome completo',
-        role:'Fisioterapeuta neurofuncional',
-        council:'CREFITO-7 / PREENCHER',
-        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
-        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especialização'],
-        skills:['Reabilitação neurofuncional','Conceito Bobath','Treino de marcha e equilíbrio'],
-        conditions:['AVC','Parkinson','Paralisia cerebral'],
-        serves:'Atende presencial em Catu-BA · adultos e idosos'
+        name:'Roseane Silva',
+        role:'Fisioterapeuta · RPG e Traumato-Ortopedia',
+        council:'CREFITO-7 292288',
+        bio:'Atua na reabilitação postural e ortopédica, unindo RPG, terapia manual (RTM) e biomecânica do movimento humano para tratar dor, desequilíbrios posturais e recuperação funcional.',
+        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
+        skills:['RPG','RTM','Traumato-ortopedia','Biomecânica do Movimento Humano'],
+        conditions:['Dor crônica','Perda de autonomia'],
+        serves:'PREENCHER — atendimento presencial/online e público atendido'
       },
       {
-        name:'PREENCHER — Nome completo',
-        role:'Fisioterapeuta respiratória e RPG',
-        council:'CREFITO-7 / PREENCHER',
-        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
-        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especialização'],
-        skills:['Fisioterapia respiratória','Reeducação Postural Global','Fisioterapia ortopédica'],
-        conditions:['Dificuldade respiratória','Dor crônica','Perda de autonomia'],
-        serves:'Atende presencial em Catu-BA · todas as idades'
+        name:'Paulo Ricardo',
+        role:'Fisioterapeuta · Respiratória e Traumato-Ortopedia',
+        council:'CREFITO-7 416376',
+        bio:'Atua na fisioterapia respiratória e na traumato-ortopedia, com foco em recuperação funcional e ganho de autonomia no dia a dia.',
+        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
+        skills:['Fisioterapia respiratória','Traumato-ortopedia'],
+        conditions:['Dificuldade respiratória','Dor crônica'],
+        serves:'PREENCHER — atendimento presencial/online e público atendido'
       },
       {
-        name:'PREENCHER — Nome completo',
-        role:'Nutricionista infantil e terapia alimentar',
-        council:'CRN-5 / PREENCHER',
-        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
-        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especialização'],
-        skills:['Terapia alimentar','Seletividade alimentar','Nutrição infantil'],
-        conditions:['TEA','Seletividade alimentar'],
-        serves:'Atende presencial e online · crianças e adolescentes'
+        name:'Laize Lago',
+        role:'Nutricionista infantil',
+        council:'CRN-5 26215',
+        bio:'Acompanha crianças e adolescentes com seletividade alimentar e necessidades específicas, incluindo autismo, TDAH e paralisia cerebral.',
+        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especializações'],
+        skills:['Seletividade alimentar','Autismo','TDAH','Paralisia Cerebral'],
+        conditions:['Seletividade alimentar','TEA','TDAH','Paralisia cerebral'],
+        serves:'PREENCHER — atendimento presencial/online e público atendido'
       },
       {
-        name:'PREENCHER — Nome completo',
-        role:'Nutricionista adulto e renal',
-        council:'CRN-5 / PREENCHER',
-        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
-        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especialização'],
-        skills:['Nutrição clínica','Nutrição renal','Nutrição no envelhecimento'],
-        conditions:['Demência','Perda de autonomia'],
-        serves:'Atende presencial e online · adultos e idosos'
+        name:'Raissa Santos',
+        role:'Nutricionista clínica',
+        council:'CRN-5 14750',
+        bio:'Atua na nutrição clínica e terapia nutricional, com foco também em nutrição renal.',
+        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especializações'],
+        skills:['Nutrição clínica','Terapia nutricional','Nutrição renal'],
+        conditions:['Perda de autonomia'],
+        serves:'PREENCHER — atendimento presencial/online e público atendido'
       },
       {
-        name:'PREENCHER — Nome completo',
-        role:'Médico psiquiatra',
-        council:'CRM-BA / PREENCHER · RQE PREENCHER',
-        bio:'PREENCHER — dois ou três parágrafos curtos sobre como este profissional conduz o atendimento.',
+        name:'Maria Luiza',
+        role:'Médica Psiquiatra',
+        council:'CRM-BA 11107 · RQE 104201',
+        bio:'Realiza avaliação, diagnóstico e tratamento em saúde mental, incluindo acompanhamento medicamentoso, sempre em diálogo com o restante da equipe.',
         education:['PREENCHER — Graduação em Medicina, instituição e ano','PREENCHER — Residência em Psiquiatria'],
-        skills:['Diagnóstico psiquiátrico','Acompanhamento medicamentoso','Trabalho conjunto com a psicoterapia'],
+        skills:['Avaliação e diagnóstico','Tratamento emocional','Controle de sintomas','Medicação','Saúde Mental'],
         conditions:['Ansiedade','Depressão','TDAH'],
-        serves:'Atende presencial e online · adolescentes e adultos'
+        serves:'Atende adultos, jovens e idosos'
       }
     ];
 
