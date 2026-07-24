@@ -310,12 +310,14 @@
       heroReveals.forEach(el=>el.classList.add('in'));
       revealWa();
       if(deepLinkTarget){
+        if('scrollRestoration' in window.history) window.history.scrollRestoration='manual';
         const scrollToDeepLink=()=>{
           const targetY=deepLinkTarget.getBoundingClientRect().top+window.scrollY-120;
           window.scrollTo({top:Math.max(0,targetY), left:0, behavior:'auto'});
         };
         requestAnimationFrame(scrollToDeepLink);
         window.addEventListener('load', scrollToDeepLink, {once:true});
+        setTimeout(scrollToDeepLink, 800);
       }
     }else{
       lockScroll();
