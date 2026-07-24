@@ -260,6 +260,13 @@
     // ===== Splash: espera o scroll para revelar a hero =====
     const splash=document.getElementById('splash');
     const heroReveals=[...document.querySelectorAll('#hero .reveal')];
+    let deepLinkTarget=null;
+    try{
+      const deepLinkId=decodeURIComponent(window.location.hash.slice(1));
+      deepLinkTarget=deepLinkId ? document.getElementById(deepLinkId) : null;
+    }catch(_){
+      deepLinkTarget=null;
+    }
     let splashDone=false;
     function revealWa(){
       document.body.classList.add('wa-ready');
@@ -298,10 +305,18 @@
         setTimeout(()=>{splash.style.display='none'; revealWa();},900);
       }
     }
-    if(reduceMotion){
+    if(reduceMotion || deepLinkTarget){
       splashDone=true; splash.style.display='none';
       heroReveals.forEach(el=>el.classList.add('in'));
       revealWa();
+      if(deepLinkTarget){
+        const scrollToDeepLink=()=>{
+          const targetY=deepLinkTarget.getBoundingClientRect().top+window.scrollY-120;
+          window.scrollTo({top:Math.max(0,targetY), left:0, behavior:'auto'});
+        };
+        requestAnimationFrame(scrollToDeepLink);
+        window.addEventListener('load', scrollToDeepLink, {once:true});
+      }
     }else{
       lockScroll();
       ['wheel','touchmove','keydown'].forEach(ev=>window.addEventListener(ev, finishSplash, {once:true, passive:true}));

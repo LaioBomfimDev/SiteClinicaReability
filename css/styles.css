@@ -822,6 +822,7 @@
         radial-gradient(circle at 18% 12%, rgba(201,168,76,.18), transparent 38%),
         linear-gradient(135deg, #081B2F 0%, #1A2E4A 55%, #071828 100%);
     }
+    main > [id]{scroll-margin-top:120px}
     /* Campo neural dourado, igual ao do rodapé */
     .inner-hero-neuro{
       position:absolute; inset:0; z-index:0;

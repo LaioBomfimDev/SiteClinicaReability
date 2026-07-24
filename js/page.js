@@ -185,6 +185,21 @@
     panel.querySelectorAll('[data-close-nav], .mobile-nav-links a, .mobile-nav-cta').forEach(el=>{
       el.addEventListener('click', closeNav);
     });
+    panel.querySelectorAll('a[href^="#"]').forEach(link=>{
+      link.addEventListener('click', e=>{
+        const href=link.getAttribute('href');
+        const targetId=decodeURIComponent(href.slice(1));
+        const target=document.getElementById(targetId);
+        if(!target) return;
+        e.preventDefault();
+        closeNav();
+        if(window.location.hash!==href) window.history.pushState(null, '', href);
+        requestAnimationFrame(()=>target.scrollIntoView({
+          behavior:reduceMotion ? 'auto' : 'smooth',
+          block:'start'
+        }));
+      });
+    });
     backdrop.addEventListener('click', closeNav);
     document.addEventListener('keydown', e=>{ if(navOpen && e.key==='Escape') closeNav(); });
     window.addEventListener('resize', ()=>{ if(navOpen && window.innerWidth>920) closeNav(); }, {passive:true});

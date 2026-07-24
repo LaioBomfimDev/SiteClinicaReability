@@ -29,18 +29,20 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <script defer src="/js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css?v=39" />
+  <link rel="stylesheet" href="/css/styles.css?v=40" />
 </head>
 <body class="inner-page">
   <div class="grain"></div>
 
   <nav class="topbar" id="topbar">
-    <a class="brand-mini" href="/"><span class="brand-mark"><img src="/images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
+    <a class="brand-mini" href="#inicio"><span class="brand-mark"><img src="/images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
     <div class="navlinks">
-      <a href="/#jornada">Etapas</a>
-      <a href="/#equipe">Equipe</a>
-      <a href="/#situacoes">Situações</a>
-      <a class="nav-area active" href="/areapacientes">Área do paciente</a>
+      <a class="nav-area active" href="#inicio">Início</a>
+      <a href="#dicas">Dicas</a>
+      <a href="#materiais">PDFs gratuitos</a>
+      <a href="#jogos">Jogos</a>
+      <a href="#faq">Dúvidas</a>
+      <a href="#contato">Contato</a>
     </div>
     <a class="btn btn-primary" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
   </nav>
@@ -49,27 +51,27 @@
   <div class="mobile-nav-backdrop" id="mobileNavBackdrop" data-close-nav></div>
   <aside class="mobile-nav-panel" id="mobileNavPanel" aria-hidden="true">
     <div class="mobile-nav-head">
-      <a class="brand-mini" href="/" data-close-nav><span class="brand-mark"><img src="/images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
+      <a class="brand-mini" href="#inicio" data-close-nav><span class="brand-mark"><img src="/images/logo.png" alt="Reability" decoding="async"></span><span>Reability</span></a>
       <button type="button" class="mobile-nav-close" data-close-nav aria-label="Fechar menu">×</button>
     </div>
     <nav class="mobile-nav-links" aria-label="Menu principal">
+      <a href="#inicio">Início</a>
       <a href="#dicas">Dicas</a>
       <a href="#materiais">PDFs gratuitos</a>
       <a href="#jogos">Jogos</a>
       <a href="#faq">Dúvidas</a>
       <a href="#contato">Contato</a>
-      <a href="/#equipe">Equipe</a>
-      <a href="/">Página inicial</a>
+      <a class="nav-area" href="/#hero">Site principal</a>
     </nav>
     <a class="btn btn-primary mobile-nav-cta" href="https://wa.me/5571999703912?text=Oi!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Reability%20e%20saber%20os%20hor%C3%A1rios%20dispon%C3%ADveis." target="_blank" rel="noopener">Agendar</a>
   </aside>
 
   <main id="site">
-    <header class="inner-hero">
+    <header class="inner-hero" id="inicio">
       <canvas class="inner-hero-neuro" id="innerHeroNeuro" aria-hidden="true"></canvas>
       <span class="inner-hero-glow" id="innerHeroGlow" aria-hidden="true"></span>
       <div class="wrap">
-        <a class="back-home" href="/">
+        <a class="back-home" href="/#hero">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
           Voltar para o site
         </a>
@@ -362,7 +364,7 @@
       </div>
       <div>
         <h3>Navegação</h3>
-        <p><a href="/">Página inicial</a></p>
+        <p><a href="/#hero">Página inicial</a></p>
         <p><a href="/#equipe">Equipe</a></p>
         <p><a href="/#situacoes">Situações e sintomas</a></p>
         <p><a href="/areapacientes">Área do paciente</a></p>
@@ -390,6 +392,6 @@
     </span>
   </a>
 
-  <script defer src="/js/page.js?v=5"></script>
+  <script defer src="/js/page.js?v=6"></script>
 </body>
 </html>
