@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=41" />
+  <link rel="stylesheet" href="css/styles.css?v=42" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -269,17 +269,22 @@
           </div>
           <div class="team-groups" id="teamGrid">
             <section class="team-group reveal">
-              <h3 class="team-group-title"><span>Fisioterapia</span></h3>
+              <h3 class="team-group-title"><span>Psiquiatria</span></h3>
               <div class="team-group-grid">
             <button type="button" class="team-card reveal" data-member="0">
-              <span class="team-photo" data-initial="R"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
+              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
-                <span class="team-name">Roseane Silva</span>
-                <span class="team-role">Fisioterapeuta · RPG e Traumato-Ortopedia</span>
+                <span class="team-name">Maria Luiza</span>
+                <span class="team-role">Médica Psiquiatra</span>
               </span>
             </button>
-            <button type="button" class="team-card reveal" style="--d:1" data-member="1">
+              </div>
+            </section>
+            <section class="team-group reveal">
+              <h3 class="team-group-title"><span>Fisioterapia</span></h3>
+              <div class="team-group-grid">
+            <button type="button" class="team-card reveal" data-member="1">
               <span class="team-photo" data-initial="P"><img src="images/equipe/fisio-2.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
@@ -287,12 +292,20 @@
                 <span class="team-role">Fisioterapeuta · Respiratória e Traumato-Ortopedia</span>
               </span>
             </button>
+            <button type="button" class="team-card reveal" style="--d:1" data-member="2">
+              <span class="team-photo" data-initial="R"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
+              <span class="team-cue" aria-hidden="true">↗</span>
+              <span class="team-info">
+                <span class="team-name">Roseane Silva</span>
+                <span class="team-role">Fisioterapeuta · RPG e Traumato-Ortopedia</span>
+              </span>
+            </button>
               </div>
             </section>
             <section class="team-group reveal">
               <h3 class="team-group-title"><span>Nutrição</span></h3>
               <div class="team-group-grid">
-            <button type="button" class="team-card reveal" data-member="2">
+            <button type="button" class="team-card reveal" data-member="3">
               <span class="team-photo" data-initial="L"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
@@ -300,25 +313,12 @@
                 <span class="team-role">Nutricionista infantil</span>
               </span>
             </button>
-            <button type="button" class="team-card reveal" style="--d:1" data-member="3">
+            <button type="button" class="team-card reveal" style="--d:1" data-member="4">
               <span class="team-photo" data-initial="R"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
                 <span class="team-name">Raissa Santos</span>
                 <span class="team-role">Nutricionista clínica</span>
-              </span>
-            </button>
-              </div>
-            </section>
-            <section class="team-group reveal">
-              <h3 class="team-group-title"><span>Psiquiatria</span></h3>
-              <div class="team-group-grid">
-            <button type="button" class="team-card reveal" data-member="4">
-              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Maria Luiza</span>
-                <span class="team-role">Médica Psiquiatra</span>
               </span>
             </button>
               </div>

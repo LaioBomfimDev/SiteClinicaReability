@@ -1023,14 +1023,14 @@
        As fotos ficam em images/equipe/ com os nomes usados no HTML. */
     const teamMembers = [
       {
-        name:'Roseane Silva',
-        role:'Fisioterapeuta · RPG e Traumato-Ortopedia',
-        council:'CREFITO-7 292288',
-        bio:'Atua na reabilitação postural e ortopédica, unindo RPG, terapia manual (RTM) e biomecânica do movimento humano para tratar dor, desequilíbrios posturais e recuperação funcional.',
-        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
-        skills:['RPG','RTM','Traumato-ortopedia','Biomecânica do Movimento Humano'],
-        conditions:['Dor crônica','Perda de autonomia'],
-        serves:'PREENCHER — atendimento presencial/online e público atendido'
+        name:'Maria Luiza',
+        role:'Médica Psiquiatra',
+        council:'CRM-BA 11107 · RQE 104201',
+        bio:'Realiza avaliação, diagnóstico e tratamento em saúde mental, incluindo acompanhamento medicamentoso, sempre em diálogo com o restante da equipe.',
+        education:['PREENCHER — Graduação em Medicina, instituição e ano','PREENCHER — Residência em Psiquiatria'],
+        skills:['Avaliação e diagnóstico','Tratamento emocional','Controle de sintomas','Medicação','Saúde Mental'],
+        conditions:['Ansiedade','Depressão','TDAH'],
+        serves:'Atende adultos, jovens e idosos'
       },
       {
         name:'Paulo Ricardo',
@@ -1040,6 +1040,16 @@
         education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
         skills:['Fisioterapia respiratória','Traumato-ortopedia'],
         conditions:['Dificuldade respiratória','Dor crônica'],
+        serves:'PREENCHER — atendimento presencial/online e público atendido'
+      },
+      {
+        name:'Roseane Silva',
+        role:'Fisioterapeuta · RPG e Traumato-Ortopedia',
+        council:'CREFITO-7 292288',
+        bio:'Atua na reabilitação postural e ortopédica, unindo RPG, terapia manual (RTM) e biomecânica do movimento humano para tratar dor, desequilíbrios posturais e recuperação funcional.',
+        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
+        skills:['RPG','RTM','Traumato-ortopedia','Biomecânica do Movimento Humano'],
+        conditions:['Dor crônica','Perda de autonomia'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
       },
       {
@@ -1061,16 +1071,6 @@
         skills:['Nutrição clínica','Terapia nutricional','Nutrição renal'],
         conditions:['Perda de autonomia'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
-      },
-      {
-        name:'Maria Luiza',
-        role:'Médica Psiquiatra',
-        council:'CRM-BA 11107 · RQE 104201',
-        bio:'Realiza avaliação, diagnóstico e tratamento em saúde mental, incluindo acompanhamento medicamentoso, sempre em diálogo com o restante da equipe.',
-        education:['PREENCHER — Graduação em Medicina, instituição e ano','PREENCHER — Residência em Psiquiatria'],
-        skills:['Avaliação e diagnóstico','Tratamento emocional','Controle de sintomas','Medicação','Saúde Mental'],
-        conditions:['Ansiedade','Depressão','TDAH'],
-        serves:'Atende adultos, jovens e idosos'
       }
     ];
 

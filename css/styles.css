@@ -157,7 +157,7 @@
     }
     .hero-logo{width:100%; height:100%; object-fit:contain; display:block}
     .hero-tagline{
-      color:white; font-family:var(--heading); font-size:clamp(2.5rem, 8.2vh, 5.4rem);
+      color:white; font-family:var(--heading); font-size:clamp(2.2rem, min(8.2vh, 12vw), 5.4rem);
       line-height:.98; font-weight:300; letter-spacing:0; max-width:900px;
       margin:clamp(16px,3.2vh,34px) auto 0; text-shadow:0 24px 78px rgba(5,18,33,.46);
     }
