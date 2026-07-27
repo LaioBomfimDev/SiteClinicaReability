@@ -1017,8 +1017,6 @@
     ];
 
     /* ===== Equipe =====
-       "education" ainda está como PREENCHER para todo mundo — a Denise não passou
-       formação/graduação dessa turma ainda. Preencher assim que ela mandar.
        A ordem aqui precisa bater com o data-member dos botões no index.html.
        As fotos ficam em images/equipe/ com os nomes usados no HTML. */
     const teamMembers = [
@@ -1027,7 +1025,6 @@
         role:'Médica Psiquiatra',
         council:'CRM-BA 11107 · RQE 104201',
         bio:'Realiza avaliação, diagnóstico e tratamento em saúde mental, incluindo acompanhamento medicamentoso, sempre em diálogo com o restante da equipe.',
-        education:['PREENCHER — Graduação em Medicina, instituição e ano','PREENCHER — Residência em Psiquiatria'],
         skills:['Avaliação e diagnóstico','Tratamento emocional','Controle de sintomas','Medicação','Saúde Mental'],
         conditions:['Ansiedade','Depressão','TDAH'],
         serves:'Atende adultos, jovens e idosos'
@@ -1037,7 +1034,6 @@
         role:'Fisioterapeuta · Respiratória e Traumato-Ortopedia',
         council:'CREFITO-7 416376',
         bio:'Atua na fisioterapia respiratória e na traumato-ortopedia, com foco em recuperação funcional e ganho de autonomia no dia a dia.',
-        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
         skills:['Fisioterapia respiratória','Traumato-ortopedia'],
         conditions:['Dificuldade respiratória','Dor crônica'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
@@ -1047,7 +1043,6 @@
         role:'Fisioterapeuta · RPG e Traumato-Ortopedia',
         council:'CREFITO-7 292288',
         bio:'Atua na reabilitação postural e ortopédica, unindo RPG, terapia manual (RTM) e biomecânica do movimento humano para tratar dor, desequilíbrios posturais e recuperação funcional.',
-        education:['PREENCHER — Graduação em Fisioterapia, instituição e ano','PREENCHER — Especializações'],
         skills:['RPG','RTM','Traumato-ortopedia','Biomecânica do Movimento Humano'],
         conditions:['Dor crônica','Perda de autonomia'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
@@ -1057,7 +1052,6 @@
         role:'Nutricionista infantil',
         council:'CRN-5 26215',
         bio:'Acompanha crianças e adolescentes com seletividade alimentar e necessidades específicas, incluindo autismo, TDAH e paralisia cerebral.',
-        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especializações'],
         skills:['Seletividade alimentar','Autismo','TDAH','Paralisia Cerebral'],
         conditions:['Seletividade alimentar','TEA','TDAH','Paralisia cerebral'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
@@ -1067,7 +1061,6 @@
         role:'Nutricionista clínica',
         council:'CRN-5 14750',
         bio:'Atua na nutrição clínica e terapia nutricional, com foco também em nutrição renal.',
-        education:['PREENCHER — Graduação em Nutrição, instituição e ano','PREENCHER — Especializações'],
         skills:['Nutrição clínica','Terapia nutricional','Nutrição renal'],
         conditions:['Perda de autonomia'],
         serves:'PREENCHER — atendimento presencial/online e público atendido'
@@ -1080,7 +1073,6 @@
       const tRole=document.getElementById('teamRole');
       const tCouncil=document.getElementById('teamCouncil');
       const tBio=document.getElementById('teamBio');
-      const tEducation=document.getElementById('teamEducation');
       const tSkills=document.getElementById('teamSkills');
       const tConditions=document.getElementById('teamConditions');
       const tServes=document.getElementById('teamServes');
@@ -1096,7 +1088,6 @@
         tRole.textContent=m.role;
         tCouncil.textContent=m.council;
         tBio.textContent=m.bio;
-        tEducation.innerHTML=li(m.education);
         tSkills.innerHTML=li(m.skills);
         tConditions.innerHTML=li(m.conditions);
         tServes.textContent=m.serves;

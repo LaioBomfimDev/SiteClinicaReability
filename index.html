@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=42" />
+  <link rel="stylesheet" href="css/styles.css?v=43" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -265,14 +265,14 @@
           <div class="team-head reveal">
             <div class="eyebrow">quem cuida</div>
             <h2>A equipe que caminha junto.</h2>
-            <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer a formação e as áreas de atuação.</p>
+            <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer as especialidades e áreas de atuação.</p>
           </div>
           <div class="team-groups" id="teamGrid">
             <section class="team-group reveal">
               <h3 class="team-group-title"><span>Psiquiatria</span></h3>
               <div class="team-group-grid">
             <button type="button" class="team-card reveal" data-member="0">
-              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
+              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg?v=2" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
               <span class="team-cue" aria-hidden="true">↗</span>
               <span class="team-info">
                 <span class="team-name">Maria Luiza</span>
@@ -531,10 +531,6 @@
         </div>
       </div>
       <p class="spec-quote" id="teamBio"></p>
-      <div class="spec-when">
-        <h4>Formação</h4>
-        <ul id="teamEducation"></ul>
-      </div>
       <div class="spec-when">
         <h4>Especialidades e abordagens</h4>
         <ul id="teamSkills"></ul>

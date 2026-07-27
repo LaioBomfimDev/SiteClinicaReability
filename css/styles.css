@@ -1198,3 +1198,29 @@
       .wa-btn{width:56px; height:56px}
       .wa-bubble{max-width:190px; font-size:.86rem}
     }
+
+    /* ===== Alinhamento justificado do conteúdo textual ===== */
+    p,
+    li,
+    blockquote,
+    .service-context,
+    .condition-specs,
+    .spec-quote,
+    .spec-desc,
+    .spec-note,
+    .team-council,
+    .team-serves,
+    .wa-bubble{
+      text-align:justify !important;
+      text-justify:inter-word;
+      hyphens:auto;
+    }
+
+    /* Textos curtos que funcionam como assinatura visual permanecem centralizados. */
+    .hero-tagline,
+    .hero-place,
+    .metric p,
+    .milestone p{
+      text-align:center !important;
+      text-align-last:center;
+    }
