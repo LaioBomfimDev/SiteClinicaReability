@@ -33,7 +33,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=43" />
+  <link rel="stylesheet" href="css/styles.css?v=44" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
@@ -111,7 +111,6 @@
     <div class="navlinks">
       <a href="#jornada">Etapas</a>
       <a href="#denise">CEO</a>
-      <a href="#equipe">Equipe</a>
       <a href="#situacoes">Situações</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
@@ -130,7 +129,6 @@
     <nav class="mobile-nav-links" aria-label="Menu principal">
       <a href="#jornada">Etapas</a>
       <a href="#denise">CEO</a>
-      <a href="#equipe">Equipe</a>
       <a href="#situacoes">Situações</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
@@ -247,7 +245,7 @@
       </div>
     </section>
 
-    <section class="section metrics" id="equipe">
+    <section class="section metrics">
       <div class="wrap">
         <div class="eyebrow">trajetória em números</div>
         <h2 class="reveal">Uma carreira que virou clínica.</h2>
@@ -260,71 +258,6 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-6-3.9-9s1.4-6.4 3.9-9Z"/></svg>
           <span>Foi com essa bagagem que Denise decidiu criar a <b>Reability</b>: um lugar que reúne as especialidades que se complementam no cuidado de cada paciente — presencial em Catu-BA e online no Brasil e no mundo.</span>
         </p>
-
-        <div class="team-block">
-          <div class="team-head reveal">
-            <div class="eyebrow">quem cuida</div>
-            <h2>A equipe que caminha junto.</h2>
-            <p class="team-lead">Profissionais de especialidades diferentes que conversam entre si sobre o mesmo paciente. Toque em um nome para conhecer as especialidades e áreas de atuação.</p>
-          </div>
-          <div class="team-groups" id="teamGrid">
-            <section class="team-group reveal">
-              <h3 class="team-group-title"><span>Psiquiatria</span></h3>
-              <div class="team-group-grid">
-            <button type="button" class="team-card reveal" data-member="0">
-              <span class="team-photo" data-initial="M"><img src="images/equipe/psiquiatra.jpg?v=2" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Maria Luiza</span>
-                <span class="team-role">Médica Psiquiatra</span>
-              </span>
-            </button>
-              </div>
-            </section>
-            <section class="team-group reveal">
-              <h3 class="team-group-title"><span>Fisioterapia</span></h3>
-              <div class="team-group-grid">
-            <button type="button" class="team-card reveal" data-member="1">
-              <span class="team-photo" data-initial="P"><img src="images/equipe/fisio-2.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Paulo Ricardo</span>
-                <span class="team-role">Fisioterapeuta · Respiratória e Traumato-Ortopedia</span>
-              </span>
-            </button>
-            <button type="button" class="team-card reveal" style="--d:1" data-member="2">
-              <span class="team-photo" data-initial="R"><img src="images/equipe/fisio-1.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Roseane Silva</span>
-                <span class="team-role">Fisioterapeuta · RPG e Traumato-Ortopedia</span>
-              </span>
-            </button>
-              </div>
-            </section>
-            <section class="team-group reveal">
-              <h3 class="team-group-title"><span>Nutrição</span></h3>
-              <div class="team-group-grid">
-            <button type="button" class="team-card reveal" data-member="3">
-              <span class="team-photo" data-initial="L"><img src="images/equipe/nutri-1.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Laize Lago</span>
-                <span class="team-role">Nutricionista infantil</span>
-              </span>
-            </button>
-            <button type="button" class="team-card reveal" style="--d:1" data-member="4">
-              <span class="team-photo" data-initial="R"><img src="images/equipe/nutri-2.jpg" alt="" loading="lazy" onload="this.closest('.team-card').classList.add('has-photo')" onerror="this.remove()"></span>
-              <span class="team-cue" aria-hidden="true">↗</span>
-              <span class="team-info">
-                <span class="team-name">Raissa Santos</span>
-                <span class="team-role">Nutricionista clínica</span>
-              </span>
-            </button>
-              </div>
-            </section>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -517,33 +450,7 @@
     </div>
   </div>
 
-  <!-- Modal da equipe -->
-  <div class="spec-modal team-modal" id="teamModal" aria-hidden="true">
-    <div class="spec-backdrop" data-close></div>
-    <div class="spec-dialog" role="dialog" aria-modal="true" aria-labelledby="teamName">
-      <button type="button" class="spec-close" data-close aria-label="Fechar">×</button>
-      <div class="team-modal-head">
-        <span class="team-modal-photo" id="teamPhoto"></span>
-        <div>
-          <div class="spec-eyebrow" id="teamRole">especialidade</div>
-          <h3 class="spec-title" id="teamName"></h3>
-          <p class="team-council" id="teamCouncil"></p>
-        </div>
-      </div>
-      <p class="spec-quote" id="teamBio"></p>
-      <div class="spec-when">
-        <h4>Especialidades e abordagens</h4>
-        <ul id="teamSkills"></ul>
-      </div>
-      <div class="spec-when">
-        <h4>Situações que acompanha</h4>
-        <ul id="teamConditions"></ul>
-      </div>
-      <p class="team-serves" id="teamServes"></p>
-      <a class="btn btn-primary spec-cta" id="teamCta" href="https://wa.me/5571999703912" target="_blank" rel="noopener">Agendar com este profissional</a>
-    </div>
-  </div>
 
-  <script defer src="js/main.js?v=25"></script>
+  <script defer src="js/main.js?v=26"></script>
 </body>
 </html>
