@@ -2,7 +2,8 @@
    O js/main.js é específico do index e não deve ser carregado aqui. */
 (function(){
   'use strict';
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Sempre a versão animada, independente da preferência de SO do visitante.
+  const reduceMotion = false;
   const canHover = window.matchMedia('(hover:hover)').matches;
 
   // ===== Campo neural dourado do site principal (usado no rodapé e no hero) =====

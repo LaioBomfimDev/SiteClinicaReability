@@ -5,7 +5,9 @@
       if(!pre) return;
       const fill=document.getElementById('preloaderFill');
       const pct=document.getElementById('preloaderPct');
-      const reduceMotionPre=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Site sempre mostra a versão animada (não respeita prefers-reduced-motion),
+      // pra ficar igual em qualquer dispositivo.
+      const reduceMotionPre=false;
       let shown=0;
       const setPct=n=>{
         shown=n;
@@ -36,8 +38,11 @@
           if(document.readyState==='complete') res();
           else window.addEventListener('load', res, {once:true});
         });
-        Promise.all([fontsReady, windowLoaded]).then(()=>{ cancelAnimationFrame(raf); finish(); });
-        setTimeout(()=>{ cancelAnimationFrame(raf); finish(); }, 4500); // trava de segurança
+        // Tempo mínimo de exibição: mesmo em conexão rápida, dá pra ver a
+        // animação do contador em vez de piscar direto pra 100%.
+        const minDelay=new Promise(res=>setTimeout(res, 1000));
+        Promise.all([fontsReady, windowLoaded, minDelay]).then(()=>{ cancelAnimationFrame(raf); finish(); });
+        setTimeout(()=>{ cancelAnimationFrame(raf); finish(); }, 5000); // trava de segurança
       }
     })();
 
@@ -75,7 +80,8 @@
     }
 
     // ===== Estado geral =====
-    const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Sempre a versão animada, independente da preferência de SO do visitante.
+    const reduceMotion=false;
     const canHover=matchMedia('(hover:hover)').matches;
     let cachedWebGLSupport=null;
     const hasThree=()=>Boolean(window.THREE && window.THREE.WebGLRenderer);
