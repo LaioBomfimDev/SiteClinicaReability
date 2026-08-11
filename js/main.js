@@ -1,3 +1,46 @@
+    // ===== Preloader: cobre a tela até fontes/imagens estarem prontas, evita o
+    // "flash" inicial (troca de fonte, logo aparecendo depois) antes do splash. =====
+    (function(){
+      const pre=document.getElementById('preloader');
+      if(!pre) return;
+      const fill=document.getElementById('preloaderFill');
+      const pct=document.getElementById('preloaderPct');
+      const reduceMotionPre=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let shown=0;
+      const setPct=n=>{
+        shown=n;
+        if(fill) fill.style.width=n+'%';
+        if(pct) pct.textContent=Math.round(n)+'%';
+      };
+      const finish=()=>{
+        if(pre.classList.contains('done')) return;
+        setPct(100);
+        setTimeout(()=>{
+          pre.classList.add('done');
+          setTimeout(()=>{ pre.style.display='none'; }, 650);
+        }, reduceMotionPre ? 0 : 180);
+      };
+      if(reduceMotionPre){
+        finish();
+      }else{
+        let raf;
+        const tick=()=>{
+          if(shown<90){
+            setPct(shown + (90-shown)*0.045 + .3);
+            raf=requestAnimationFrame(tick);
+          }
+        };
+        raf=requestAnimationFrame(tick);
+        const fontsReady=(document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        const windowLoaded=new Promise(res=>{
+          if(document.readyState==='complete') res();
+          else window.addEventListener('load', res, {once:true});
+        });
+        Promise.all([fontsReady, windowLoaded]).then(()=>{ cancelAnimationFrame(raf); finish(); });
+        setTimeout(()=>{ cancelAnimationFrame(raf); finish(); }, 4500); // trava de segurança
+      }
+    })();
+
     // ===== Fundadora: "ler mais" (recolhe via JS; sem JS, fica tudo aberto) =====
     const founderToggle=document.getElementById('founderToggle');
     if(founderToggle){
@@ -671,12 +714,17 @@
             founderTimeline.style.setProperty('--timeline-inset', `${100 / (founderMilestones.length * 2)}%`);
           }
           gsap.set(founderTimeline, {'--timeline-progress':0});
-          gsap.set(founderMilestones, {opacity:.42, y:18, '--dot-active':0});
+          gsap.set(founderMilestones, {opacity:.42, y:18, '--dot-active':0, '--dot-pop':.4});
+          // Distância fixa (não baseada na altura do elemento): garante um scrub
+          // longo o bastante pra dar pra acompanhar cada marco acendendo/apagando
+          // ao rolar pra baixo/cima, em vez de resolver tudo em 1-2 scrolls.
+          const founderScrubPx=Math.max(700, founderMilestones.length*180);
           gsap.timeline({
-            scrollTrigger:{trigger:founderTimeline, start:'top 82%', end:'bottom 48%', scrub:1}
+            scrollTrigger:{trigger:founderTimeline, start:'top 88%', end:`+=${founderScrubPx}`, scrub:1}
           })
           .to(founderTimeline, {'--timeline-progress':1, ease:'none', duration:1}, 0)
-          .to(founderMilestones, {opacity:1, y:0, '--dot-active':1, ease:'none', stagger:{amount:.82}, duration:.18}, 0);
+          .to(founderMilestones, {opacity:1, y:0, '--dot-active':1, ease:'none', stagger:{amount:.82}, duration:.18}, 0)
+          .to(founderMilestones, {'--dot-pop':1, ease:'back.out(3)', stagger:{amount:.82}, duration:.18}, 0);
         }
 
       }

@@ -13,8 +13,7 @@
   <link rel="apple-touch-icon" href="images/favicon.png" />
   <link rel="mask-icon" href="images/favicon.png" color="#1A2E4A" />
 
-  <!-- TODO: "clinicareablity.com" é um placeholder. Troque pelo domínio real quando publicar (aqui, no og:url, og:image e no JSON-LD abaixo) -->
-  <link rel="canonical" href="https://clinicareablity.com/" />
+  <link rel="canonical" href="https://neuroreability.com.br/" />
 
   <!-- Open Graph / compartilhamento em redes sociais -->
   <meta property="og:type" content="website" />
@@ -22,9 +21,8 @@
   <meta property="og:site_name" content="Reability" />
   <meta property="og:title" content="Reability | Neuroreabilitação em Catu-BA" />
   <meta property="og:description" content="Avaliação neuropsicológica, reabilitação neurológica e cuidado multidisciplinar em Catu-BA. Transformando limites em possibilidades." />
-  <meta property="og:url" content="https://clinicareablity.com/" />
-  <!-- TODO: hospedar uma imagem de capa 1200x630 (ex.: a fachada) e apontar para a URL absoluta dela -->
-  <meta property="og:image" content="https://clinicareablity.com/images/capa.jpg" />
+  <meta property="og:url" content="https://neuroreability.com.br/" />
+  <meta property="og:image" content="https://neuroreability.com.br/images/capa.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,22 +31,22 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="js/vendor/three.r134.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=44" />
+  <link rel="stylesheet" href="css/styles.css?v=45" />
 
   <!-- Dados estruturados (JSON-LD). Ajuda o Google a entender a clínica e a montar o snippet -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
-    "@id": "https://clinicareablity.com/#clinica",
+    "@id": "https://neuroreability.com.br/#clinica",
     "name": "Reability",
     "alternateName": "Reability Neuroreabilitação",
     "description": "Clínica em Catu-BA para avaliação neuropsicológica, reabilitação neurológica e acompanhamento terapêutico.",
-    "url": "https://clinicareablity.com/",
+    "url": "https://neuroreability.com.br/",
     "telephone": "+5571999703912",
     "inLanguage": "pt-BR",
-    "image": "https://clinicareablity.com/images/capa.jpg",
-    "logo": "https://clinicareablity.com/images/capa.jpg",
+    "image": "https://neuroreability.com.br/images/capa.jpg",
+    "logo": "https://neuroreability.com.br/images/capa.jpg",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R. Simões Filho, 350 - Boa Vista",
@@ -94,6 +92,11 @@
   </script>
 </head>
 <body>
+  <div class="preloader" id="preloader" role="status" aria-label="Carregando">
+    <div class="preloader-logo"><img src="images/logo.png" alt="" decoding="async"></div>
+    <div class="preloader-bar"><div class="preloader-fill" id="preloaderFill"></div></div>
+    <div class="preloader-pct" id="preloaderPct">0%</div>
+  </div>
   <canvas id="neuroCanvas"></canvas>
   <div class="cursorGlow" id="cursorGlow"></div>
   <div class="grain"></div>
@@ -451,6 +454,6 @@
   </div>
 
 
-  <script defer src="js/main.js?v=26"></script>
+  <script defer src="js/main.js?v=27"></script>
 </body>
 </html>
