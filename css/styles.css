@@ -783,6 +783,7 @@
     }
     .cta{
       min-height:90svh; display:grid; place-items:center; text-align:center; color:white; overflow:hidden;
+      padding:80px 6vw;
       background:
         linear-gradient(180deg, var(--blue) 0%, rgba(8,27,47,.74) 22%, rgba(8,27,47,.80) 78%, #071828 100%),
         var(--foto-clinica) center/cover no-repeat;

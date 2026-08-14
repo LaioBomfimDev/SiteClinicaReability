@@ -9,9 +9,9 @@
   <meta name="theme-color" content="#1A2E4A" />
 
   <!-- Favicon e logo (cérebro-R) -->
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/favicon.png" />
-  <link rel="mask-icon" href="images/favicon.png" color="#1A2E4A" />
+  <link rel="icon" type="image/png" href="images/favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="images/favicon.png?v=2" />
+  <link rel="mask-icon" href="images/favicon.png?v=2" color="#1A2E4A" />
 
   <link rel="canonical" href="https://neuroreability.com.br/" />
 
@@ -23,7 +23,12 @@
   <meta property="og:description" content="Avaliação neuropsicológica, reabilitação neurológica e cuidado multidisciplinar em Catu-BA. Transformando limites em possibilidades." />
   <meta property="og:url" content="https://neuroreability.com.br/" />
   <meta property="og:image" content="https://neuroreability.com.br/images/capa.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reability | Neuroreabilitação em Catu-BA" />
+  <meta name="twitter:description" content="Avaliação neuropsicológica, reabilitação neurológica e cuidado multidisciplinar em Catu-BA. Transformando limites em possibilidades." />
+  <meta name="twitter:image" content="https://neuroreability.com.br/images/capa.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -45,8 +50,12 @@
     "url": "https://neuroreability.com.br/",
     "telephone": "+5571999703912",
     "inLanguage": "pt-BR",
-    "image": "https://neuroreability.com.br/images/capa.jpg",
-    "logo": "https://neuroreability.com.br/images/capa.jpg",
+    "image": [
+      "https://neuroreability.com.br/images/capa.jpg",
+      "https://neuroreability.com.br/images/fachada.jpg",
+      "https://neuroreability.com.br/images/denise.jpg"
+    ],
+    "logo": "https://neuroreability.com.br/images/logo.png",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R. Simões Filho, 350 - Boa Vista",
@@ -55,6 +64,7 @@
       "postalCode": "48110-000",
       "addressCountry": "BR"
     },
+    "hasMap": "https://www.google.com/maps/dir/?api=1&destination=Rua%20Sim%C3%B5es%20Filho%2C%20350%2C%20Boa%20Vista%2C%20Catu%20-%20BA%2C%2048110-000%2C%20Brasil",
     "areaServed": [
       { "@type": "City", "name": "Catu" },
       { "@type": "City", "name": "Alagoinhas" },
@@ -87,6 +97,46 @@
       { "@type": "MedicalTherapy", "name": "Acupuntura" },
       { "@type": "MedicalTherapy", "name": "Laserterapia" },
       { "@type": "MedicalTherapy", "name": "Fotobiomodulação" }
+    ]
+  }
+  </script>
+
+  <!-- FAQPage: mesmas perguntas da seção #faq, em formato que buscadores e IAs conseguem ler direto -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Preciso ter diagnóstico fechado para procurar a Reability?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Não. Muitas famílias chegam justamente porque ainda têm dúvidas. A avaliação ajuda a entender sinais, histórico, rotina e quais caminhos de cuidado fazem sentido." }
+      },
+      {
+        "@type": "Question",
+        "name": "Como funciona a avaliação neuropsicológica?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Começa com a entrevista e a anamnese; depois vêm sessões com testes padronizados de memória, atenção, linguagem e raciocínio. Ao final, você recebe a devolutiva e o laudo, com orientações práticas para família, escola, trabalho e outros profissionais." }
+      },
+      {
+        "@type": "Question",
+        "name": "Aceita convênio?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Emitimos notas e recibos para você solicitar reembolso no seu convênio — muitos planos devolvem parte ou todo o valor das sessões. A equipe orienta o passo a passo do pedido." }
+      },
+      {
+        "@type": "Question",
+        "name": "Para que serve a neuromodulação?",
+        "acceptedAnswer": { "@type": "Answer", "text": "É um recurso não invasivo e indolor que estimula regiões do cérebro para potencializar o tratamento. Com indicação, pode apoiar dor crônica, humor, atenção e a reabilitação cognitiva e motora — sempre como parte do plano, nunca isolada." }
+      },
+      {
+        "@type": "Question",
+        "name": "O que é terapia alimentar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Um acompanhamento para quem tem dificuldades reais com o ato de comer: seletividade, recusa alimentar e desafios comuns no TEA. Vai além do cardápio — trabalha a relação com a comida, no ritmo de cada pessoa." }
+      },
+      {
+        "@type": "Question",
+        "name": "O que é reabilitação cognitiva?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Um treino estruturado das funções que o cérebro usa no dia a dia — memória, atenção, linguagem, planejamento — após AVC, traumatismo, demência ou outras condições. O objetivo é recuperar função e autonomia na vida real, não só nos exercícios." }
+      }
     ]
   }
   </script>
